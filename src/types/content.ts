@@ -1,0 +1,326 @@
+/* ============================================================
+   JeeTP Studios — Modelo de contenido (tipos compartidos)
+   Este es el shape del JSON que vive en S3 y que edita el admin.
+   ============================================================ */
+
+export interface Brand {
+  name: string;
+  tagline: string;
+  logoType: "text" | "image";
+  logoImg: string;
+}
+
+export interface BgMedia {
+  type: "none" | "image" | "video";
+  url: string;
+}
+
+/** Capa de degradado reutilizable en heros y bloques. */
+export interface GradientLayer {
+  gradA: string;
+  gradB: string;
+  angle: number;
+  opacity: number;
+}
+
+export interface Hero extends GradientLayer {
+  eyebrow: string;
+  title: string;
+  href: string;
+}
+
+/* ---------- Case studies: secciones modulares ---------- */
+
+export type CaseSectionType =
+  | "overview"
+  | "process"
+  | "challenge"
+  | "methodology"
+  | "gallery"
+  | "conclusion"
+  | "cta";
+
+interface BaseSection {
+  /** id estable para drag-and-drop y React keys */
+  id: string;
+  type: CaseSectionType;
+  /** mostrar/ocultar desde el admin */
+  enabled: boolean;
+}
+
+export interface OverviewSection extends BaseSection {
+  type: "overview";
+  label: string;
+  title: string;
+  body: string;
+  image: string;
+}
+
+export interface ProcessSection extends BaseSection {
+  type: "process";
+  title: string;
+  /** [numero, texto] */
+  steps: [string, string][];
+}
+
+export interface ChallengeSection extends BaseSection {
+  type: "challenge";
+  title: string;
+  intro: string;
+  problems: string[];
+  approachTitle: string;
+  approach: string[];
+  images: string[];
+}
+
+export interface MethodologySection extends BaseSection {
+  type: "methodology";
+  title: string;
+  items: { heading: string; body: string }[];
+}
+
+/** Item de galería: imagen, video directo (mp4) o video de YouTube.
+ *  El tipo de video se autodetecta por la URL (YouTube vs archivo). */
+export interface GalleryMedia {
+  type: "image" | "video";
+  url: string;
+  /** miniatura/cartel opcional para videos */
+  poster?: string;
+}
+
+export interface GallerySection extends BaseSection {
+  type: "gallery";
+  title: string;
+  layout: "grid" | "masonry" | "wide";
+  items: GalleryMedia[];
+}
+
+export interface ConclusionSection extends BaseSection {
+  type: "conclusion";
+  title: string;
+  body: string;
+  image: string;
+}
+
+export interface CtaSection extends BaseSection {
+  type: "cta";
+  text: string;
+  buttonLabel: string;
+}
+
+export type CaseSection =
+  | OverviewSection
+  | ProcessSection
+  | ChallengeSection
+  | MethodologySection
+  | GallerySection
+  | ConclusionSection
+  | CtaSection;
+
+/* ---------- Proyecto / case study ---------- */
+
+export interface Project extends GradientLayer {
+  id: string;
+  name: string;
+  ghost: string;
+  mono: string;
+  img: string;
+  tags: string[];
+  desc: string;
+  accent: string;
+  /** Meta de la landing (cabecera) */
+  category: string;
+  duration: string;
+  year: string;
+  location: string;
+  /** Banner principal de la landing:
+   *  "auto"   = degradado + monograma/imagen del proyecto (como el preview)
+   *  "custom" = imagen subida a medida (heroImage) */
+  heroMode: "auto" | "custom";
+  heroImage: string;
+  /** Secciones modulares editables y reordenables del case study */
+  sections: CaseSection[];
+}
+
+/* ---------- Bloques del home / páginas ---------- */
+
+export interface Highlighted extends GradientLayer {
+  enabled: boolean;
+  label: string;
+  title: string;
+}
+
+export interface ServiceCard {
+  h: string;
+  a: string;
+  b: string;
+  color: string;
+}
+
+export interface ServicesBlock extends GradientLayer {
+  enabled: boolean;
+  label: string;
+  title: string;
+  items: ServiceCard[];
+}
+
+export interface ClientsBlock extends GradientLayer {
+  enabled: boolean;
+  title: string;
+  /** Fuente única de clientes (nombre + logo). Se muestra como carrusel
+   *  en el home, en la página de servicios y en Nosotros. */
+  logos: LogoItem[];
+}
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export interface FaqBlock extends GradientLayer {
+  enabled: boolean;
+  label: string;
+  title: string;
+  items: FaqItem[];
+}
+
+export interface Contact {
+  email: string;
+  whatsapp: string;
+  phone: string;
+  location: string;
+  address: string;
+  mapQuery: string;
+}
+
+export interface LogoItem {
+  name: string;
+  img: string;
+}
+
+export interface AboutPage {
+  hero: GradientLayer & { eyebrow: string; title: string };
+  intro: { heading: string; body: string };
+  overview: { heading: string; body: string };
+  beliefs: { heading: string; body: string };
+  news: { enabled: boolean; title: string; logos: LogoItem[] };
+}
+
+export interface ServiceGroup {
+  num: string;
+  title: string;
+  links: string[];
+}
+
+export interface WhoCard {
+  title: string;
+  img: string;
+}
+
+export interface ServicesPage {
+  hero: GradientLayer & { eyebrow: string; title: string };
+  groups: ServiceGroup[];
+  who: { enabled: boolean; heading: string; body: string; cards: WhoCard[] };
+  clientsTitle: string;
+  news: { enabled: boolean };
+}
+
+export interface CasesPage {
+  label: string;
+  title: string;
+}
+
+export interface ContactPage {
+  hero: GradientLayer & { eyebrow: string; title: string; sub: string };
+  regions: { name: string; flag: string }[];
+  interestedTitle: string;
+  getInTouch: string;
+}
+
+/* ---------- Textos de interfaz (labels/botones editables) ---------- */
+
+export interface SocialLink {
+  label: string;
+  url: string;
+}
+
+export interface UiStrings {
+  /** Etiquetas del menú de navegación */
+  nav: {
+    home: string;
+    about: string;
+    services: string;
+    cases: string;
+    contact: string;
+  };
+  /** Textos de botones repetidos por el sitio */
+  buttons: {
+    allCases: string; // home · proyectos destacados
+    viewServices: string; // home · tarjetas de servicios
+    viewCases: string; // bloque de clientes
+    floatLearn: string; // hover del hero ("VER CASO")
+    aboutCases: string; // about · "Mira nuestros casos →"
+  };
+  /** Pie de página */
+  footer: {
+    navTitle: string;
+    servicesTitle: string;
+    socialTitle: string;
+    social: SocialLink[];
+    ctaText: string;
+    ctaButton: string;
+    copyright: string; // admite {year} y {name}
+    madeIn: string;
+  };
+  /** Título lateral de la página de servicios */
+  servicesPageTitle: string;
+  /** Caja de "más preguntas" del FAQ */
+  faqBox: {
+    title: string;
+    body: string;
+    button: string;
+  };
+  /** Labels de la landing de case study */
+  caseStudy: {
+    back: string;
+    specCategory: string;
+    specDuration: string;
+    specMeta: string;
+    upNext: string;
+  };
+  /** Formulario de contacto */
+  contactForm: {
+    getInTouch: string;
+    service: string;
+    name: string;
+    phone: string;
+    email: string;
+    company: string;
+    message: string;
+    send: string;
+  };
+}
+
+/** Llaves de las secciones reordenables del home. */
+export type HomeSectionKey = "highlighted" | "services" | "clients" | "faq";
+
+/** Documento de contenido completo (= JSON de S3). */
+export interface SiteContent {
+  brand: Brand;
+  bg: BgMedia;
+  hero: Hero;
+  projects: Project[];
+  highlighted: Highlighted;
+  services: ServicesBlock;
+  clients: ClientsBlock;
+  faq: FaqBlock;
+  contact: Contact;
+  about: AboutPage;
+  servicesPage: ServicesPage;
+  cases: CasesPage;
+  contactPage: ContactPage;
+  ui: UiStrings;
+  /** Ajustes globales de carruseles (p. ej. el de logos de clientes en About) */
+  carousel: { speedSec: number };
+  order: HomeSectionKey[];
+}
