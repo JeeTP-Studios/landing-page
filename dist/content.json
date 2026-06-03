@@ -1,0 +1,1071 @@
+{
+  "brand": {
+    "name": "JEETP STUDIOS",
+    "tagline": "SOFTWARE FACTORY",
+    "logoType": "image",
+    "logoImg": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/logos/jeetp-logo-transparent.png?raw=true"
+  },
+  "bg": {
+    "type": "none",
+    "url": ""
+  },
+  "hero": {
+    "eyebrow": "The present",
+    "title": "We are a digital agency that helps brands grow without limits",
+    "gradA": "#7c5cff",
+    "gradB": "#06182e",
+    "angle": 140,
+    "opacity": 1,
+    "href": "/about"
+  },
+  "projects": [
+    {
+      "id": "club-premier",
+      "name": "KLA Fantasy",
+      "ghost": "KINGS",
+      "mono": "",
+      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/kings-league/KingsLeague.png?raw=true",
+      "tags": [
+        "App",
+        "Gaming",
+        "Fantasy",
+        "Soccer"
+      ],
+      "desc": "Development of the Kings League Americas Fantasy platform, with the goal of modernizing the gaming experience and building end-user loyalty.",
+      "gradA": "#f1b74a",
+      "gradB": "#cc8100",
+      "angle": 140,
+      "opacity": 1,
+      "accent": "#fdc64d",
+      "category": "App",
+      "duration": "12 meses",
+      "year": "2024-2025",
+      "location": "Latam & España",
+      "sections": [
+        {
+          "id": "overview-1",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about Kins League Fantasy",
+          "body": "An interactive experience designed to build loyalty among end consumers of the Kings League Americas professional 7-a-side soccer league through a fantasy platform.",
+          "image": ""
+        },
+        {
+          "id": "challenge-2",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Club Premier nos busco para crear experiencias de juego que elevaran el canje de puntos y el engagement de su programa con socios.",
+          "problems": [],
+          "approachTitle": "Solution",
+          "approach": [
+            "Mecanica de juego clara y rapida.",
+            "Integracion con el catalogo de canje.",
+            "Diseno mobile-first."
+          ],
+          "images": []
+        },
+        {
+          "id": "process-3",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Definir objetivos"
+            ],
+            [
+              "02",
+              "Diseno de mecanica"
+            ],
+            [
+              "03",
+              "Desarrollo"
+            ],
+            [
+              "04",
+              "QA & lanzamiento"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-4",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Metodología",
+          "items": [
+            {
+              "heading": "Impacto",
+              "body": "Aumento del engagement y del canje de puntos durante las campanas con socios."
+            }
+          ]
+        },
+        {
+          "id": "gallery-5",
+          "type": "gallery",
+          "enabled": false,
+          "title": "UI Design",
+          "layout": "grid",
+          "items": []
+        },
+        {
+          "id": "conclusion-6",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclusion",
+          "body": "Entregamos experiencias de juego que dieron vida al programa de lealtad y conectaron a los socios con la marca.",
+          "image": ""
+        },
+        {
+          "id": "cta-7",
+          "type": "cta",
+          "enabled": true,
+          "text": "Quieres algo asi para tu marca?",
+          "buttonLabel": "Trabaja con nosotros"
+        }
+      ]
+    },
+    {
+      "id": "proyecto-mpxmt44l",
+      "name": "Hosting Wells",
+      "ghost": "WELLS",
+      "mono": "",
+      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/hosting-wells/HostingWells.png?raw=true",
+      "tags": [
+        "Web"
+      ],
+      "desc": "Redesign of the Elevadores Hosting Wels website to modernize it and improve the user experience.",
+      "gradA": "#2a9787",
+      "gradB": "#3671ba",
+      "angle": 140,
+      "opacity": 1,
+      "accent": "#2a9787",
+      "category": "Website",
+      "duration": "1 mes",
+      "year": "2025",
+      "location": "Mexico",
+      "sections": [
+        {
+          "id": "overview-mpxmt44l-1",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about el proyecto",
+          "body": "Describe de qué se trata el proyecto.",
+          "image": ""
+        },
+        {
+          "id": "challenge-mpxmt44l-2",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Cuál era el reto o problema a resolver.",
+          "problems": [
+            "Problema 1",
+            "Problema 2"
+          ],
+          "approachTitle": "Solución",
+          "approach": [
+            "Cómo lo abordamos 1",
+            "Cómo lo abordamos 2"
+          ],
+          "images": []
+        },
+        {
+          "id": "process-mpxmt44l-3",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Research"
+            ],
+            [
+              "02",
+              "Diseño"
+            ],
+            [
+              "03",
+              "Desarrollo"
+            ],
+            [
+              "04",
+              "Lanzamiento"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-mpxmt44l-4",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Metodología",
+          "items": [
+            {
+              "heading": "Etapa",
+              "body": "Descripción de la etapa."
+            }
+          ]
+        },
+        {
+          "id": "conclusion-mpxmt44l-5",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclusion",
+          "body": "El resultado final y el impacto.",
+          "image": ""
+        },
+        {
+          "id": "cta-mpxmt44l-6",
+          "type": "cta",
+          "enabled": true,
+          "text": "Quieres algo asi para tu marca?",
+          "buttonLabel": "Trabaja con nosotros"
+        }
+      ]
+    },
+    {
+      "id": "kings-league",
+      "name": "Copa Record",
+      "ghost": "RECORD",
+      "mono": "",
+      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/record/Record.png?raw=true",
+      "tags": [
+        "Design",
+        "Branding"
+      ],
+      "desc": "Design of the official mascot for the Copa Record México for commercial use and scalability in sports projects.",
+      "gradA": "#ff3b3b",
+      "gradB": "#2a0508",
+      "angle": 140,
+      "opacity": 1,
+      "accent": "#ff3b3b",
+      "category": "Diseño",
+      "duration": "1 mes",
+      "year": "2024",
+      "location": "México",
+      "sections": [
+        {
+          "id": "overview-8",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about Kings League",
+          "body": "Plataforma de fantasy sports para conectar a los fans con la liga con drafts y competencia en vivo.",
+          "image": ""
+        },
+        {
+          "id": "challenge-9",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Construir una plataforma de fantasy que mantenga a los fans activos durante toda la temporada.",
+          "problems": [],
+          "approachTitle": "Solution",
+          "approach": [
+            "Drafts y armado de equipos.",
+            "Puntajes en vivo.",
+            "Competencia entre usuarios y ligas privadas."
+          ],
+          "images": []
+        },
+        {
+          "id": "process-a",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Research"
+            ],
+            [
+              "02",
+              "Wireframing"
+            ],
+            [
+              "03",
+              "Desarrollo"
+            ],
+            [
+              "04",
+              "Testing"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-b",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Metodología",
+          "items": [
+            {
+              "heading": "Impacto",
+              "body": "Mayor tiempo de permanencia y comunidad activa de fans."
+            }
+          ]
+        },
+        {
+          "id": "gallery-c",
+          "type": "gallery",
+          "enabled": false,
+          "title": "UI Design",
+          "layout": "grid",
+          "items": []
+        },
+        {
+          "id": "conclusion-d",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclusion",
+          "body": "Una plataforma que convirtio a los espectadores en participantes activos de la liga.",
+          "image": ""
+        },
+        {
+          "id": "cta-e",
+          "type": "cta",
+          "enabled": true,
+          "text": "Quieres algo asi para tu marca?",
+          "buttonLabel": "Trabaja con nosotros"
+        }
+      ]
+    },
+    {
+      "id": "retail-experience",
+      "name": "Mundo Premier",
+      "ghost": "CLUB",
+      "mono": "",
+      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier.png?raw=true",
+      "tags": [
+        "Web",
+        "Gaming"
+      ],
+      "desc": "An interactive online experience designed to engage members of Club Premier.",
+      "gradA": "#2ea3d8",
+      "gradB": "#061823",
+      "angle": 140,
+      "opacity": 1,
+      "accent": "#2ea3d8",
+      "category": "Juego",
+      "duration": "3 meses",
+      "year": "2022",
+      "location": "México",
+      "sections": [
+        {
+          "id": "overview-f",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about Mundo Premier",
+          "body": "Mundo Premier is an exciting mobile adventure game where players help Aerobot travel the world, collecting coins, gaining distance, and winning incredible prizes. With engaging gameplay and dynamic challenges, players aim to earn points and compete for rewards such as travel experiences, SUVs, and more.\n\nDesigned for Club Premier members, the game offers a unique opportunity to redeem travel points for exclusive chances to play and win. Mundo Premier was developed in collaboration with Aeromexico, Club Premier, Santander, and sponsored by Visa and GMC, combining fun, travel rewards, and brand partnerships into one immersive experience.",
+          "image": ""
+        },
+        {
+          "id": "challenge-g",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Club Premier was looking for a strategic and reliable provider capable of developing interactive experiences for its advertising campaigns within a short development timeline and without any production errors, as any errors could lead to legal issues given the nature of the campaigns.",
+          "problems": [
+            "Rapid design and development",
+            "Reliable end-to-end testing",
+            "24/7 support",
+            "Reports",
+            "Compliance with legal regulations governing games and sweepstakes for auditing purposes",
+            "Security & trust"
+          ],
+          "approachTitle": "Solution",
+          "approach": [
+            "From day one, we offered a comprehensive solution in which the development timeline was tailored to the client’s desired launch schedule—in this case, a two-month timeline for public launch, with zero margin for error during the launch.",
+            "Through constant communication with the client throughout the development process, extensive testing in a staging environment, and stress testing to handle high traffic volumes, we successfully achieved our goal."
+          ],
+          "images": []
+        },
+        {
+          "id": "process-h",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Gathering requirements"
+            ],
+            [
+              "02",
+              "Brainstorming"
+            ],
+            [
+              "03",
+              "Game Design"
+            ],
+            [
+              "04",
+              "Development"
+            ],
+            [
+              "05",
+              "User Acceptance Testing"
+            ],
+            [
+              "06",
+              "Launch"
+            ],
+            [
+              "07",
+              "Analysis and Reporting"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-i",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Impact",
+          "items": [
+            {
+              "heading": "Development",
+              "body": "Development of the final, tested version over a two-month period"
+            },
+            {
+              "heading": "Over 60,000 users",
+              "body": "An experience enjoyed by more than 60,000 users (Club Premier members, now Aeromexico Rewards)"
+            },
+            {
+              "heading": "No errors",
+              "body": "There were no production errors that could have affected the user's score. This was very important, as there were big prizes up for grabs, such as trips and SUVs."
+            },
+            {
+              "heading": "Successful report",
+              "body": "Weekly reports were submitted to verify the authenticity of each user's games, including a review of high scores in relation to game duration and the number of games redeemed."
+            }
+          ]
+        },
+        {
+          "id": "gallery-mpyho3qe-2",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Gallery",
+          "layout": "masonry",
+          "items": [
+            {
+              "type": "video",
+              "url": "https://drive.google.com/file/d/1aGWCfpWTFsx41_W7sqICafdSO8ndNzzd/view?usp=drive_link",
+              "poster": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS9.png?raw=true"
+            },
+            {
+              "type": "image",
+              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS2.png?raw=true"
+            },
+            {
+              "type": "image",
+              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS3.png?raw=true"
+            },
+            {
+              "type": "image",
+              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS5.png?raw=true"
+            },
+            {
+              "type": "image",
+              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS6.png?raw=true"
+            },
+            {
+              "type": "image",
+              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS7.png?raw=true"
+            },
+            {
+              "type": "image",
+              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS8.png?raw=true"
+            },
+            {
+              "type": "image",
+              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS9.png?raw=true"
+            }
+          ]
+        },
+        {
+          "id": "conclusion-k",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclussion",
+          "body": "An experience that turned loyalty points into an opportunity to win big prizes, thereby further strengthening member loyalty",
+          "image": ""
+        },
+        {
+          "id": "cta-l",
+          "type": "cta",
+          "enabled": true,
+          "text": "Would you like something like this for your brand?",
+          "buttonLabel": "Work with us"
+        }
+      ],
+      "heroMode": "custom",
+      "heroImage": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS1.jpg?raw=true"
+    },
+    {
+      "id": "proyecto-mpxngzng",
+      "name": "Jokeland",
+      "ghost": "PEPITO",
+      "mono": "",
+      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/jokeland/Jokeland.png?raw=true",
+      "tags": [
+        "App",
+        "Gaming"
+      ],
+      "desc": "Descripción del proyecto.",
+      "gradA": "#d4d4d4",
+      "gradB": "#6c6b6c",
+      "angle": 140,
+      "opacity": 1,
+      "accent": "#7c5cff",
+      "category": "Website",
+      "duration": "1 mes",
+      "year": "2025",
+      "location": "Mexico",
+      "sections": [
+        {
+          "id": "overview-mpxngzng-7",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about el proyecto",
+          "body": "Describe de qué se trata el proyecto.",
+          "image": ""
+        },
+        {
+          "id": "challenge-mpxngzng-8",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Cuál era el reto o problema a resolver.",
+          "problems": [
+            "Problema 1",
+            "Problema 2"
+          ],
+          "approachTitle": "Solución",
+          "approach": [
+            "Cómo lo abordamos 1",
+            "Cómo lo abordamos 2"
+          ],
+          "images": []
+        },
+        {
+          "id": "process-mpxngzng-9",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Research"
+            ],
+            [
+              "02",
+              "Diseño"
+            ],
+            [
+              "03",
+              "Desarrollo"
+            ],
+            [
+              "04",
+              "Lanzamiento"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-mpxngzng-a",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Metodología",
+          "items": [
+            {
+              "heading": "Etapa",
+              "body": "Descripción de la etapa."
+            }
+          ]
+        },
+        {
+          "id": "conclusion-mpxngzng-b",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclusion",
+          "body": "El resultado final y el impacto.",
+          "image": ""
+        },
+        {
+          "id": "cta-mpxngzng-c",
+          "type": "cta",
+          "enabled": true,
+          "text": "Quieres algo asi para tu marca?",
+          "buttonLabel": "Trabaja con nosotros"
+        }
+      ]
+    },
+    {
+      "id": "proyecto-mpxnmppg",
+      "name": "Pepito Jr",
+      "ghost": "PEPITO",
+      "mono": "",
+      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/pepito-jr/PepitoJr.png?raw=true",
+      "tags": [
+        "App",
+        "Gaming"
+      ],
+      "desc": "Descripción del proyecto.",
+      "gradA": "#8fe561",
+      "gradB": "#fcb105",
+      "angle": 140,
+      "opacity": 1,
+      "accent": "#7c5cff",
+      "category": "Website",
+      "duration": "1 mes",
+      "year": "2025",
+      "location": "Mexico",
+      "sections": [
+        {
+          "id": "overview-mpxnmpph-d",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about el proyecto",
+          "body": "Describe de qué se trata el proyecto.",
+          "image": ""
+        },
+        {
+          "id": "challenge-mpxnmpph-e",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Cuál era el reto o problema a resolver.",
+          "problems": [
+            "Problema 1",
+            "Problema 2"
+          ],
+          "approachTitle": "Solución",
+          "approach": [
+            "Cómo lo abordamos 1",
+            "Cómo lo abordamos 2"
+          ],
+          "images": []
+        },
+        {
+          "id": "process-mpxnmpph-f",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Research"
+            ],
+            [
+              "02",
+              "Diseño"
+            ],
+            [
+              "03",
+              "Desarrollo"
+            ],
+            [
+              "04",
+              "Lanzamiento"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-mpxnmpph-g",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Metodología",
+          "items": [
+            {
+              "heading": "Etapa",
+              "body": "Descripción de la etapa."
+            }
+          ]
+        },
+        {
+          "id": "conclusion-mpxnmpph-h",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclusion",
+          "body": "El resultado final y el impacto.",
+          "image": ""
+        },
+        {
+          "id": "cta-mpxnmpph-i",
+          "type": "cta",
+          "enabled": true,
+          "text": "Quieres algo asi para tu marca?",
+          "buttonLabel": "Trabaja con nosotros"
+        }
+      ]
+    }
+  ],
+  "highlighted": {
+    "enabled": true,
+    "label": "Case studies",
+    "title": "Featured Projects",
+    "gradA": "#0e0636",
+    "gradB": "#0b042a",
+    "angle": 160,
+    "opacity": 1
+  },
+  "services": {
+    "enabled": true,
+    "label": "Services",
+    "title": "Everything your brand needs to build",
+    "gradA": "#0b042a",
+    "gradB": "#0b042a",
+    "angle": 160,
+    "opacity": 1,
+    "items": [
+      {
+        "h": "Interactive Experiencies",
+        "a": "Activations and dives",
+        "b": "Web · Mobile · AR",
+        "color": "#ff2e76"
+      },
+      {
+        "h": "Videogames",
+        "a": "Gaming for brands and entertainment",
+        "b": "Gamificacion · Engagement",
+        "color": "#2563d8"
+      },
+      {
+        "h": "Apps & Web",
+        "a": "Custom Products",
+        "b": "iOS · Android · Web",
+        "color": "#7c4dff"
+      },
+      {
+        "h": "Platforms",
+        "a": "Custom software",
+        "b": "Dashboards · Automation",
+        "color": "#1fc7c7"
+      },
+      {
+        "h": "Digital Stategy",
+        "a": "Technology-Driven Marketing",
+        "b": "Marketing Campaigns",
+        "color": "#ff7a2e"
+      }
+    ]
+  },
+  "clients": {
+    "enabled": true,
+    "title": "Our clients",
+    "gradA": "#0e0636",
+    "gradB": "#0b042a",
+    "angle": 160,
+    "opacity": 1,
+    "logos": [
+      {
+        "name": "Club Premier",
+        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/clubpremier.png?raw=true"
+      },
+      {
+        "name": "Kings League",
+        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/kla.webp?raw=true"
+      },
+      {
+        "name": "Santander",
+        "img": "https://raw.githubusercontent.com/JeeTP-Studios/landing-page/342c2ce055ed27252cfde77d81f063fa689ab4cd/resources/our-clients/santander.svg"
+      },
+      {
+        "name": "Visa",
+        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/visa.png?raw=true"
+      },
+      {
+        "name": "Hosting Wells",
+        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/hostingwells.png?raw=true"
+      },
+      {
+        "name": "Etomin",
+        "img": "https://raw.githubusercontent.com/JeeTP-Studios/landing-page/342c2ce055ed27252cfde77d81f063fa689ab4cd/resources/our-clients/etomin.svg"
+      }
+    ]
+  },
+  "faq": {
+    "enabled": true,
+    "label": "FAQs",
+    "title": "Frequently asked questions",
+    "gradA": "#0b042a",
+    "gradB": "#0b042a",
+    "angle": 160,
+    "opacity": 1,
+    "items": [
+      {
+        "q": "What type of businesses that you offer services for?",
+        "a": "As the best design and development factory, we cover all brands from small and big businesses."
+      },
+      {
+        "q": "Do you offer custom design and development solutions?",
+        "a": "Yes, our team specialises in crating custom UX sand Software solutions aligned with your brand vision, audience needs, and business objectives.\nWe ensure very project is uniquely designed to deliver measurable results."
+      },
+      {
+        "q": "Who can benefit from our solutions?",
+        "a": "Our services are ideal for business, startups, and individuals looking to improve their digital products or user experiences. We tailor each project to meet specific goals and ensure an impactful user journey. "
+      }
+    ]
+  },
+  "contact": {
+    "email": "contact@jeetpstudio.com",
+    "whatsapp": "+52 55 3647 9693",
+    "phone": "+52 55 3647 9693",
+    "location": "Texas, United States",
+    "address": "Texas, United States",
+    "mapQuery": "Lakeview Dr, Conroe, TX 77304"
+  },
+  "about": {
+    "hero": {
+      "eyebrow": "About Us",
+      "title": "A software development company that builds custom solutions from day one",
+      "gradA": "#0e0636",
+      "gradB": "#06182e",
+      "angle": 150,
+      "opacity": 1
+    },
+    "intro": {
+      "heading": "Who we are?",
+      "body": "At JeeTP Studios, we design and build custom digital products: interactive experiences, video games, apps, and platforms. We’re a team of developers, designers, and strategists who serve as the technical arm of brands and agencies.\n\nWe operate like a factory, not an agency: with no layers of middlemen or unnecessary overhead. That means lower costs, realistic timelines, and the flexibility to scale according to each project."
+    },
+    "overview": {
+      "heading": "Overview",
+      "body": "We have developed experiences for loyalty programs, sports leagues, and commercial activations, combining technology with business objectives.\n\nEvery project begins with a brief conversation to understand what needs to be achieved; from there, we define the scope, timeline, and costs, and then we build it."
+    },
+    "beliefs": {
+      "heading": "What do we believe in?",
+      "body": "We believe in building products that work for people, not the other way around. From research to design to testing, we don’t stop until we get it right."
+    },
+    "news": {
+      "enabled": false,
+      "title": "En los medios",
+      "logos": [
+        {
+          "name": "MEDIO 1",
+          "img": ""
+        },
+        {
+          "name": "MEDIO 2",
+          "img": ""
+        },
+        {
+          "name": "MEDIO 3",
+          "img": ""
+        },
+        {
+          "name": "MEDIO 4",
+          "img": ""
+        },
+        {
+          "name": "MEDIO 5",
+          "img": ""
+        }
+      ]
+    }
+  },
+  "servicesPage": {
+    "hero": {
+      "eyebrow": "What we offer",
+      "title": "We create exceptional digital experiences for all industries",
+      "gradA": "#1a0633",
+      "gradB": "#06182e",
+      "angle": 150,
+      "opacity": 1
+    },
+    "groups": [
+      {
+        "num": "01",
+        "title": "Interactive Experiences",
+        "links": [
+          "Digital activations",
+          "AR experiences",
+          "Gamification",
+          "Interactive installations",
+          "Immersive web",
+          "Experience prototyping"
+        ]
+      },
+      {
+        "num": "02",
+        "title": "Videogames",
+        "links": [
+          "Advergaming",
+          "Engagement mechanics",
+          "Loyalty games",
+          "Web-based mini-games",
+          "Game design"
+        ]
+      },
+      {
+        "num": "03",
+        "title": "Apps & Web",
+        "links": [
+          "iOS/Android Apps",
+          "Websites and Landing Pages",
+          "E-commerce",
+          "PWAs",
+          "Custom Integrations"
+        ]
+      },
+      {
+        "num": "04",
+        "title": "Custom platforms",
+        "links": [
+          "Dashboards",
+          "Automation",
+          "APIs and Integrations",
+          "Internal Dashboards",
+          "Custom Software"
+        ]
+      },
+      {
+        "num": "05",
+        "title": "Digital Strategy",
+        "links": [
+          "Product Strategy",
+          "Technology-Driven Marketing",
+          "Sales Initiatives",
+          "Technical Consulting"
+        ]
+      }
+    ],
+    "who": {
+      "enabled": true,
+      "heading": "Who we help?",
+      "body": "We work with everyone—from startups to large corporations and agencies—delivering digital products with user experiences that keep people coming back.",
+      "cards": [
+        {
+          "title": "Startups",
+          "img": ""
+        },
+        {
+          "title": "Agencies",
+          "img": ""
+        },
+        {
+          "title": "Brands & Retail",
+          "img": ""
+        },
+        {
+          "title": "Sports",
+          "img": ""
+        },
+        {
+          "title": "Events",
+          "img": ""
+        }
+      ]
+    },
+    "clientsTitle": "Our clients",
+    "news": {
+      "enabled": false
+    }
+  },
+  "cases": {
+    "label": "Case Studies· real projects",
+    "title": "Case Studies"
+  },
+  "contactPage": {
+    "hero": {
+      "eyebrow": "Contact",
+      "title": "We'd love to hear from you",
+      "sub": "Whether you want to work with us on a new project, learn more about what we do, or just ask us a question.",
+      "gradA": "#1a0633",
+      "gradB": "#06182e",
+      "angle": 150,
+      "opacity": 1
+    },
+    "regions": [
+      {
+        "name": "United States",
+        "flag": "🇺🇸"
+      },
+      {
+        "name": "Mexico",
+        "flag": "🇲🇽"
+      },
+      {
+        "name": "Remoto · Worldwide",
+        "flag": "🌎"
+      }
+    ],
+    "interestedTitle": "Are you interested in our services?",
+    "getInTouch": "Tell us a little about your project:"
+  },
+  "ui": {
+    "nav": {
+      "home": "Home",
+      "about": "About Us",
+      "services": "Services",
+      "cases": "Case Studies",
+      "contact": "Contact"
+    },
+    "buttons": {
+      "allCases": "All cases studies",
+      "viewServices": "View services",
+      "viewCases": "View cases",
+      "floatLearn": "VIEW CASES",
+      "aboutCases": "Look our cases →"
+    },
+    "footer": {
+      "navTitle": "Navigation",
+      "servicesTitle": "Services",
+      "socialTitle": "Follow us",
+      "social": [
+        {
+          "label": "LinkedIn",
+          "url": "#"
+        },
+        {
+          "label": "Instagram",
+          "url": "#"
+        },
+        {
+          "label": "X",
+          "url": "#"
+        }
+      ],
+      "ctaText": "Transform and grow your business",
+      "ctaButton": "Work with us",
+      "copyright": "© 2026 {name}. All right reserved.",
+      "madeIn": "Made by JeeTP Studios"
+    },
+    "servicesPageTitle": "Our services",
+    "faqBox": {
+      "title": "Any more questions?",
+      "body": "If you have any further questions, feel free to contact us anytime.",
+      "button": "Go to contact →"
+    },
+    "caseStudy": {
+      "back": "← Return tu cases",
+      "specCategory": "Type",
+      "specDuration": "Duration",
+      "specMeta": "Year · Place",
+      "upNext": "Up next"
+    },
+    "contactForm": {
+      "getInTouch": "Get in touch",
+      "service": "Useful information",
+      "name": "Your name",
+      "phone": "Phone number",
+      "email": "Email",
+      "company": "Business name",
+      "message": "An overview of your project",
+      "send": "Send message"
+    }
+  },
+  "carousel": {
+    "speedSec": 60
+  },
+  "order": [
+    "highlighted",
+    "services",
+    "clients",
+    "faq"
+  ]
+}
