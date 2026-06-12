@@ -175,7 +175,7 @@ export function GradientField({ prefix }: { prefix: string }) {
   const [angle, setAngle] = useField<number>(`${prefix}.angle`);
   return (
     <div className="fld">
-      <label>Degradado de fondo</label>
+      <label>Background gradient</label>
       <div className="row">
         <div className="colorpick">
           <input type="color" value={a || "#000000"} onChange={(e) => setA(e.target.value)} />
@@ -186,7 +186,7 @@ export function GradientField({ prefix }: { prefix: string }) {
           <input type="text" value={b || ""} onChange={(e) => setB(e.target.value)} />
         </div>
         <div>
-          <label style={{ fontSize: 11 }}>Angulo</label>
+          <label style={{ fontSize: 11 }}>Angle</label>
           <div className="rangewrap">
             <input
               type="range"
@@ -215,9 +215,9 @@ export function OpacityField({ prefix }: { prefix: string }) {
   return (
     <div className="fld">
       <label>
-        Opacidad de la capa de color{" "}
+        Color layer opacity{" "}
         <span className="hint" style={{ display: "inline" }}>
-          (baja para ver el fondo global)
+          (lower to see the global background)
         </span>
       </label>
       <div className="rangewrap">
@@ -230,6 +230,44 @@ export function OpacityField({ prefix }: { prefix: string }) {
           onChange={(e) => set(Number(e.target.value))}
         />
         <span className="val">{Math.round((v ?? 1) * 100)}%</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- rango numérico genérico ---------- */
+export function RangeField({
+  label,
+  path,
+  min = 0,
+  max = 1,
+  step = 0.05,
+  fallback = 0,
+  format,
+}: {
+  label: string;
+  path: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  fallback?: number;
+  format?: (v: number) => string;
+}) {
+  const [v, set] = useField<number>(path);
+  const val = typeof v === "number" ? v : fallback;
+  return (
+    <div className="fld">
+      <label>{label}</label>
+      <div className="rangewrap">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={val}
+          onChange={(e) => set(Number(e.target.value))}
+        />
+        <span className="val">{format ? format(val) : val}</span>
       </div>
     </div>
   );
@@ -257,16 +295,16 @@ export function ImageField({
       <label>{label}</label>
       <div className="imgrow">
         <div className="imgthumb">
-          {v ? <img src={v} alt="" /> : "sin img"}
+          {v ? <img src={v} alt="" /> : "no img"}
         </div>
         <input
           type="text"
           value={v || ""}
           onChange={(e) => set(e.target.value)}
-          placeholder="URL de imagen (PNG transparente)"
+          placeholder="Image URL (transparent PNG)"
         />
         <label className="uploadbtn">
-          Subir
+          Upload
           <input
             type="file"
             accept="image/*"

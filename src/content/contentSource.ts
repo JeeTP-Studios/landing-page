@@ -39,6 +39,24 @@ export function migrate(content: SiteContent): SiteContent {
   if (c.clients) delete c.clients.items;
   if (c.about?.intro) delete c.about.intro.logos;
 
+  // hero: si no hay lista de títulos, derívala del título único.
+  if (c.hero) {
+    if (!Array.isArray(c.hero.titles) || c.hero.titles.length === 0) {
+      c.hero.titles = c.hero.title ? [c.hero.title] : [];
+    }
+    if (!Array.isArray(c.hero.chips)) c.hero.chips = [];
+  }
+
+  // proyectos: asegura el objeto bg (fondo por proyecto, imagen/video) y patrón.
+  if (Array.isArray(c.projects)) {
+    for (const p of c.projects) {
+      if (!p.bg || typeof p.bg !== "object") p.bg = { type: "none", url: "" };
+      if (typeof p.pattern !== "string") p.pattern = "none";
+      if (typeof p.patternOpacity !== "number") p.patternOpacity = 0.25;
+      if (typeof p.detailVariant !== "string") p.detailVariant = "standard";
+    }
+  }
+
   // galerías: images[] (strings) -> items[{type,url}]
   if (Array.isArray(c.projects)) {
     for (const p of c.projects) {

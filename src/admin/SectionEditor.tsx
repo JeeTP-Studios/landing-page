@@ -15,10 +15,10 @@ function ImageListEditor({ basePath }: { basePath: string }) {
   const imgs = (getByPath(content, basePath) as string[]) || [];
   return (
     <div className="fld">
-      <label>Imágenes</label>
+      <label>Images</label>
       {imgs.map((_, i) => (
         <div key={i} style={{ marginBottom: 8 }}>
-          <ImageField label={`Imagen ${i + 1}`} path={`${basePath}.${i}`} />
+          <ImageField label={`Image ${i + 1}`} path={`${basePath}.${i}`} />
           <button
             className="ad-btn warn"
             onClick={() =>
@@ -27,7 +27,7 @@ function ImageListEditor({ basePath }: { basePath: string }) {
               })
             }
           >
-            Eliminar imagen
+            Remove image
           </button>
         </div>
       ))}
@@ -39,7 +39,7 @@ function ImageListEditor({ basePath }: { basePath: string }) {
           })
         }
       >
-        + Agregar imagen
+        + Add image
       </button>
     </div>
   );
@@ -52,10 +52,10 @@ function GalleryItemsEditor({ basePath }: { basePath: string }) {
     (getByPath(content, basePath) as { type: string; url: string }[]) || [];
   return (
     <div className="fld">
-      <label>Items de la galería (imágenes o videos)</label>
+      <label>Gallery items (images or videos)</label>
       <div className="hint" style={{ marginBottom: 10 }}>
-        Video acepta URL de archivo (.mp4) o de YouTube; se detecta solo. Al dar
-        clic en el sitio, el medio se expande.
+        Video accepts a file URL (.mp4) or YouTube; auto-detected. On
+        click on the site, the media expands.
       </div>
       {items.map((it, i) => (
         <details className="acc" key={i}>
@@ -65,27 +65,27 @@ function GalleryItemsEditor({ basePath }: { basePath: string }) {
           </summary>
           <div className="accbody">
             <SelectField
-              label="Tipo"
+              label="Type"
               path={`${basePath}.${i}.type`}
               options={[
-                ["image", "Imagen"],
-                ["video", "Video (URL o YouTube)"],
+                ["image", "Image"],
+                ["video", "Video (URL or YouTube)"],
               ]}
             />
             {it.type === "video" ? (
               <>
                 <TextField
-                  label="URL del video (.mp4 o YouTube)"
+                  label="Video URL (.mp4 or YouTube)"
                   path={`${basePath}.${i}.url`}
                 />
                 <ImageField
-                  label="Póster / miniatura (opcional)"
+                  label="Poster / thumbnail (optional)"
                   path={`${basePath}.${i}.poster`}
-                  hint="Para YouTube se usa su miniatura si lo dejas vacío."
+                  hint="For YouTube its thumbnail is used if left empty."
                 />
               </>
             ) : (
-              <ImageField label="Imagen" path={`${basePath}.${i}.url`} />
+              <ImageField label="Image" path={`${basePath}.${i}.url`} />
             )}
             <button
               className="ad-btn warn"
@@ -95,7 +95,7 @@ function GalleryItemsEditor({ basePath }: { basePath: string }) {
                 })
               }
             >
-              Eliminar item
+              Remove item
             </button>
           </div>
         </details>
@@ -112,7 +112,7 @@ function GalleryItemsEditor({ basePath }: { basePath: string }) {
             })
           }
         >
-          + Agregar imagen
+          + Add image
         </button>
         <button
           className="miniadd"
@@ -126,7 +126,7 @@ function GalleryItemsEditor({ basePath }: { basePath: string }) {
             })
           }
         >
-          + Agregar video
+          + Add video
         </button>
       </div>
     </div>
@@ -140,13 +140,13 @@ function MethodologyItemsEditor({ basePath }: { basePath: string }) {
     (getByPath(content, basePath) as { heading: string; body: string }[]) || [];
   return (
     <div className="fld">
-      <label>Etapas / bloques</label>
+      <label>Stages / blocks</label>
       {items.map((it, i) => (
         <details className="acc" key={i}>
-          <summary>{it.heading || `Etapa ${i + 1}`}</summary>
+          <summary>{it.heading || `Stage ${i + 1}`}</summary>
           <div className="accbody">
-            <TextField label="Encabezado" path={`${basePath}.${i}.heading`} />
-            <TextField label="Texto" path={`${basePath}.${i}.body`} area />
+            <TextField label="Heading" path={`${basePath}.${i}.heading`} />
+            <TextField label="Text" path={`${basePath}.${i}.body`} area />
             <button
               className="ad-btn warn"
               onClick={() =>
@@ -157,7 +157,7 @@ function MethodologyItemsEditor({ basePath }: { basePath: string }) {
                 })
               }
             >
-              Eliminar etapa
+              Remove stage
             </button>
           </div>
         </details>
@@ -168,11 +168,11 @@ function MethodologyItemsEditor({ basePath }: { basePath: string }) {
           update((d) => {
             (
               getByPath(d, basePath) as { heading: string; body: string }[]
-            ).push({ heading: "Nueva etapa", body: "" });
+            ).push({ heading: "New stage", body: "" });
           })
         }
       >
-        + Agregar etapa
+        + Add stage
       </button>
     </div>
   );
@@ -191,34 +191,34 @@ export default function SectionEditor({
       return (
         <>
           <TextField label="Label" path={`${base}.label`} />
-          <TextField label="Título" path={`${base}.title`} />
-          <TextField label="Texto" path={`${base}.body`} area />
-          <ImageField label="Imagen (opcional)" path={`${base}.image`} />
+          <TextField label="Title" path={`${base}.title`} />
+          <TextField label="Text" path={`${base}.body`} area />
+          <ImageField label="Image (optional)" path={`${base}.image`} />
         </>
       );
     case "process":
       return (
         <>
-          <TextField label="Título" path={`${base}.title`} />
+          <TextField label="Title" path={`${base}.title`} />
           <StepsField
-            label="Pasos (uno por renglón)"
+            label="Steps (one per line)"
             path={`${base}.steps`}
-            hint="Se numeran automáticamente."
+            hint="Numbered automatically."
           />
         </>
       );
     case "challenge":
       return (
         <>
-          <TextField label="Título" path={`${base}.title`} />
+          <TextField label="Title" path={`${base}.title`} />
           <TextField label="Intro" path={`${base}.intro`} area />
           <ListField
-            label="El reto (uno por renglón)"
+            label="The challenge (one per line)"
             path={`${base}.problems`}
           />
-          <TextField label="Título de la solución" path={`${base}.approachTitle`} />
+          <TextField label="Solution title" path={`${base}.approachTitle`} />
           <ListField
-            label="Solución (uno por renglón)"
+            label="Solution (one per line)"
             path={`${base}.approach`}
           />
           <ImageListEditor basePath={`${base}.images`} />
@@ -227,21 +227,21 @@ export default function SectionEditor({
     case "methodology":
       return (
         <>
-          <TextField label="Título" path={`${base}.title`} />
+          <TextField label="Title" path={`${base}.title`} />
           <MethodologyItemsEditor basePath={`${base}.items`} />
         </>
       );
     case "gallery":
       return (
         <>
-          <TextField label="Título" path={`${base}.title`} />
+          <TextField label="Title" path={`${base}.title`} />
           <SelectField
             label="Layout"
             path={`${base}.layout`}
             options={[
               ["grid", "Grid (3 col)"],
-              ["masonry", "Mosaico (4 col)"],
-              ["wide", "Ancho completo"],
+              ["masonry", "Masonry (4 col)"],
+              ["wide", "Full width"],
             ]}
           />
           <GalleryItemsEditor basePath={`${base}.items`} />
@@ -250,16 +250,16 @@ export default function SectionEditor({
     case "conclusion":
       return (
         <>
-          <TextField label="Título" path={`${base}.title`} />
-          <TextField label="Texto" path={`${base}.body`} area />
-          <ImageField label="Imagen (opcional)" path={`${base}.image`} />
+          <TextField label="Title" path={`${base}.title`} />
+          <TextField label="Text" path={`${base}.body`} area />
+          <ImageField label="Image (optional)" path={`${base}.image`} />
         </>
       );
     case "cta":
       return (
         <>
-          <TextField label="Texto" path={`${base}.text`} />
-          <TextField label="Texto del botón" path={`${base}.buttonLabel`} />
+          <TextField label="Text" path={`${base}.text`} />
+          <TextField label="Button text" path={`${base}.buttonLabel`} />
         </>
       );
     default:

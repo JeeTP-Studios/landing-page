@@ -6,12 +6,12 @@ const uid = (t: string) => `${t}-${Date.now().toString(36)}-${(++_n).toString(36
 /** Etiquetas legibles para el admin. */
 export const SECTION_LABELS: Record<CaseSectionType, string> = {
   overview: "Overview",
-  process: "Proceso",
-  challenge: "Reto / Problema",
-  methodology: "Metodología",
-  gallery: "Galería de imágenes",
-  conclusion: "Conclusión",
-  cta: "Llamado a la acción",
+  process: "Process",
+  challenge: "Challenge / Problem",
+  methodology: "Methodology",
+  gallery: "Image gallery",
+  conclusion: "Conclusion",
+  cta: "Call to action",
 };
 
 /** Fábricas para crear secciones nuevas desde el admin. */
@@ -21,8 +21,8 @@ export const SECTION_FACTORIES: Record<CaseSectionType, () => CaseSection> = {
     type: "overview",
     enabled: true,
     label: "Overview",
-    title: "All about el proyecto",
-    body: "Describe de qué se trata el proyecto.",
+    title: "All about the project",
+    body: "Describe what the project is about.",
     image: "",
   }),
   process: () => ({
@@ -32,9 +32,9 @@ export const SECTION_FACTORIES: Record<CaseSectionType, () => CaseSection> = {
     title: "Project process",
     steps: [
       ["01", "Research"],
-      ["02", "Diseño"],
-      ["03", "Desarrollo"],
-      ["04", "Lanzamiento"],
+      ["02", "Design"],
+      ["03", "Development"],
+      ["04", "Launch"],
     ],
   }),
   challenge: () => ({
@@ -42,18 +42,18 @@ export const SECTION_FACTORIES: Record<CaseSectionType, () => CaseSection> = {
     type: "challenge",
     enabled: true,
     title: "Challenge / Problem statement",
-    intro: "Cuál era el reto o problema a resolver.",
-    problems: ["Problema 1", "Problema 2"],
-    approachTitle: "Solución",
-    approach: ["Cómo lo abordamos 1", "Cómo lo abordamos 2"],
+    intro: "What was the challenge or problem to solve.",
+    problems: ["Problem 1", "Problem 2"],
+    approachTitle: "Solution",
+    approach: ["How we approached it 1", "How we approached it 2"],
     images: [],
   }),
   methodology: () => ({
     id: uid("methodology"),
     type: "methodology",
     enabled: true,
-    title: "Metodología",
-    items: [{ heading: "Etapa", body: "Descripción de la etapa." }],
+    title: "Methodology",
+    items: [{ heading: "Stage", body: "Stage description." }],
   }),
   gallery: () => ({
     id: uid("gallery"),
@@ -68,15 +68,15 @@ export const SECTION_FACTORIES: Record<CaseSectionType, () => CaseSection> = {
     type: "conclusion",
     enabled: true,
     title: "Conclusion",
-    body: "El resultado final y el impacto.",
+    body: "The final result and impact.",
     image: "",
   }),
   cta: () => ({
     id: uid("cta"),
     type: "cta",
     enabled: true,
-    text: "Quieres algo asi para tu marca?",
-    buttonLabel: "Trabaja con nosotros",
+    text: "Want something like this for your brand?",
+    buttonLabel: "Work with us",
   }),
 };
 

@@ -19,7 +19,16 @@ export default function App() {
   const isHome = location.pathname === "/";
 
   if (loading) {
-    return <div className="boot">CARGANDO…</div>;
+    return (
+      <div className="boot">
+        <div className="boot-word">
+          {"CARGANDO".split("").map((ch, i) => (
+            <span key={i}>{ch}</span>
+          ))}
+        </div>
+        <div className="boot-bar" />
+      </div>
+    );
   }
 
   return (

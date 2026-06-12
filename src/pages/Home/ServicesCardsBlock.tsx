@@ -23,7 +23,7 @@ export default function ServicesCardsBlock() {
         </div>
         <RowScroller className="srow">
           {s.items.map((it, i) => (
-            <div className="scard" key={i} style={{ background: it.color }}>
+            <div className="scard reveal" key={i} style={{ background: it.color }}>
               <h3>{it.h}</h3>
               <div className="sb">
                 {it.a}

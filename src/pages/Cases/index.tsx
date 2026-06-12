@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSite } from "@/content/ContentContext";
 import { grad } from "@/lib/style";
 import { useReveal } from "@/hooks/useReveal";
+import { useTilt } from "@/hooks/useTilt";
 import { useCrumb } from "@/components/layout/LayoutContext";
 import Footer from "@/components/layout/Footer";
 
@@ -11,6 +12,8 @@ export default function Cases() {
   const cs = c.cases;
   const navigate = useNavigate();
   const [filter, setFilter] = useState("*");
+  const gridRef = useRef<HTMLDivElement>(null);
+  useTilt(gridRef, ".casecard", [c.projects, filter]);
 
   useCrumb(
     <>
@@ -53,7 +56,7 @@ export default function Cases() {
               );
             })}
           </div>
-          <div className="casegrid">
+          <div className="casegrid" ref={gridRef}>
             {c.projects
               .filter(
                 (p) =>
@@ -78,6 +81,12 @@ export default function Cases() {
                     ))}
                   </div>
                   <div className="fill" style={{ background: grad(p) }}>
+                    {p.pattern && p.pattern !== "none" ? (
+                      <span
+                        className={`cardpat pat-${p.pattern}`}
+                        style={{ opacity: p.patternOpacity ?? 0.25 }}
+                      />
+                    ) : null}
                     {p.img ? (
                       <img src={p.img} alt={p.name} />
                     ) : (
@@ -85,6 +94,9 @@ export default function Cases() {
                     )}
                   </div>
                   <div className="hn">{p.name}</div>
+                  <div className="hcta">
+                    Ver caso <span>↗</span>
+                  </div>
                 </div>
               ))}
           </div>

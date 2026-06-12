@@ -16,7 +16,12 @@ export default function ClientsBlock({ title }: { title: string }) {
         </div>
       </div>
       <div className="wrap">
-        <LogoMarquee logos={clients.logos} speedSec={carousel.speedSec} />
+        <LogoMarquee
+          logos={clients.logos}
+          speedSec={carousel.speedSec}
+          whiteLogos={clients.whiteLogos}
+          colorOnHover={clients.colorOnHover}
+        />
       </div>
     </section>
   );

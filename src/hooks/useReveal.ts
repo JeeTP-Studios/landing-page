@@ -17,7 +17,19 @@ export function useReveal(deps: unknown[] = []) {
         }),
       { threshold: 0.14 }
     );
-    document.querySelectorAll(".reveal:not(.in)").forEach((el) => io.observe(el));
+    document.querySelectorAll<HTMLElement>(".reveal:not(.in)").forEach((el) => {
+      // Escalonado: cada .reveal hereda un retardo según su orden dentro del
+      // mismo contenedor, para que los hermanos aparezcan en cascada.
+      const parent = el.parentElement;
+      if (parent && !el.style.transitionDelay) {
+        const sibs = Array.from(
+          parent.querySelectorAll<HTMLElement>(":scope > .reveal")
+        );
+        const i = sibs.indexOf(el);
+        if (i > 0) el.style.transitionDelay = `${Math.min(i, 6) * 40}ms`;
+      }
+      io.observe(el);
+    });
     return () => io.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);

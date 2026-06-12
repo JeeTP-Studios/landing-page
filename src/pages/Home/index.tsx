@@ -6,13 +6,13 @@ import type { HomeSectionKey } from "@/types/content";
 import Footer from "@/components/layout/Footer";
 import PinnedHero from "./PinnedHero";
 import HighlightedBlock from "./HighlightedBlock";
-import ServicesCardsBlock from "./ServicesCardsBlock";
+import ServicesPreview from "./ServicesPreview";
 import FaqBlock from "./FaqBlock";
 import ClientsBlock from "@/components/common/ClientsBlock";
 
 const RENDERERS: Record<HomeSectionKey, () => JSX.Element | null> = {
   highlighted: () => <HighlightedBlock />,
-  services: () => <ServicesCardsBlock />,
+  services: () => <ServicesPreview />,
   clients: () => <ClientsWrapper />,
   faq: () => <FaqBlock />,
 };

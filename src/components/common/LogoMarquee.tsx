@@ -8,14 +8,25 @@ import type { LogoItem } from "@/types/content";
 export default function LogoMarquee({
   logos,
   speedSec = 30,
+  whiteLogos = false,
+  colorOnHover = false,
 }: {
   logos: LogoItem[];
   speedSec?: number;
+  whiteLogos?: boolean;
+  colorOnHover?: boolean;
 }) {
   if (!logos.length) return null;
   const loop = [...logos, ...logos];
+  const cls = [
+    "logomarquee reveal",
+    whiteLogos ? "white" : "",
+    whiteLogos && colorOnHover ? "color-hover" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   return (
-    <div className="logomarquee reveal">
+    <div className={cls}>
       <div
         className="logomarquee-track"
         style={{ animationDuration: `${Math.max(4, speedSec)}s` }}

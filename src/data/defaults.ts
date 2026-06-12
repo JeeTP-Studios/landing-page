@@ -217,6 +217,18 @@ export const DEFAULTS: SiteContent = {
     eyebrow: "El presente",
     title:
       "Somos una fabrica digital que ayuda a las marcas a crecer sin limites",
+    titles: [
+      "We are a software factory that helps brands grow without limits",
+      "We design experiences people remember",
+      "We build product, brand and technology — tailor-made",
+    ],
+    chips: [
+      "Software factory",
+      "UX / UI",
+      "Interactive experiences",
+      "Web & App",
+      "Branding",
+    ],
     gradA: "#7c5cff",
     gradB: "#06182e",
     angle: 140,

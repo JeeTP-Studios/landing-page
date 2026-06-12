@@ -522,4 +522,117 @@
 .cs-upnext .arrow {
   font-size: 40px;
   color: var(--pink);
+  transition: transform 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+/* ============================================================
+   VARIANTES DE LA LANDING DE DETALLE
+   Color de acento del proyecto vía --pd-accent (inline en .pd).
+   ============================================================ */
+.pd {
+  --pd-accent: var(--accent);
+}
+
+/* Acento en común para todas las variantes */
+.pd-specs .s div {
+  border-left: 3px solid var(--pd-accent);
+}
+.cs-upnext:hover .arrow {
+  transform: translateX(8px);
+  color: var(--pd-accent);
+}
+
+/* Numeración de secciones (editorial + bold) */
+.pd-sections {
+  counter-reset: sec;
+}
+.pd.v-editorial .pd-section,
+.pd.v-bold .pd-section {
+  position: relative;
+}
+.pd.v-editorial .pd-section::before,
+.pd.v-bold .pd-section::before {
+  counter-increment: sec;
+  content: counter(sec, decimal-leading-zero);
+  display: block;
+  font-family: var(--black);
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 1;
+  color: var(--pd-accent);
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+/* ---------- Variante EDITORIAL ---------- */
+.pd.v-editorial .pd-hero {
+  min-height: 92vh;
+  border-radius: 8px;
+}
+.pd.v-editorial .pd-ghost {
+  top: auto;
+  bottom: 5%;
+  left: 5%;
+  transform: none;
+  text-align: left;
+  font-size: clamp(110px, 26vw, 480px);
+  color: rgba(255, 255, 255, 0.1);
+}
+.pd.v-editorial .pd-emb {
+  margin: 0 7% 0 auto;
+  width: min(48%, 460px);
+}
+.pd.v-editorial .pd-section h2 {
+  font-size: clamp(34px, 5vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+.pd.v-editorial .pd-section h2::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 5px;
+  margin-top: 20px;
+  background: var(--pd-accent);
+  border-radius: 4px;
+}
+.pd.v-editorial .cs-overview .pd-2col {
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 60px;
+}
+.pd.v-editorial .cs-figure img {
+  border-radius: 6px;
+}
+
+/* ---------- Variante BOLD ---------- */
+.pd.v-bold .pd-hero {
+  border-radius: 4px;
+  min-height: 86vh;
+}
+.pd.v-bold .pd-hero .ov {
+  box-shadow: inset 0 -200px 200px -120px rgba(0, 0, 0, 0.55);
+}
+.pd.v-bold .pd-emb .mono {
+  font-size: clamp(120px, 18vw, 220px);
+}
+.pd.v-bold .pd-section h2 {
+  text-transform: uppercase;
+  font-size: clamp(32px, 5.4vw, 82px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  padding-left: 26px;
+  border-left: 9px solid var(--pd-accent);
+}
+.pd.v-bold .cs-step .n {
+  color: var(--pd-accent);
+  font-size: clamp(40px, 5vw, 64px);
+  -webkit-text-stroke: 0;
+  opacity: 1;
+}
+.pd.v-bold .pd-section::before {
+  font-size: 54px;
+  opacity: 0.9;
+}
+.pd.v-bold .cs-challenge ul li::before {
+  background: var(--pd-accent);
 }

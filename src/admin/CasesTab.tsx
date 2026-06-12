@@ -7,6 +7,7 @@ import {
   ImageField,
   ListField,
   OpacityField,
+  RangeField,
   SelectField,
   TextField,
 } from "./fields";
@@ -19,7 +20,7 @@ import {
 
 /** Crea un proyecto nuevo con un set de secciones por defecto. */
 function newProject(): Project {
-  const id = "proyecto-" + Date.now().toString(36);
+  const id = "project-" + Date.now().toString(36);
   const sections: CaseSection[] = [
     createSection("overview"),
     createSection("challenge"),
@@ -30,19 +31,23 @@ function newProject(): Project {
   ];
   return {
     id,
-    name: "Nuevo proyecto",
-    ghost: "NUEVO",
+    name: "New project",
+    ghost: "NEW",
     mono: "NP",
     img: "",
+    bg: { type: "none", url: "" },
+    pattern: "none",
+    patternOpacity: 0.25,
+    detailVariant: "standard",
     tags: ["Tag"],
-    desc: "Descripción del proyecto.",
+    desc: "Project description.",
     gradA: "#7c5cff",
     gradB: "#06182e",
     angle: 140,
     opacity: 1,
     accent: "#7c5cff",
     category: "Website",
-    duration: "1 mes",
+    duration: "1 month",
     year: "2025",
     location: "Mexico",
     heroMode: "auto",
@@ -74,8 +79,8 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
   return (
     <div>
       <div className="ad-grouplabel">
-        SECCIONES DE LA LANDING — arrastra <span aria-hidden>⠿</span> para
-        reordenar, usa el switch para mostrar/ocultar
+        LANDING SECTIONS — drag <span aria-hidden>⠿</span> para
+        reorder, use the switch to show/hide
       </div>
 
       {sections.map((s, si) => (
@@ -95,7 +100,7 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
                   style={{ cursor: "grab" }}
                   onDragStart={() => (dragId.current = s.id)}
                   onDragEnd={() => (dragId.current = null)}
-                  title="Arrastrar"
+                  title="Drag"
                 >
                   ⠿
                 </span>
@@ -133,7 +138,7 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
                   })
                 }
               >
-                Eliminar sección
+                Remove section
               </button>
             </div>
           </details>
@@ -160,7 +165,7 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
             })
           }
         >
-          + Agregar sección
+          + Add section
         </button>
       </div>
     </div>
@@ -187,16 +192,16 @@ export default function ProjectsTab() {
 
   return (
     <>
-      <h2>Case Studies · Proyectos</h2>
+      <h2>Case Studies · Projects</h2>
       <div className="desc">
-        Alta y edición de proyectos. Cada proyecto edita su PREVIEW
-        (home/tarjetas) y su LANDING por secciones (reordena y muestra/oculta
-        cada componente). Los ajustes de la página de listado (label y título)
-        están en Páginas → Case Studies.
+        Add and edit projects. Each project edits its PREVIEW
+        (home/cards) and its LANDING by sections (reorder and show/hide
+        each component). The listing page settings (label and title)
+        are in Pages → Case Studies.
       </div>
 
       <div className="ad-grouplabel first">
-        PROYECTOS — arrastra <span aria-hidden>⠿</span> para reordenar
+        PROJECTS — drag <span aria-hidden>⠿</span> to reorder
       </div>
 
       {content.projects.map((p, i) => (
@@ -216,73 +221,146 @@ export default function ProjectsTab() {
                   style={{ cursor: "grab" }}
                   onDragStart={() => (dragPid.current = p.id)}
                   onDragEnd={() => (dragPid.current = null)}
-                  title="Arrastrar proyecto"
+                  title="Drag project"
                 >
                   ⠿
                 </span>
-                {p.name || "Proyecto"}
+                {p.name || "Project"}
               </span>
             </summary>
             <div className="accbody">
             <div className="ad-grouplabel first">
-              PREVIEW (panel del home · tarjetas · caso)
+              PREVIEW (home panel · cards · case)
             </div>
-            <TextField label="Nombre" path={`projects.${i}.name`} />
+            <TextField label="Name" path={`projects.${i}.name`} />
             <div className="row">
               <TextField
-                label="Texto fantasma (detras)"
+                label="Ghost text (behind)"
                 path={`projects.${i}.ghost`}
               />
-              <TextField label="Monograma" path={`projects.${i}.mono`} />
+              <TextField label="Monogram" path={`projects.${i}.mono`} />
             </div>
             <ImageField
-              label="Imagen central (PNG sin texto)"
+              label="Center image (PNG without text)"
               path={`projects.${i}.img`}
             />
             <ListField
-              label="Tags (separados por coma)"
+              label="Tags (comma separated)"
               path={`projects.${i}.tags`}
               mode="commas"
-              hint="Tambien son los filtros de Case Studies"
+              hint="Also used as the Case Studies filters"
             />
             <TextField
-              label="Descripcion (panel)"
+              label="Description (panel)"
               path={`projects.${i}.desc`}
               area
             />
             <GradientField prefix={`projects.${i}`} />
             <OpacityField prefix={`projects.${i}`} />
-            <ColorField label="Color de acento" path={`projects.${i}.accent`} />
+            <ColorField label="Accent color" path={`projects.${i}.accent`} />
 
-            <div className="ad-grouplabel">META DE LA LANDING (cabecera)</div>
-            <div className="row">
-              <TextField label="Categoria" path={`projects.${i}.category`} />
-              <TextField label="Duracion" path={`projects.${i}.duration`} />
+            <div className="ad-grouplabel">
+              CARD PATTERN (between color and image)
             </div>
-            <div className="row">
-              <TextField label="Ano" path={`projects.${i}.year`} />
-              <TextField label="Lugar" path={`projects.${i}.location`} />
-            </div>
-
-            <div className="ad-grouplabel">BANNER PRINCIPAL DE LA LANDING</div>
             <SelectField
-              label="Tipo de banner"
+              label="Pattern"
+              path={`projects.${i}.pattern`}
+              options={[
+                ["none", "None"],
+                ["dots", "Dots"],
+                ["grid", "Grid"],
+                ["lines", "Diagonal lines"],
+                ["cross", "Crosshatch"],
+                ["rings", "Rings"],
+                ["waves", "Waves"],
+              ]}
+            />
+            <RangeField
+              label="Pattern opacity"
+              path={`projects.${i}.patternOpacity`}
+              min={0}
+              max={1}
+              step={0.05}
+              fallback={0.25}
+              format={(v) => `${Math.round(v * 100)}%`}
+            />
+
+            <div className="ad-grouplabel">
+              PANEL BACKGROUND (home) — image or video under the color layer
+            </div>
+            <SelectField
+              label="Background type"
+              path={`projects.${i}.bg.type`}
+              options={[
+                ["none", "None (gradient only)"],
+                ["image", "Image"],
+                ["video", "Video (.mp4)"],
+              ]}
+            />
+            {p.bg?.type === "video" ? (
+              <>
+                <TextField
+                  label="Video URL (.mp4)"
+                  path={`projects.${i}.bg.url`}
+                  hint="Paste the direct .mp4 URL (S3 or another host). Lower the opacity above so it shows under the color."
+                />
+                <ImageField
+                  label="Poster (while the video loads)"
+                  path={`projects.${i}.bg.poster`}
+                />
+              </>
+            ) : p.bg?.type === "image" ? (
+              <ImageField
+                label="Background image"
+                path={`projects.${i}.bg.url`}
+                hint="Lower the opacity above so the image shows under the color layer."
+              />
+            ) : (
+              <div className="hint">
+                No background: the panel uses only the color gradient.
+              </div>
+            )}
+
+            <div className="ad-grouplabel">LANDING META (header)</div>
+            <div className="row">
+              <TextField label="Category" path={`projects.${i}.category`} />
+              <TextField label="Duration" path={`projects.${i}.duration`} />
+            </div>
+            <div className="row">
+              <TextField label="Year" path={`projects.${i}.year`} />
+              <TextField label="Place" path={`projects.${i}.location`} />
+            </div>
+
+            <div className="ad-grouplabel">LANDING STYLE (detail)</div>
+            <SelectField
+              label="Design variant"
+              path={`projects.${i}.detailVariant`}
+              options={[
+                ["standard", "Standard — balanced"],
+                ["editorial", "Editorial — large type, asymmetric"],
+                ["bold", "Bold — accent blocks, giant numbers"],
+              ]}
+            />
+
+            <div className="ad-grouplabel">MAIN LANDING BANNER</div>
+            <SelectField
+              label="Banner type"
               path={`projects.${i}.heroMode`}
               options={[
-                ["auto", "Variante 1 — Automatico (degradado + monograma/imagen)"],
-                ["custom", "Variante 2 — Imagen a medida (subida)"],
+                ["auto", "Variant 1 — Automatic (gradient + monogram/image)"],
+                ["custom", "Variant 2 — Custom image (uploaded)"],
               ]}
             />
             {p.heroMode === "custom" ? (
               <ImageField
-                label="Imagen del banner"
+                label="Banner image"
                 path={`projects.${i}.heroImage`}
-                hint="Medidas recomendadas: 2400 × 1200 px (relacion 2:1), JPG/PNG/WebP, < 600 KB. Se recorta para cubrir el area."
+                hint="Recommended size: 2400 × 1200 px (2:1 ratio), JPG/PNG/WebP, < 600 KB. Cropped to cover the area."
               />
             ) : (
               <div className="hint">
-                La variante automatica usa el degradado, el texto fantasma y la
-                imagen central / monograma del PREVIEW de arriba.
+                The automatic variant uses the gradient, the ghost text and the
+                center image / monogram from the PREVIEW above.
               </div>
             )}
 
@@ -297,7 +375,7 @@ export default function ProjectsTab() {
                 })
               }
             >
-              Eliminar proyecto
+              Remove project
             </button>
           </div>
           </details>
@@ -312,7 +390,7 @@ export default function ProjectsTab() {
           })
         }
       >
-        + Agregar proyecto
+        + Add project
       </button>
     </>
   );

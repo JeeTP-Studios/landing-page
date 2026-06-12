@@ -1,11 +1,15 @@
+import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSite } from "@/content/ContentContext";
 import { grad } from "@/lib/style";
+import { useTilt } from "@/hooks/useTilt";
 
 export default function HighlightedBlock() {
   const c = useSite();
   const s = c.highlighted;
   const navigate = useNavigate();
+  const rowRef = useRef<HTMLDivElement>(null);
+  useTilt(rowRef, ".hcard", [c.projects]);
   if (!s.enabled) return null;
   return (
     <section className="blk" id="proyectos">
@@ -21,7 +25,7 @@ export default function HighlightedBlock() {
             {c.ui.buttons.allCases} <span>→</span>
           </Link>
         </div>
-        <div className="hrow">
+        <div className="hrow" ref={rowRef}>
           {c.projects.map((p) => (
             <div
               className="hcard"
@@ -40,6 +44,12 @@ export default function HighlightedBlock() {
                 ))}
               </div>
               <div className="fill" style={{ background: p.gradA }}>
+                {p.pattern && p.pattern !== "none" ? (
+                  <span
+                    className={`cardpat pat-${p.pattern}`}
+                    style={{ opacity: p.patternOpacity ?? 0.25 }}
+                  />
+                ) : null}
                 {p.img ? (
                   <img
                     src={p.img}
@@ -55,6 +65,9 @@ export default function HighlightedBlock() {
                 )}
               </div>
               <div className="hn">{p.name}</div>
+              <div className="hcta">
+                {c.ui.buttons.floatLearn || "Ver caso"} <span>↗</span>
+              </div>
             </div>
           ))}
         </div>

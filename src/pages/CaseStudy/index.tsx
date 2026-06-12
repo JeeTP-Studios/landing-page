@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, type CSSProperties } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSite } from "@/content/ContentContext";
 import { grad } from "@/lib/style";
@@ -36,7 +36,10 @@ export default function CaseStudy() {
 
   return (
     <>
-      <section className="pd">
+      <section
+        className={`pd v-${p.detailVariant || "standard"}`}
+        style={{ "--pd-accent": p.accent } as CSSProperties}
+      >
         <div className="wrap">
           <Link className="pd-back" to="/case-studies">
             {L.back}
@@ -84,9 +87,11 @@ export default function CaseStudy() {
             </div>
           </div>
 
-          {sections.map((s) => (
-            <CaseSectionView key={s.id} section={s} project={p} />
-          ))}
+          <div className="pd-sections">
+            {sections.map((s) => (
+              <CaseSectionView key={s.id} section={s} project={p} />
+            ))}
+          </div>
 
           <div
             className="cs-upnext"

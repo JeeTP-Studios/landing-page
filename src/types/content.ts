@@ -25,7 +25,13 @@ export interface GradientLayer {
 
 export interface Hero extends GradientLayer {
   eyebrow: string;
+  /** Título base (compatibilidad / fallback). */
   title: string;
+  /** Títulos que el hero escribe en bucle (efecto máquina de escribir).
+   *  Si está vacío, se usa `title`. */
+  titles?: string[];
+  /** Chips decorativos del hero (etiquetas en diagonal/overlap). */
+  chips?: string[];
   href: string;
 }
 
@@ -119,12 +125,39 @@ export type CaseSection =
 
 /* ---------- Proyecto / case study ---------- */
 
+/** Media de fondo de un proyecto en el hero del home (debajo de la capa de
+ *  color). Permite imagen o video por proyecto. */
+export interface ProjectBg {
+  type: "none" | "image" | "video";
+  url: string;
+  /** cartel/poster opcional para el video */
+  poster?: string;
+}
+
+/** Patrones decorativos disponibles para la capa de patrón de las cards. */
+export type CardPattern =
+  | "none"
+  | "dots"
+  | "grid"
+  | "lines"
+  | "cross"
+  | "rings"
+  | "waves";
+
 export interface Project extends GradientLayer {
   id: string;
   name: string;
   ghost: string;
   mono: string;
   img: string;
+  /** Fondo propio del panel del home (imagen/video bajo la capa de color). */
+  bg?: ProjectBg;
+  /** Patrón decorativo de la card (entre el color y la imagen). */
+  pattern?: CardPattern;
+  /** Opacidad de la capa de patrón (0–1). */
+  patternOpacity?: number;
+  /** Variante visual de la landing de detalle (distribución/estilo). */
+  detailVariant?: "standard" | "editorial" | "bold";
   tags: string[];
   desc: string;
   accent: string;
@@ -155,6 +188,8 @@ export interface ServiceCard {
   a: string;
   b: string;
   color: string;
+  /** Imagen/icono opcional (se muestra en el preview de servicios del home). */
+  img?: string;
 }
 
 export interface ServicesBlock extends GradientLayer {
@@ -170,6 +205,12 @@ export interface ClientsBlock extends GradientLayer {
   /** Fuente única de clientes (nombre + logo). Se muestra como carrusel
    *  en el home, en la página de servicios y en Nosotros. */
   logos: LogoItem[];
+  /** Pinta los logos en blanco/gris uniforme (para mezclar logos a color,
+   *  blancos y negros). */
+  whiteLogos?: boolean;
+  /** Si está activo (con whiteLogos), al hacer hover el logo recupera su
+   *  color original (interacción de color invertida). */
+  colorOnHover?: boolean;
 }
 
 export interface FaqItem {

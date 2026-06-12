@@ -21,26 +21,26 @@ const GROUPS: Group[] = [
     label: "General",
     tabs: [
       { key: "global", label: "Global", Comp: GlobalTab },
-      { key: "texts", label: "Textos", Comp: TextsTab },
+      { key: "texts", label: "Texts", Comp: TextsTab },
     ],
   },
   {
-    label: "Páginas",
+    label: "Pages",
     tabs: [
-      { key: "home", label: "Inicio", Comp: HomeTab },
+      { key: "home", label: "Home", Comp: HomeTab },
       { key: "about", label: "About Us", Comp: AboutTab },
       { key: "services", label: "Services", Comp: ServicesTab },
       { key: "casesPage", label: "Case Studies", Comp: CasesPageTab },
-      { key: "contact", label: "Contacto", Comp: ContactTab },
+      { key: "contact", label: "Contact", Comp: ContactTab },
     ],
   },
   {
-    label: "Clientes",
-    tabs: [{ key: "clients", label: "Clientes", Comp: ClientsTab }],
+    label: "Clients",
+    tabs: [{ key: "clients", label: "Clients", Comp: ClientsTab }],
   },
   {
     label: "Case Studies",
-    tabs: [{ key: "projects", label: "Proyectos", Comp: ProjectsTab }],
+    tabs: [{ key: "projects", label: "Projects", Comp: ProjectsTab }],
   },
 ];
 
@@ -84,9 +84,9 @@ export default function AdminPanel() {
     r.onload = () => {
       try {
         importJson(String(r.result));
-        showToast("JSON importado");
+        showToast("JSON imported");
       } catch {
-        alert("El archivo no es un JSON válido.");
+        alert("The file is not valid JSON.");
       }
     };
     r.readAsText(file);
@@ -98,10 +98,10 @@ export default function AdminPanel() {
     <div className="admin">
       <div className="ad-top">
         <div>
-          <h1>JeeTP · Panel de contenido</h1>
+          <h1>JeeTP · Content panel</h1>
           <div className="sub">
-            {remoteLoaded ? "JSON remoto cargado" : "Usando contenido por defecto"}
-            {hasLocalOverride ? " · tienes cambios locales sin publicar" : ""}
+            {remoteLoaded ? "Remote JSON loaded" : "Using default content"}
+            {hasLocalOverride ? " · you have unpublished local changes" : ""}
           </div>
         </div>
         <div className="ad-actions">
@@ -116,34 +116,34 @@ export default function AdminPanel() {
             className="ad-btn ghost"
             onClick={() => fileRef.current?.click()}
           >
-            Importar JSON
+            Import JSON
           </button>
           <button
             className="ad-btn ghost"
             onClick={() => {
               exportJson();
-              showToast("content.json descargado");
+              showToast("content.json downloaded");
             }}
           >
-            Exportar JSON
+            Export JSON
           </button>
           <button
             className="ad-btn ghost"
             onClick={() => {
               if (
                 confirm(
-                  "¿Descartar tus cambios locales y recargar el JSON del bucket?"
+                  "Discard your local changes and reload the JSON from the bucket?"
                 )
               )
                 resetToRemote();
             }}
           >
-            Recargar remoto
+            Reload remote
           </button>
           <button
             className="ad-btn warn"
             onClick={() => {
-              if (confirm("¿Restablecer todo a los valores por defecto?"))
+              if (confirm("Reset everything to default values?"))
                 resetToDefaults();
             }}
           >
@@ -156,16 +156,16 @@ export default function AdminPanel() {
               navigate("/");
             }}
           >
-            Ver sitio
+            View site
           </button>
           <button
             className="ad-btn primary"
             onClick={() => {
               saveLocal();
-              showToast("Guardado localmente");
+              showToast("Saved locally");
             }}
           >
-            Guardar
+            Save
           </button>
         </div>
       </div>

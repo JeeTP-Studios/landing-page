@@ -18,7 +18,7 @@ export default function ObjectListEditor<T>({
   factory,
   labeler,
   renderItem,
-  addLabel = "+ Agregar",
+  addLabel = "+ Add",
   renumber,
 }: ObjectListEditorProps<T>) {
   const { content, update } = useContent();
@@ -48,7 +48,7 @@ export default function ObjectListEditor<T>({
                 })
               }
             >
-              Eliminar
+              Remove
             </button>
           </div>
         </details>

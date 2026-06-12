@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useSite } from "@/content/ContentContext";
 import { grad } from "@/lib/style";
 import ScrollCue from "@/components/common/ScrollCue";
+import Typewriter from "@/components/common/Typewriter";
+import HeroHud from "./HeroHud";
 
 export default function PinnedHero() {
   const c = useSite();
@@ -35,7 +37,6 @@ export default function PinnedHero() {
     let target = 0;
     let raf = 0;
     let alive = true;
-    const smooth = (e: number) => e * e * (3 - 2 * e);
 
     function read() {
       const r = pin!.getBoundingClientRect();
@@ -47,28 +48,54 @@ export default function PinnedHero() {
       if (!alive) return;
       if (!isFinite(cur)) cur = 0;
       if (!isFinite(target)) target = 0;
-      cur += (target - cur) * 0.09;
-      if (Math.abs(target - cur) < 0.0008) cur = target;
+      cur += (target - cur) * 0.105;
+      if (Math.abs(target - cur) < 0.0006) cur = target;
+      // Velocidad (con signo) para la deformación tipo "estiramiento" del texto.
+      const vel = Math.max(-1, Math.min(1, (target - cur) * 3.2));
       for (let i = 0; i < N; i++) {
-        const d = cur - i;
+        const d = cur - i; // >0 = ya pasó (a la izquierda), <0 = siguiente (a la derecha)
         const ad = Math.min(Math.abs(d), 1);
-        const op = 1 - smooth(ad);
         const p = panels[i];
-        p.style.opacity = String(op);
-        p.style.zIndex = String(Math.round(op * 1000));
-        p.style.pointerEvents = op > 0.55 ? "auto" : "none";
+        // SLIDE HORIZONTAL: el panel activo en 0, el siguiente a la derecha (+100%),
+        // el anterior a la izquierda (-100%). Al scrollear, todo se desliza der→izq.
+        const x = -d * 100;
+        p.style.transform = `translate3d(${x.toFixed(3)}%,0,0)`;
+        p.style.zIndex = String(1000 - Math.round(ad * 1000));
+        p.style.pointerEvents = ad < 0.5 ? "auto" : "none";
+        p.style.opacity = ad < 0.999 ? "1" : "0.999";
+        // Parallax interno + deformación direccional (estira al entrar/salir).
         const em = p.querySelector<HTMLElement>(".emblem");
-        if (em) em.style.transform = `translateY(${d * 55}px) scale(${1 - ad * 0.12})`;
+        if (em)
+          em.style.transform = `translateX(${d * -64}px) scale(${(
+            1 - ad * 0.1
+          ).toFixed(3)})`;
         const gh = p.querySelector<HTMLElement>(".pname-ghost");
-        if (gh) gh.style.transform = `translate(-50%,-50%) translateX(${d * -60}px)`;
+        if (gh)
+          gh.style.transform = `translate(-50%,-50%) translateX(${
+            d * -150
+          }px) skewX(${(vel * -7).toFixed(2)}deg) scaleX(${(
+            1 + Math.abs(vel) * 0.14
+          ).toFixed(3)})`;
         const mt = p.querySelector<HTMLElement>(".meta");
-        if (mt) mt.style.transform = `translateY(${d * 70}px)`;
+        if (mt)
+          mt.style.transform = `translateX(${d * -70}px) skewX(${(
+            vel * -4
+          ).toFixed(2)}deg)`;
         const ds = p.querySelector<HTMLElement>(".desc");
-        if (ds) ds.style.transform = `translateY(${d * 70}px)`;
+        if (ds)
+          ds.style.transform = `translateX(${d * 80}px) skewX(${(
+            vel * -4
+          ).toFixed(2)}deg)`;
+        const hc = p.querySelector<HTMLElement>(".hero-center");
+        if (hc)
+          hc.style.transform = `translateX(${d * -48}px) skewX(${(
+            vel * -3
+          ).toFixed(2)}deg)`;
       }
       const near = Math.round(cur);
-      const frac = Math.abs(cur - near);
-      if (navWrap) navWrap.style.opacity = String(Math.min(frac * 4, 1));
+      // El nav de proyectos se ve desde el hero y durante toda la sección;
+      // desaparece solo cuando el pin se despinea (después de los proyectos).
+      if (navWrap) navWrap.style.opacity = "1";
       navs.forEach((a, idx) => a.classList.toggle("on", idx + 1 === near));
       raf = requestAnimationFrame(frame);
     }
@@ -182,44 +209,48 @@ export default function PinnedHero() {
             className="panel-ov"
             style={{ background: grad(c.hero), opacity: c.hero.opacity }}
           />
-          <div className="hero-hud">
-            <span className="corner c1" />
-            <span className="corner c2" />
-            <span className="corner c3" />
-            <span className="corner c4" />
-            <div className="col left">
-              <span>
-                62<sup>33</sup>
-              </span>
-              <span>59</span>
-              <span>11</span>
-              <span>49</span>
-              <span>
-                75<sup>23</sup>
-              </span>
-            </div>
-            <div className="col right">
-              <span>
-                66<sup>74</sup>
-              </span>
-              <span>32</span>
-              <span>15</span>
-              <span>67</span>
-              <span>
-                33<sup>95</sup>
-              </span>
-            </div>
-          </div>
+          <HeroHud />
           <div className="hero-center">
             <div className="eye">{c.hero.eyebrow}</div>
-            <h1>{c.hero.title}</h1>
+            <Typewriter
+              texts={
+                c.hero.titles && c.hero.titles.length
+                  ? c.hero.titles
+                  : [c.hero.title]
+              }
+            />
           </div>
+          {c.hero.chips && c.hero.chips.length > 0 ? (
+            <div className="hero-chips">
+              {c.hero.chips.slice(0, 6).map((ch, i) => (
+                <span className={`hero-chip hc-${i}`} key={i}>
+                  {ch}
+                </span>
+              ))}
+            </div>
+          ) : null}
           <ScrollCue id="cir" variant="home" />
         </div>
 
         {/* Panels de proyectos */}
         {projects.map((p) => (
           <div className="panel" key={p.id} data-href={`/case-studies/${p.id}`}>
+            {p.bg && p.bg.type !== "none" && p.bg.url ? (
+              <div className="panel-bg">
+                {p.bg.type === "video" ? (
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    poster={p.bg.poster || undefined}
+                    src={p.bg.url}
+                  />
+                ) : (
+                  <img src={p.bg.url} alt="" />
+                )}
+              </div>
+            ) : null}
             <div
               className="panel-ov"
               style={{ background: grad(p), opacity: p.opacity }}

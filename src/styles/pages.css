@@ -150,6 +150,8 @@
 }
 .chip:hover {
   color: #fff;
+  border-color: #fff;
+  transform: translateY(-2px);
 }
 .chip.on {
   background: #fff;
@@ -171,12 +173,117 @@
     grid-template-columns: 1fr;
   }
 }
+/* ===== Capa de patrón de las cards (color -> patrón -> imagen -> texto) ===== */
+.cardpat {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  color: #fff; /* el patrón usa currentColor */
+}
+.hcard .fill img,
+.casecard .fill img,
+.hcard .fill > .mono,
+.casecard .fill .mono2 {
+  position: relative;
+  z-index: 1;
+}
+.pat-dots {
+  background-image: radial-gradient(currentColor 1.5px, transparent 1.6px);
+  background-size: 18px 18px;
+}
+.pat-grid {
+  background-image: linear-gradient(currentColor 1px, transparent 1px),
+    linear-gradient(90deg, currentColor 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.pat-lines {
+  background-image: repeating-linear-gradient(
+    45deg,
+    currentColor 0 1px,
+    transparent 1px 13px
+  );
+}
+.pat-cross {
+  background-image: repeating-linear-gradient(
+      45deg,
+      currentColor 0 1px,
+      transparent 1px 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      currentColor 0 1px,
+      transparent 1px 14px
+    );
+}
+.pat-rings {
+  background-image: repeating-radial-gradient(
+    circle at 30% 30%,
+    transparent 0 16px,
+    currentColor 16px 17px
+  );
+}
+.pat-waves {
+  background-image: radial-gradient(
+      circle at 50% 100%,
+      transparent 18px,
+      currentColor 19px 20px,
+      transparent 21px
+    );
+  background-size: 40px 22px;
+}
+
 .casecard {
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
   cursor: pointer;
   background: #15103a;
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+    translateY(var(--ty, 0px));
+  transform-style: preserve-3d;
+  transition: transform 0.3s var(--ease), box-shadow 0.5s var(--ease);
+  will-change: transform;
+}
+.casecard:hover {
+  --ty: -6px;
+  box-shadow: 0 50px 90px -42px rgba(0, 0, 0, 0.85);
+  z-index: 2;
+}
+.casecard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.22),
+    transparent 42%
+  );
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+.casecard:hover::before {
+  opacity: 1;
+}
+.casecard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(7, 2, 25, 0.9),
+    rgba(7, 2, 25, 0.2) 44%,
+    transparent 72%
+  );
+  opacity: 0.4;
+  transition: opacity 0.5s var(--ease);
+}
+.casecard:hover::after {
+  opacity: 1;
 }
 .casecard .br {
   position: absolute;
@@ -184,6 +291,13 @@
   height: 24px;
   border: 2px solid rgba(255, 255, 255, 0.85);
   z-index: 3;
+  transition: width 0.45s var(--ease), height 0.45s var(--ease),
+    border-color 0.45s var(--ease);
+}
+.casecard:hover .br {
+  width: 36px;
+  height: 36px;
+  border-color: #fff;
 }
 .casecard .br.tl {
   top: 14px;
@@ -215,10 +329,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.6s var(--ease);
+  transform: scale(var(--s, 1)) translate(var(--px, 0px), var(--py, 0px));
+  transition: transform 0.7s var(--ease);
+  will-change: transform;
 }
 .casecard:hover .fill {
-  transform: scale(1.05);
+  --s: 1.16;
 }
 .casecard .fill img {
   width: 55%;
@@ -241,6 +357,12 @@
   gap: 7px;
   flex-wrap: wrap;
 }
+.casecard .htags {
+  transition: transform 0.5s var(--ease);
+}
+.casecard:hover .htags {
+  transform: translateY(-3px);
+}
 .casecard .hn {
   position: absolute;
   left: 26px;
@@ -249,6 +371,39 @@
   font-family: var(--display);
   font-weight: 600;
   font-size: 26px;
+  transition: transform 0.5s var(--ease);
+}
+.casecard:hover .hn {
+  transform: translateY(-24px);
+}
+.casecard .hcta {
+  position: absolute;
+  left: 26px;
+  bottom: 24px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.casecard:hover .hcta {
+  opacity: 1;
+  transform: translateY(0);
+}
+.casecard .hcta span {
+  display: inline-block;
+  transition: transform 0.45s var(--ease);
+}
+.casecard:hover .hcta span {
+  transform: translate(3px, -3px);
 }
 
 /* ===== contact page ===== */
