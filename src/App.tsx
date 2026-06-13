@@ -12,6 +12,28 @@ import CaseStudy from "@/pages/CaseStudy";
 import Contact from "@/pages/Contact";
 import AdminPanel from "@/admin/AdminPanel";
 
+/** Dominio donde vive el admin (cerrado con Basic Auth en Dokploy). */
+const ADMIN_HOST =
+  (import.meta.env.VITE_ADMIN_HOST as string | undefined) ||
+  "admin.jeetpstudio.com";
+
+/**
+ * Solo sirve el panel cuando estás en el dominio de admin (o en local para
+ * desarrollo). Desde cualquier otro dominio, /admin reenvía al subdominio
+ * protegido en vez de mostrar el editor.
+ */
+function AdminGate() {
+  const host = window.location.hostname;
+  const isLocal =
+    host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
+  const onAdminHost = host === ADMIN_HOST || host.startsWith("admin.");
+  if (!isLocal && !onAdminHost) {
+    window.location.replace(`https://${ADMIN_HOST}/admin`);
+    return null;
+  }
+  return <AdminPanel />;
+}
+
 export default function App() {
   const { loading } = useContent();
   const location = useLocation();
@@ -49,7 +71,7 @@ export default function App() {
             <Route path="/case-studies" element={<Cases />} />
             <Route path="/case-studies/:id" element={<CaseStudy />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/admin" element={<AdminGate />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
