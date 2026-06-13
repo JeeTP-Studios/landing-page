@@ -70,33 +70,72 @@ export default function PinnedHero() {
     let target = 0;
     let raf = 0;
     let alive = true;
+    let running = false;
+
+    // Cache de los últimos valores escritos al DOM: evita repintar/recalcular
+    // cuando el valor no cambió respecto al frame anterior.
+    const cache = panels.map(() => ({ t: "", z: "", pe: "", o: "" }));
+    const subCache: { gh: string; em: string; mt: string; mto: string; ds: string; dso: string; hc: string; pbg: string }[] =
+      panels.map(() => ({ gh: "", em: "", mt: "", mto: "", ds: "", dso: "", hc: "", pbg: "" }));
+    let lastGradKey = -1;
+    let lastNear = -1;
+
+    // Cachea los nodos hijos una sola vez (evita querySelector por frame).
+    const refs = panels.map((p) => ({
+      pbg: p.querySelector<HTMLElement>(".panel-bg"),
+      gh: p.querySelector<HTMLElement>(".pname-ghost"),
+      em: p.querySelector<HTMLElement>(".emblem"),
+      mt: p.querySelector<HTMLElement>(".meta"),
+      ds: p.querySelector<HTMLElement>(".desc"),
+      hc: p.querySelector<HTMLElement>(".hero-center"),
+    }));
+
+    if (navWrap) navWrap.style.opacity = "1";
 
     function read() {
       const r = pin!.getBoundingClientRect();
       const total = pin!.offsetHeight - sticky.offsetHeight;
       target =
         (total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0) * (N - 1);
+      ensureRunning();
+    }
+    function ensureRunning() {
+      if (!running && alive) {
+        running = true;
+        raf = requestAnimationFrame(frame);
+      }
     }
     function frame() {
-      if (!alive) return;
+      if (!alive) {
+        running = false;
+        return;
+      }
       if (!isFinite(cur)) cur = 0;
       if (!isFinite(target)) target = 0;
       cur += (target - cur) * 0.1;
-      if (Math.abs(target - cur) < 0.0006) cur = target;
+      const settled = Math.abs(target - cur) < 0.0006;
+      if (settled) cur = target;
       // Velocidad (con signo) para deformación tipo "estiramiento" del texto.
       const vel = Math.max(-1, Math.min(1, (target - cur) * 3.4));
       const av = Math.abs(vel);
       // FONDO CONTINUO: interpola el gradiente entre el panel actual y el
-      // siguiente según `cur` (no entra como bloque, el color va mutando).
+      // siguiente según `cur`. Repintar un gradiente a pantalla completa es
+      // caro, así que cuantizamos `cur` (paso ~0.02) y solo reescribimos
+      // cuando el resultado cambia de verdad.
       if (bg) {
-        const i0 = Math.max(0, Math.min(N - 1, Math.floor(cur)));
-        const i1 = Math.min(N - 1, i0 + 1);
-        const f = cur - i0;
-        const A = mix(G[i0].a, G[i1].a, f);
-        const B = mix(G[i0].b, G[i1].b, f);
-        const ang = G[i0].ang + (G[i1].ang - G[i0].ang) * f;
-        bg.style.background = `linear-gradient(${ang.toFixed(1)}deg, ${A}, ${B})`;
-        bg.style.opacity = (G[i0].op + (G[i1].op - G[i0].op) * f).toFixed(3);
+        const gradKey = Math.round(cur * 50);
+        if (gradKey !== lastGradKey) {
+          lastGradKey = gradKey;
+          const q = gradKey / 50;
+          const i0 = Math.max(0, Math.min(N - 1, Math.floor(q)));
+          const i1 = Math.min(N - 1, i0 + 1);
+          const f = q - i0;
+          const A = mix(G[i0].a, G[i1].a, f);
+          const B = mix(G[i0].b, G[i1].b, f);
+          const ang = G[i0].ang + (G[i1].ang - G[i0].ang) * f;
+          bg.style.background = `linear-gradient(${ang.toFixed(1)}deg, ${A}, ${B})`;
+          bg.style.opacity = (G[i0].op + (G[i1].op - G[i0].op) * f).toFixed(3);
+        }
       }
       for (let i = 0; i < N; i++) {
         const d = cur - i; // >0 = ya pasó (izq), <0 = siguiente (der)
@@ -104,62 +143,85 @@ export default function PinnedHero() {
         const ad = Math.min(Math.abs(d), 1);
         const ease = ad * ad * (3 - 2 * ad); // smoothstep para escalas/opacidad
         const p = panels[i];
+        const cc = cache[i];
+        const sc = subCache[i];
         // SLIDE HORIZONTAL + PROFUNDIDAD: el panel se desliza, además se aleja
         // (escala), se inclina en 3D (rotateY) y se atenúa al salir/entrar.
         const x = -d * 100;
         const scale = 1 - ease * 0.16; // el activo 1, los vecinos retroceden
         const rotY = sd * 9; // giro 3D (entrante/saliente "voltean")
-        p.style.transform = `translate3d(${x.toFixed(
+        const t = `translate3d(${x.toFixed(3)}%,0,0) scale(${scale.toFixed(
           3
-        )}%,0,0) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg)`;
-        p.style.zIndex = String(1000 - Math.round(ad * 1000));
-        p.style.pointerEvents = ad < 0.5 ? "auto" : "none";
-        p.style.opacity = (1 - ease * 0.55).toFixed(3);
+        )}) rotateY(${rotY.toFixed(2)}deg)`;
+        if (t !== cc.t) (cc.t = t), (p.style.transform = t);
+        const z = String(1000 - Math.round(ad * 1000));
+        if (z !== cc.z) (cc.z = z), (p.style.zIndex = z);
+        const pe = ad < 0.5 ? "auto" : "none";
+        if (pe !== cc.pe) (cc.pe = pe), (p.style.pointerEvents = pe);
+        const o = (1 - ease * 0.55).toFixed(3);
+        if (o !== cc.o) (cc.o = o), (p.style.opacity = o);
         // Media propia del proyecto (si existe): parallax lento de profundidad.
-        const pbg = p.querySelector<HTMLElement>(".panel-bg");
-        if (pbg) pbg.style.transform = `translateX(${d * 40}px) scale(1.1)`;
+        const pbg = refs[i].pbg;
+        if (pbg) {
+          const v = `translateX(${(d * 40).toFixed(1)}px) scale(1.1)`;
+          if (v !== sc.pbg) (sc.pbg = v), (pbg.style.transform = v);
+        }
         // Texto fantasma de fondo: parallax MUY fuerte + estiramiento.
-        const gh = p.querySelector<HTMLElement>(".pname-ghost");
-        if (gh)
-          gh.style.transform = `translate(-50%,-50%) translateX(${(
-            d * -300
-          ).toFixed(0)}px) skewX(${(vel * -9).toFixed(2)}deg) scaleX(${(
+        const gh = refs[i].gh;
+        if (gh) {
+          const v = `translate(-50%,-50%) translateX(${(d * -300).toFixed(
+            0
+          )}px) skewX(${(vel * -9).toFixed(2)}deg) scaleX(${(
             1 + av * 0.18
           ).toFixed(3)})`;
+          if (v !== sc.gh) (sc.gh = v), (gh.style.transform = v);
+        }
         // Emblema (primer plano): parallax fuerte adelantado + escala + giro.
-        const em = p.querySelector<HTMLElement>(".emblem");
-        if (em)
-          em.style.transform = `translateX(${(d * -170).toFixed(
-            0
-          )}px) scale(${(1 - ease * 0.22).toFixed(3)}) rotate(${(
-            sd * 4
-          ).toFixed(2)}deg)`;
+        const em = refs[i].em;
+        if (em) {
+          const v = `translateX(${(d * -170).toFixed(0)}px) scale(${(
+            1 - ease * 0.22
+          ).toFixed(3)}) rotate(${(sd * 4).toFixed(2)}deg)`;
+          if (v !== sc.em) (sc.em = v), (em.style.transform = v);
+        }
         // Meta (izq): entra con overshoot + skew + fade.
-        const mt = p.querySelector<HTMLElement>(".meta");
+        const mt = refs[i].mt;
         if (mt) {
-          mt.style.transform = `translateX(${(d * -110).toFixed(0)}px) skewX(${(
+          const v = `translateX(${(d * -110).toFixed(0)}px) skewX(${(
             vel * -5
           ).toFixed(2)}deg)`;
-          mt.style.opacity = (1 - ease).toFixed(3);
+          if (v !== sc.mt) (sc.mt = v), (mt.style.transform = v);
+          const mo = (1 - ease).toFixed(3);
+          if (mo !== sc.mto) (sc.mto = mo), (mt.style.opacity = mo);
         }
-        const ds = p.querySelector<HTMLElement>(".desc");
+        const ds = refs[i].ds;
         if (ds) {
-          ds.style.transform = `translateX(${(d * 130).toFixed(0)}px) skewX(${(
+          const v = `translateX(${(d * 130).toFixed(0)}px) skewX(${(
             vel * -5
           ).toFixed(2)}deg)`;
-          ds.style.opacity = (1 - ease).toFixed(3);
+          if (v !== sc.ds) (sc.ds = v), (ds.style.transform = v);
+          const dOp = (1 - ease).toFixed(3);
+          if (dOp !== sc.dso) (sc.dso = dOp), (ds.style.opacity = dOp);
         }
-        const hc = p.querySelector<HTMLElement>(".hero-center");
-        if (hc)
-          hc.style.transform = `translateX(${(d * -70).toFixed(0)}px) skewX(${(
+        const hc = refs[i].hc;
+        if (hc) {
+          const v = `translateX(${(d * -70).toFixed(0)}px) skewX(${(
             vel * -3
           ).toFixed(2)}deg)`;
+          if (v !== sc.hc) (sc.hc = v), (hc.style.transform = v);
+        }
       }
       const near = Math.round(cur);
-      // El nav de proyectos se ve desde el hero y se mantiene igual y estable
-      // durante todas las vistas de proyecto (desaparece solo al despinearse).
-      if (navWrap) navWrap.style.opacity = "1";
-      navs.forEach((a, idx) => a.classList.toggle("on", idx + 1 === near));
+      if (near !== lastNear) {
+        lastNear = near;
+        navs.forEach((a, idx) => a.classList.toggle("on", idx + 1 === near));
+      }
+      // Al asentarse, detenemos el bucle: no se recalcula ni repinta nada hasta
+      // el próximo scroll/resize (que vuelve a llamar a ensureRunning()).
+      if (settled) {
+        running = false;
+        return;
+      }
       raf = requestAnimationFrame(frame);
     }
 
@@ -167,7 +229,6 @@ export default function PinnedHero() {
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onScroll);
     read();
-    raf = requestAnimationFrame(frame);
 
     // click en nav: navega por scroll a ese panel
     const navClick = (a: HTMLElement) => {
