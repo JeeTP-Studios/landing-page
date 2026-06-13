@@ -1,8 +1,7 @@
 /* case nav */
 .casenav {
   position: absolute;
-  /* Debajo del header (que al hacer scroll gana el glass y lo taparía). */
-  top: 104px;
+  top: 30px;
   left: 0;
   right: 0;
   z-index: 60;
