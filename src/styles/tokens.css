@@ -86,6 +86,44 @@ body::-webkit-scrollbar {
   }
 }
 
+/* Revelado de títulos por máscara (clip wipe hacia arriba) */
+.reveal h2 {
+  clip-path: inset(-12% -12% 112% -12%);
+  transform: translateY(0.18em);
+  transition: clip-path 0.75s var(--ease), transform 0.75s var(--ease);
+}
+.reveal.in h2 {
+  clip-path: inset(-12% -12% -12% -12%);
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal h2 {
+    clip-path: none;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Transición de página al navegar (opacity + clip; no rompe sticky) */
+.route-fade {
+  animation: route-in 0.5s var(--ease);
+}
+@keyframes route-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 7% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-fade {
+    animation: none;
+  }
+}
+
 /* boot loader */
 .boot {
   position: fixed;

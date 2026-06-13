@@ -1,7 +1,8 @@
 /* case nav */
 .casenav {
   position: absolute;
-  top: 30px;
+  /* Debajo del header (que al hacer scroll gana el glass y lo taparía). */
+  top: 104px;
   left: 0;
   right: 0;
   z-index: 60;
@@ -53,11 +54,21 @@
   height: 100vh;
   overflow: hidden;
   cursor: pointer;
+  perspective: 2000px;
+  perspective-origin: 50% 50%;
 }
 @supports (height: 100svh) {
   .pin-sticky {
     height: 100svh;
   }
+}
+/* Fondo continuo del pin: un solo gradiente que se interpola por JS. */
+.pin-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #0b042a;
+  will-change: background, opacity;
 }
 .panel {
   position: absolute;

@@ -1,10 +1,31 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSite } from "@/content/ContentContext";
-import { grad } from "@/lib/style";
 import ScrollCue from "@/components/common/ScrollCue";
 import Typewriter from "@/components/common/Typewriter";
 import HeroHud from "./HeroHud";
+
+/** Convierte un hex (#rgb / #rrggbb) a [r,g,b]. */
+function hexRgb(hex: string): [number, number, number] {
+  let h = (hex || "").replace("#", "").trim();
+  if (h.length === 3)
+    h = h
+      .split("")
+      .map((x) => x + x)
+      .join("");
+  const n = parseInt(h || "000000", 16);
+  if (Number.isNaN(n)) return [10, 6, 30];
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+/** Interpola dos colores hex y devuelve un rgb() css. */
+function mix(a: string, b: string, t: number): string {
+  const A = hexRgb(a);
+  const B = hexRgb(b);
+  const r = Math.round(A[0] + (B[0] - A[0]) * t);
+  const g = Math.round(A[1] + (B[1] - A[1]) * t);
+  const bl = Math.round(A[2] + (B[2] - A[2]) * t);
+  return `rgb(${r},${g},${bl})`;
+}
 
 export default function PinnedHero() {
   const c = useSite();
@@ -29,10 +50,22 @@ export default function PinnedHero() {
     const pin = pinRef.current;
     if (!pin) return;
     const sticky = pin.querySelector<HTMLElement>(".pin-sticky")!;
+    const bg = pin.querySelector<HTMLElement>(".pin-bg");
     const panels = [...pin.querySelectorAll<HTMLElement>(".panel")];
     const navWrap = pin.querySelector<HTMLElement>(".casenav");
     const navs = [...pin.querySelectorAll<HTMLElement>(".casenav a")];
     const N = panels.length;
+
+    // Gradientes por panel (hero + proyectos) para interpolar el fondo continuo.
+    const G = [
+      { a: c.hero.gradA, b: c.hero.gradB, ang: c.hero.angle, op: c.hero.opacity },
+      ...projects.map((p) => ({
+        a: p.gradA,
+        b: p.gradB,
+        ang: p.angle,
+        op: p.opacity,
+      })),
+    ];
     let cur = 0;
     let target = 0;
     let raf = 0;
@@ -48,53 +81,83 @@ export default function PinnedHero() {
       if (!alive) return;
       if (!isFinite(cur)) cur = 0;
       if (!isFinite(target)) target = 0;
-      cur += (target - cur) * 0.105;
+      cur += (target - cur) * 0.1;
       if (Math.abs(target - cur) < 0.0006) cur = target;
-      // Velocidad (con signo) para la deformación tipo "estiramiento" del texto.
-      const vel = Math.max(-1, Math.min(1, (target - cur) * 3.2));
+      // Velocidad (con signo) para deformación tipo "estiramiento" del texto.
+      const vel = Math.max(-1, Math.min(1, (target - cur) * 3.4));
+      const av = Math.abs(vel);
+      // FONDO CONTINUO: interpola el gradiente entre el panel actual y el
+      // siguiente según `cur` (no entra como bloque, el color va mutando).
+      if (bg) {
+        const i0 = Math.max(0, Math.min(N - 1, Math.floor(cur)));
+        const i1 = Math.min(N - 1, i0 + 1);
+        const f = cur - i0;
+        const A = mix(G[i0].a, G[i1].a, f);
+        const B = mix(G[i0].b, G[i1].b, f);
+        const ang = G[i0].ang + (G[i1].ang - G[i0].ang) * f;
+        bg.style.background = `linear-gradient(${ang.toFixed(1)}deg, ${A}, ${B})`;
+        bg.style.opacity = (G[i0].op + (G[i1].op - G[i0].op) * f).toFixed(3);
+      }
       for (let i = 0; i < N; i++) {
-        const d = cur - i; // >0 = ya pasó (a la izquierda), <0 = siguiente (a la derecha)
+        const d = cur - i; // >0 = ya pasó (izq), <0 = siguiente (der)
+        const sd = Math.max(-1, Math.min(1, d)); // d acotado con signo
         const ad = Math.min(Math.abs(d), 1);
+        const ease = ad * ad * (3 - 2 * ad); // smoothstep para escalas/opacidad
         const p = panels[i];
-        // SLIDE HORIZONTAL: el panel activo en 0, el siguiente a la derecha (+100%),
-        // el anterior a la izquierda (-100%). Al scrollear, todo se desliza der→izq.
+        // SLIDE HORIZONTAL + PROFUNDIDAD: el panel se desliza, además se aleja
+        // (escala), se inclina en 3D (rotateY) y se atenúa al salir/entrar.
         const x = -d * 100;
-        p.style.transform = `translate3d(${x.toFixed(3)}%,0,0)`;
+        const scale = 1 - ease * 0.16; // el activo 1, los vecinos retroceden
+        const rotY = sd * 9; // giro 3D (entrante/saliente "voltean")
+        p.style.transform = `translate3d(${x.toFixed(
+          3
+        )}%,0,0) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg)`;
         p.style.zIndex = String(1000 - Math.round(ad * 1000));
         p.style.pointerEvents = ad < 0.5 ? "auto" : "none";
-        p.style.opacity = ad < 0.999 ? "1" : "0.999";
-        // Parallax interno + deformación direccional (estira al entrar/salir).
-        const em = p.querySelector<HTMLElement>(".emblem");
-        if (em)
-          em.style.transform = `translateX(${d * -64}px) scale(${(
-            1 - ad * 0.1
-          ).toFixed(3)})`;
+        p.style.opacity = (1 - ease * 0.55).toFixed(3);
+        // Media propia del proyecto (si existe): parallax lento de profundidad.
+        const pbg = p.querySelector<HTMLElement>(".panel-bg");
+        if (pbg) pbg.style.transform = `translateX(${d * 40}px) scale(1.1)`;
+        // Texto fantasma de fondo: parallax MUY fuerte + estiramiento.
         const gh = p.querySelector<HTMLElement>(".pname-ghost");
         if (gh)
-          gh.style.transform = `translate(-50%,-50%) translateX(${
-            d * -150
-          }px) skewX(${(vel * -7).toFixed(2)}deg) scaleX(${(
-            1 + Math.abs(vel) * 0.14
+          gh.style.transform = `translate(-50%,-50%) translateX(${(
+            d * -300
+          ).toFixed(0)}px) skewX(${(vel * -9).toFixed(2)}deg) scaleX(${(
+            1 + av * 0.18
           ).toFixed(3)})`;
+        // Emblema (primer plano): parallax fuerte adelantado + escala + giro.
+        const em = p.querySelector<HTMLElement>(".emblem");
+        if (em)
+          em.style.transform = `translateX(${(d * -170).toFixed(
+            0
+          )}px) scale(${(1 - ease * 0.22).toFixed(3)}) rotate(${(
+            sd * 4
+          ).toFixed(2)}deg)`;
+        // Meta (izq): entra con overshoot + skew + fade.
         const mt = p.querySelector<HTMLElement>(".meta");
-        if (mt)
-          mt.style.transform = `translateX(${d * -70}px) skewX(${(
-            vel * -4
+        if (mt) {
+          mt.style.transform = `translateX(${(d * -110).toFixed(0)}px) skewX(${(
+            vel * -5
           ).toFixed(2)}deg)`;
+          mt.style.opacity = (1 - ease).toFixed(3);
+        }
         const ds = p.querySelector<HTMLElement>(".desc");
-        if (ds)
-          ds.style.transform = `translateX(${d * 80}px) skewX(${(
-            vel * -4
+        if (ds) {
+          ds.style.transform = `translateX(${(d * 130).toFixed(0)}px) skewX(${(
+            vel * -5
           ).toFixed(2)}deg)`;
+          ds.style.opacity = (1 - ease).toFixed(3);
+        }
         const hc = p.querySelector<HTMLElement>(".hero-center");
         if (hc)
-          hc.style.transform = `translateX(${d * -48}px) skewX(${(
+          hc.style.transform = `translateX(${(d * -70).toFixed(0)}px) skewX(${(
             vel * -3
           ).toFixed(2)}deg)`;
       }
       const near = Math.round(cur);
-      // El nav de proyectos se ve desde el hero y durante toda la sección;
-      // desaparece solo cuando el pin se despinea (después de los proyectos).
+      // El nav de proyectos se ve desde el hero y se mantiene igual y estable
+      // durante todas las vistas de proyecto (desaparece solo al despinearse).
       if (navWrap) navWrap.style.opacity = "1";
       navs.forEach((a, idx) => a.classList.toggle("on", idx + 1 === near));
       raf = requestAnimationFrame(frame);
@@ -193,6 +256,8 @@ export default function PinnedHero() {
       style={{ height: `${totalPanels * 112}vh` }}
     >
       <div className="pin-sticky">
+        {/* Fondo continuo: un solo gradiente que se interpola entre proyectos. */}
+        <div className="pin-bg" />
         <div className="casenav">
           <div className="casenav-inner">
             {projects.map((p, i) => (
@@ -205,10 +270,6 @@ export default function PinnedHero() {
 
         {/* Panel 0: hero */}
         <div className="panel" data-href={c.hero.href}>
-          <div
-            className="panel-ov"
-            style={{ background: grad(c.hero), opacity: c.hero.opacity }}
-          />
           <HeroHud />
           <div className="hero-center">
             <div className="eye">{c.hero.eyebrow}</div>
@@ -251,10 +312,6 @@ export default function PinnedHero() {
                 )}
               </div>
             ) : null}
-            <div
-              className="panel-ov"
-              style={{ background: grad(p), opacity: p.opacity }}
-            />
             <div className="pname-ghost">{p.ghost}</div>
             <div className="emblem">
               {p.img ? (

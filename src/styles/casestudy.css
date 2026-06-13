@@ -103,9 +103,13 @@
   transition: 0.3s var(--ease);
   cursor: pointer;
 }
+.pd-back {
+  overflow: hidden;
+}
 .pd-back:hover {
   background: #fff;
   color: var(--deep);
+  gap: 14px;
 }
 .pd-section {
   margin-bottom: 100px;

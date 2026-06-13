@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLayout } from "./LayoutContext";
 import { useSite } from "@/content/ContentContext";
@@ -21,9 +22,17 @@ export default function Menu() {
 
   return (
     <nav className={`menu ${menuOpen ? "open" : ""}`}>
-      {LINKS.map(([to, label]) => (
-        <a key={to} onClick={() => go(to)}>
-          {label}
+      {LINKS.map(([to, label], i) => (
+        <a
+          key={to}
+          className="menu-link"
+          style={{ ["--i"]: i } as CSSProperties}
+          onClick={() => go(to)}
+        >
+          <span className="ml-inner">
+            <span>{label}</span>
+            <span>{label}</span>
+          </span>
         </a>
       ))}
     </nav>

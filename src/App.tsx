@@ -22,7 +22,7 @@ export default function App() {
     return (
       <div className="boot">
         <div className="boot-word">
-          {"CARGANDO".split("").map((ch, i) => (
+          {"LOADING".split("").map((ch, i) => (
             <span key={i}>{ch}</span>
           ))}
         </div>
@@ -41,16 +41,18 @@ export default function App() {
         </>
       )}
       <main id="app">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/case-studies" element={<Cases />} />
-          <Route path="/case-studies/:id" element={<CaseStudy />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/admin" element={<AdminPanel />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
+        <div className="route-fade" key={location.pathname}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/case-studies" element={<Cases />} />
+            <Route path="/case-studies/:id" element={<CaseStudy />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </div>
       </main>
     </LayoutProvider>
   );

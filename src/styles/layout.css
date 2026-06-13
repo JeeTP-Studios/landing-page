@@ -115,6 +115,17 @@ header * {
 }
 .hbtn:hover {
   background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.hbtn:active {
+  transform: translateY(0) scale(0.94);
+}
+.hbtn.gear {
+  transition: 0.3s var(--ease), transform 0.5s var(--ease);
+}
+.hbtn.gear:hover {
+  transform: translateY(-2px) rotate(90deg);
 }
 .hbtn span,
 .hbtn span::before,
@@ -169,36 +180,44 @@ header * {
   opacity: 1;
   visibility: visible;
 }
-.menu a {
+.menu-link {
   position: relative;
+  overflow: hidden;
   font-family: var(--display);
   font-weight: 600;
   font-size: clamp(30px, 5vw, 58px);
   letter-spacing: -0.02em;
-  color: var(--muted);
-  transition: color 0.35s var(--ease), transform 0.45s var(--ease),
-    letter-spacing 0.45s var(--ease);
+  line-height: 1.04;
   cursor: pointer;
+  /* Entrada escalonada al abrir el menú */
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  transition-delay: calc(var(--i, 0) * 65ms);
 }
-.menu a::after {
-  content: "";
+.menu.open .menu-link {
+  opacity: 1;
+  transform: none;
+}
+.ml-inner {
+  display: block;
+  position: relative;
+  transition: transform 0.5s var(--ease);
+}
+.ml-inner span {
+  display: block;
+}
+.ml-inner span:nth-child(1) {
+  color: var(--muted);
+}
+.ml-inner span:nth-child(2) {
   position: absolute;
+  top: 100%;
   left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.45s var(--ease);
-}
-.menu a:hover {
   color: var(--ink);
-  transform: translateX(14px);
-  letter-spacing: 0.01em;
 }
-.menu a:hover::after {
-  transform: scaleX(1);
+.menu-link:hover .ml-inner {
+  transform: translateY(-100%);
 }
 
 /* footer */
