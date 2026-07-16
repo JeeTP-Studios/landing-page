@@ -74,7 +74,9 @@ export function GlobalTab() {
 /* ============ HOME ============ */
 const ORDER_NAMES: Record<HomeSectionKey, string> = {
   highlighted: "Featured projects",
+  stats: "Stats band",
   services: "Service cards",
+  process: "Process strip",
   clients: "Clients",
   faq: "FAQ",
 };
@@ -120,6 +122,37 @@ export function HomeTab() {
         </div>
       </Accordion>
 
+      <Accordion summary="Stats band">
+        <SwitchField label="Show section" path="stats.enabled" />
+        <TextField label="Label" path="stats.label" />
+        <TextField label="Title" path="stats.title" />
+        <GradientField prefix="stats" />
+        <OpacityField prefix="stats" />
+        <ObjectListEditor
+          path="stats.items"
+          factory={() => ({ value: 10, suffix: "+", label: "New metric" })}
+          labeler={(it) => (it as { label: string }).label}
+          addLabel="+ Add metric"
+          renderItem={(i) => (
+            <>
+              <div className="row">
+                <TextField
+                  label="Value (number)"
+                  path={`stats.items.${i}.value`}
+                  number
+                />
+                <TextField
+                  label="Suffix"
+                  path={`stats.items.${i}.suffix`}
+                  hint="e.g. +, %, K+"
+                />
+              </div>
+              <TextField label="Label" path={`stats.items.${i}.label`} />
+            </>
+          )}
+        />
+      </Accordion>
+
       <Accordion summary="Service cards">
         <SwitchField label="Show section" path="services.enabled" />
         <TextField label="Label" path="services.label" />
@@ -149,6 +182,33 @@ export function HomeTab() {
                 path={`services.items.${i}.img`}
                 hint="Shown on the left in the services preview. Without an image, the number is shown."
               />
+            </>
+          )}
+        />
+      </Accordion>
+
+      <Accordion summary="Process strip">
+        <SwitchField label="Show section" path="process.enabled" />
+        <TextField label="Label" path="process.label" />
+        <TextField label="Title" path="process.title" />
+        <GradientField prefix="process" />
+        <OpacityField prefix="process" />
+        <ObjectListEditor
+          path="process.steps"
+          factory={() => ({
+            num: "05",
+            title: "New step",
+            body: "Describe this step.",
+          })}
+          labeler={(it) => (it as { title: string }).title}
+          addLabel="+ Add step"
+          renderItem={(i) => (
+            <>
+              <div className="row">
+                <TextField label="Number" path={`process.steps.${i}.num`} />
+                <TextField label="Title" path={`process.steps.${i}.title`} />
+              </div>
+              <TextField label="Body" path={`process.steps.${i}.body`} area />
             </>
           )}
         />

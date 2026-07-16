@@ -22,7 +22,9 @@ export default function CaseStudy() {
     [p?.id]
   );
   useReveal([p?.id]);
-  useEffect(() => window.scrollTo(0, 0), [id]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   useEffect(() => {
     if (!p && id !== undefined && c.projects.length) navigate("/case-studies");

@@ -3,7 +3,7 @@
     "name": "JEETP STUDIOS",
     "tagline": "SOFTWARE FACTORY",
     "logoType": "image",
-    "logoImg": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/logos/jeetp-logo-transparent.png?raw=true"
+    "logoImg": "/resources/logos/jeetp-logo-transparent.png"
   },
   "bg": {
     "type": "none",
@@ -24,7 +24,7 @@
       "name": "KLA Fantasy",
       "ghost": "KINGS",
       "mono": "",
-      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/kings-league/KingsLeague.png?raw=true",
+      "img": "/resources/kings-league/KingsLeague.png",
       "tags": [
         "App",
         "Gaming",
@@ -38,17 +38,17 @@
       "opacity": 1,
       "accent": "#fdc64d",
       "category": "App",
-      "duration": "12 meses",
+      "duration": "12 months",
       "year": "2024-2025",
-      "location": "Latam & España",
+      "location": "Latam & Spain",
       "sections": [
         {
           "id": "overview-1",
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about Kins League Fantasy",
-          "body": "An interactive experience designed to build loyalty among end consumers of the Kings League Americas professional 7-a-side soccer league through a fantasy platform.",
+          "title": "All about KLA Fantasy",
+          "body": "A modern fantasy platform for the Kings League Americas: users build their ideal teams with player cards, compete every day and win tickets they can exchange for prizes like signed jerseys, exclusive experiences, trips and official merchandise — all inside an intuitive, dynamic platform designed so everyone has a chance to win.",
           "image": ""
         },
         {
@@ -56,13 +56,13 @@
           "type": "challenge",
           "enabled": true,
           "title": "Challenge / Problem statement",
-          "intro": "Club Premier nos busco para crear experiencias de juego que elevaran el canje de puntos y el engagement de su programa con socios.",
+          "intro": "Kings League Americas needed a fantasy experience that would raise fan engagement and build end-user loyalty throughout the season.",
           "problems": [],
           "approachTitle": "Solution",
           "approach": [
-            "Mecanica de juego clara y rapida.",
-            "Integracion con el catalogo de canje.",
-            "Diseno mobile-first."
+            "Clear, fast game mechanics.",
+            "Full integration with league data and live standings.",
+            "Mobile-first design."
           ],
           "images": []
         },
@@ -74,19 +74,19 @@
           "steps": [
             [
               "01",
-              "Definir objetivos"
+              "Define goals"
             ],
             [
               "02",
-              "Diseno de mecanica"
+              "Mechanics design"
             ],
             [
               "03",
-              "Desarrollo"
+              "Development"
             ],
             [
               "04",
-              "QA & lanzamiento"
+              "QA & launch"
             ]
           ]
         },
@@ -94,11 +94,11 @@
           "id": "methodology-4",
           "type": "methodology",
           "enabled": true,
-          "title": "Metodología",
+          "title": "Methodology",
           "items": [
             {
-              "heading": "Impacto",
-              "body": "Aumento del engagement y del canje de puntos durante las campanas con socios."
+              "heading": "Impact",
+              "body": "Higher fan engagement and retention across the whole season."
             }
           ]
         },
@@ -115,15 +115,15 @@
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "Entregamos experiencias de juego que dieron vida al programa de lealtad y conectaron a los socios con la marca.",
+          "body": "We delivered a gaming experience that brought the league to life and connected fans with the brand.",
           "image": ""
         },
         {
           "id": "cta-7",
           "type": "cta",
           "enabled": true,
-          "text": "Quieres algo asi para tu marca?",
-          "buttonLabel": "Trabaja con nosotros"
+          "text": "Want something like this for your brand?",
+          "buttonLabel": "Work with us"
         }
       ]
     },
@@ -132,18 +132,18 @@
       "name": "Hosting Wells",
       "ghost": "WELLS",
       "mono": "",
-      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/hosting-wells/HostingWells.png?raw=true",
+      "img": "/resources/hosting-wells/HostingWells.png",
       "tags": [
         "Web"
       ],
-      "desc": "Redesign of the Elevadores Hosting Wels website to modernize it and improve the user experience.",
+      "desc": "Redesign of the Hosting Wells elevator company website to modernize it and improve the user experience.",
       "gradA": "#2a9787",
       "gradB": "#3671ba",
       "angle": 140,
       "opacity": 1,
       "accent": "#2a9787",
       "category": "Website",
-      "duration": "1 mes",
+      "duration": "1 month",
       "year": "2025",
       "location": "Mexico",
       "sections": [
@@ -152,8 +152,8 @@
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about el proyecto",
-          "body": "Describe de qué se trata el proyecto.",
+          "title": "All about the project",
+          "body": "A short overview of what this project is about.",
           "image": ""
         },
         {
@@ -185,15 +185,15 @@
             ],
             [
               "02",
-              "Diseño"
+              "Design"
             ],
             [
               "03",
-              "Desarrollo"
+              "Development"
             ],
             [
               "04",
-              "Lanzamiento"
+              "Launch"
             ]
           ]
         },
@@ -201,11 +201,11 @@
           "id": "methodology-mpxmt44l-4",
           "type": "methodology",
           "enabled": true,
-          "title": "Metodología",
+          "title": "Methodology",
           "items": [
             {
-              "heading": "Etapa",
-              "body": "Descripción de la etapa."
+              "heading": "Stage",
+              "body": "What happened at this stage."
             }
           ]
         },
@@ -214,15 +214,15 @@
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "El resultado final y el impacto.",
+          "body": "The final result and its impact.",
           "image": ""
         },
         {
           "id": "cta-mpxmt44l-6",
           "type": "cta",
           "enabled": true,
-          "text": "Quieres algo asi para tu marca?",
-          "buttonLabel": "Trabaja con nosotros"
+          "text": "Want something like this for your brand?",
+          "buttonLabel": "Work with us"
         }
       ]
     },
@@ -231,7 +231,7 @@
       "name": "Copa Record",
       "ghost": "RECORD",
       "mono": "",
-      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/record/Record.png?raw=true",
+      "img": "/resources/record/Record.png",
       "tags": [
         "Design",
         "Branding"
@@ -242,10 +242,10 @@
       "angle": 140,
       "opacity": 1,
       "accent": "#ff3b3b",
-      "category": "Diseño",
-      "duration": "1 mes",
+      "category": "Design",
+      "duration": "1 month",
       "year": "2024",
-      "location": "México",
+      "location": "Mexico",
       "sections": [
         {
           "id": "overview-8",
@@ -287,7 +287,7 @@
             ],
             [
               "03",
-              "Desarrollo"
+              "Development"
             ],
             [
               "04",
@@ -299,10 +299,10 @@
           "id": "methodology-b",
           "type": "methodology",
           "enabled": true,
-          "title": "Metodología",
+          "title": "Methodology",
           "items": [
             {
-              "heading": "Impacto",
+              "heading": "Impact",
               "body": "Mayor tiempo de permanencia y comunidad activa de fans."
             }
           ]
@@ -327,8 +327,8 @@
           "id": "cta-e",
           "type": "cta",
           "enabled": true,
-          "text": "Quieres algo asi para tu marca?",
-          "buttonLabel": "Trabaja con nosotros"
+          "text": "Want something like this for your brand?",
+          "buttonLabel": "Work with us"
         }
       ]
     },
@@ -337,21 +337,21 @@
       "name": "Mundo Premier",
       "ghost": "CLUB",
       "mono": "",
-      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier.png?raw=true",
+      "img": "/resources/club-premier/MundoPremier.png",
       "tags": [
         "Web",
         "Gaming"
       ],
-      "desc": "An interactive online experience designed to engage members of Club Premier.",
+      "desc": "An interactive experience for Aeromexico Rewards (formerly Club Premier) members, built with Santander's Toma Todo program to reward loyalty.",
       "gradA": "#2ea3d8",
       "gradB": "#061823",
       "angle": 140,
       "opacity": 1,
       "accent": "#2ea3d8",
       "category": "Juego",
-      "duration": "3 meses",
+      "duration": "3 months",
       "year": "2022",
-      "location": "México",
+      "location": "Mexico",
       "sections": [
         {
           "id": "overview-f",
@@ -359,7 +359,7 @@
           "enabled": true,
           "label": "Overview",
           "title": "All about Mundo Premier",
-          "body": "Mundo Premier is an exciting mobile adventure game where players help Aerobot travel the world, collecting coins, gaining distance, and winning incredible prizes. With engaging gameplay and dynamic challenges, players aim to earn points and compete for rewards such as travel experiences, SUVs, and more.\n\nDesigned for Club Premier members, the game offers a unique opportunity to redeem travel points for exclusive chances to play and win. Mundo Premier was developed in collaboration with Aeromexico, Club Premier, Santander, and sponsored by Visa and GMC, combining fun, travel rewards, and brand partnerships into one immersive experience.",
+          "body": "We developed two dynamics for Aeromexico Rewards (formerly Club Premier) members, focused on building loyalty and letting them redeem points for prizes such as all-expense-paid trips. Mundo Premier was carried out in collaboration with Santander as part of the Toma Todo program.",
           "image": ""
         },
         {
@@ -452,36 +452,36 @@
           "items": [
             {
               "type": "video",
-              "url": "https://drive.google.com/file/d/1aGWCfpWTFsx41_W7sqICafdSO8ndNzzd/view?usp=drive_link",
-              "poster": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS9.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_Video.mp4",
+              "poster": "/resources/club-premier/MundoPremier_SS9.jpg"
             },
             {
               "type": "image",
-              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS2.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_SS2.jpg"
             },
             {
               "type": "image",
-              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS3.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_SS3.jpg"
             },
             {
               "type": "image",
-              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS5.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_SS5.jpg"
             },
             {
               "type": "image",
-              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS6.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_SS6.jpg"
             },
             {
               "type": "image",
-              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS7.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_SS7.jpg"
             },
             {
               "type": "image",
-              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS8.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_SS8.jpg"
             },
             {
               "type": "image",
-              "url": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS9.png?raw=true"
+              "url": "/resources/club-premier/MundoPremier_SS9.jpg"
             }
           ]
         },
@@ -502,26 +502,26 @@
         }
       ],
       "heroMode": "custom",
-      "heroImage": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/club-premier/MundoPremier_SS1.jpg?raw=true"
+      "heroImage": "/resources/club-premier/MundoPremier_SS1.jpg"
     },
     {
       "id": "proyecto-mpxngzng",
       "name": "Jokeland",
       "ghost": "PEPITO",
       "mono": "",
-      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/jokeland/Jokeland.png?raw=true",
+      "img": "/resources/jokeland/Jokeland.png",
       "tags": [
         "App",
         "Gaming"
       ],
-      "desc": "Descripción del proyecto.",
+      "desc": "A mobile game that expands the Pepito cartoon universe, letting players discover the characters' stories through interactive play.",
       "gradA": "#d4d4d4",
       "gradB": "#6c6b6c",
       "angle": 140,
       "opacity": 1,
       "accent": "#7c5cff",
       "category": "Website",
-      "duration": "1 mes",
+      "duration": "1 month",
       "year": "2025",
       "location": "Mexico",
       "sections": [
@@ -530,8 +530,8 @@
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about el proyecto",
-          "body": "Describe de qué se trata el proyecto.",
+          "title": "All about the project",
+          "body": "Jokeland is a mobile game created to connect with new audiences and expand the Pepito cartoon universe. Users learn the story of the characters in an interactive way, and the game works as a direct sequel to the animated series developed for social media.",
           "image": ""
         },
         {
@@ -563,15 +563,15 @@
             ],
             [
               "02",
-              "Diseño"
+              "Design"
             ],
             [
               "03",
-              "Desarrollo"
+              "Development"
             ],
             [
               "04",
-              "Lanzamiento"
+              "Launch"
             ]
           ]
         },
@@ -579,11 +579,11 @@
           "id": "methodology-mpxngzng-a",
           "type": "methodology",
           "enabled": true,
-          "title": "Metodología",
+          "title": "Methodology",
           "items": [
             {
-              "heading": "Etapa",
-              "body": "Descripción de la etapa."
+              "heading": "Stage",
+              "body": "What happened at this stage."
             }
           ]
         },
@@ -592,15 +592,15 @@
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "El resultado final y el impacto.",
+          "body": "The final result and its impact.",
           "image": ""
         },
         {
           "id": "cta-mpxngzng-c",
           "type": "cta",
           "enabled": true,
-          "text": "Quieres algo asi para tu marca?",
-          "buttonLabel": "Trabaja con nosotros"
+          "text": "Want something like this for your brand?",
+          "buttonLabel": "Work with us"
         }
       ]
     },
@@ -609,19 +609,19 @@
       "name": "Pepito Jr",
       "ghost": "PEPITO",
       "mono": "",
-      "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/pepito-jr/PepitoJr.png?raw=true",
+      "img": "/resources/pepito-jr/PepitoJr.png",
       "tags": [
         "App",
         "Gaming"
       ],
-      "desc": "Descripción del proyecto.",
+      "desc": "An online mini-game fair that positioned the Pepito brand with new audiences — play, earn tickets and redeem branded rewards.",
       "gradA": "#8fe561",
       "gradB": "#fcb105",
       "angle": 140,
       "opacity": 1,
       "accent": "#7c5cff",
       "category": "Website",
-      "duration": "1 mes",
+      "duration": "1 month",
       "year": "2025",
       "location": "Mexico",
       "sections": [
@@ -630,8 +630,8 @@
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about el proyecto",
-          "body": "Describe de qué se trata el proyecto.",
+          "title": "All about the project",
+          "body": "Club Pepito was an interactive project designed to position the Pepito brand among new audiences through an online mini-game fair. Users earned tickets by playing and could redeem them for physical branded products and other rewards.",
           "image": ""
         },
         {
@@ -663,15 +663,15 @@
             ],
             [
               "02",
-              "Diseño"
+              "Design"
             ],
             [
               "03",
-              "Desarrollo"
+              "Development"
             ],
             [
               "04",
-              "Lanzamiento"
+              "Launch"
             ]
           ]
         },
@@ -679,11 +679,11 @@
           "id": "methodology-mpxnmpph-g",
           "type": "methodology",
           "enabled": true,
-          "title": "Metodología",
+          "title": "Methodology",
           "items": [
             {
-              "heading": "Etapa",
-              "body": "Descripción de la etapa."
+              "heading": "Stage",
+              "body": "What happened at this stage."
             }
           ]
         },
@@ -692,15 +692,15 @@
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "El resultado final y el impacto.",
+          "body": "The final result and its impact.",
           "image": ""
         },
         {
           "id": "cta-mpxnmpph-i",
           "type": "cta",
           "enabled": true,
-          "text": "Quieres algo asi para tu marca?",
-          "buttonLabel": "Trabaja con nosotros"
+          "text": "Want something like this for your brand?",
+          "buttonLabel": "Work with us"
         }
       ]
     }
@@ -724,7 +724,7 @@
     "opacity": 1,
     "items": [
       {
-        "h": "Interactive Experiencies",
+        "h": "Interactive Experiences",
         "a": "Activations and dives",
         "b": "Web · Mobile · AR",
         "color": "#ff2e76"
@@ -748,7 +748,7 @@
         "color": "#1fc7c7"
       },
       {
-        "h": "Digital Stategy",
+        "h": "Digital Strategy",
         "a": "Technology-Driven Marketing",
         "b": "Marketing Campaigns",
         "color": "#ff7a2e"
@@ -765,27 +765,27 @@
     "logos": [
       {
         "name": "Club Premier",
-        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/clubpremier.png?raw=true"
+        "img": "/resources/our-clients/clubpremier.png"
       },
       {
         "name": "Kings League",
-        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/kla.webp?raw=true"
+        "img": "/resources/our-clients/kla.webp"
       },
       {
         "name": "Santander",
-        "img": "https://raw.githubusercontent.com/JeeTP-Studios/landing-page/342c2ce055ed27252cfde77d81f063fa689ab4cd/resources/our-clients/santander.svg"
+        "img": "/resources/our-clients/santander.svg"
       },
       {
         "name": "Visa",
-        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/visa.png?raw=true"
+        "img": "/resources/our-clients/visa.png"
       },
       {
         "name": "Hosting Wells",
-        "img": "https://github.com/JeeTP-Studios/landing-page/blob/master/resources/our-clients/hostingwells.png?raw=true"
+        "img": "/resources/our-clients/hostingwells.png"
       },
       {
         "name": "Etomin",
-        "img": "https://raw.githubusercontent.com/JeeTP-Studios/landing-page/342c2ce055ed27252cfde77d81f063fa689ab4cd/resources/our-clients/etomin.svg"
+        "img": "/resources/our-clients/etomin.svg"
       }
     ]
   },
@@ -967,7 +967,7 @@
     }
   },
   "cases": {
-    "label": "Case Studies· real projects",
+    "label": "Case studies · Real projects",
     "title": "Case Studies"
   },
   "contactPage": {
@@ -1032,7 +1032,7 @@
       ],
       "ctaText": "Transform and grow your business",
       "ctaButton": "Work with us",
-      "copyright": "© 2026 {name}. All right reserved.",
+      "copyright": "© {year} {name}. All rights reserved.",
       "madeIn": "Made by JeeTP Studios"
     },
     "servicesPageTitle": "Our services",
@@ -1042,7 +1042,7 @@
       "button": "Go to contact →"
     },
     "caseStudy": {
-      "back": "← Return tu cases",
+      "back": "← Back to cases",
       "specCategory": "Type",
       "specDuration": "Duration",
       "specMeta": "Year · Place",
@@ -1067,5 +1067,36 @@
     "services",
     "clients",
     "faq"
-  ]
+  ],
+  "stats": {
+    "enabled": true,
+    "label": "The factory in numbers",
+    "title": "Results you can measure",
+    "gradA": "#0e0636",
+    "gradB": "#0b042a",
+    "angle": 160,
+    "opacity": 1,
+    "items": [
+      {
+        "value": 12,
+        "suffix": "+",
+        "label": "Projects shipped"
+      },
+      {
+        "value": 8,
+        "suffix": "",
+        "label": "Industries served"
+      },
+      {
+        "value": 4,
+        "suffix": "",
+        "label": "Years building brands"
+      },
+      {
+        "value": 120,
+        "suffix": "K+",
+        "label": "End users reached"
+      }
+    ]
+  }
 }

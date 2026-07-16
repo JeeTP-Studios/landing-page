@@ -21,7 +21,9 @@ export default function Cases() {
     </>
   );
   useReveal([c.projects]);
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const allTags = useMemo(
     () => [...new Set(c.projects.flatMap((p) => p.tags || []))],

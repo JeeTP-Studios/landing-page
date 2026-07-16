@@ -213,6 +213,34 @@ export interface ClientsBlock extends GradientLayer {
   colorOnHover?: boolean;
 }
 
+/** Métrica del stats band del home (valor numérico + sufijo, ej. 25 + "+"). */
+export interface StatItem {
+  value: number;
+  suffix: string;
+  label: string;
+}
+
+export interface StatsBlock extends GradientLayer {
+  enabled: boolean;
+  label: string;
+  title: string;
+  items: StatItem[];
+}
+
+/** Paso del bloque de proceso ("how we work") del home. */
+export interface ProcessStep {
+  num: string;
+  title: string;
+  body: string;
+}
+
+export interface ProcessBlock extends GradientLayer {
+  enabled: boolean;
+  label: string;
+  title: string;
+  steps: ProcessStep[];
+}
+
 export interface FaqItem {
   q: string;
   a: string;
@@ -343,7 +371,13 @@ export interface UiStrings {
 }
 
 /** Llaves de las secciones reordenables del home. */
-export type HomeSectionKey = "highlighted" | "services" | "clients" | "faq";
+export type HomeSectionKey =
+  | "highlighted"
+  | "stats"
+  | "services"
+  | "process"
+  | "clients"
+  | "faq";
 
 /** Documento de contenido completo (= JSON de S3). */
 export interface SiteContent {
@@ -352,7 +386,9 @@ export interface SiteContent {
   hero: Hero;
   projects: Project[];
   highlighted: Highlighted;
+  stats: StatsBlock;
   services: ServicesBlock;
+  process: ProcessBlock;
   clients: ClientsBlock;
   faq: FaqBlock;
   contact: Contact;

@@ -112,11 +112,11 @@ export default function PinnedHero() {
       }
       if (!isFinite(cur)) cur = 0;
       if (!isFinite(target)) target = 0;
-      cur += (target - cur) * 0.1;
+      cur += (target - cur) * 0.14;
       const settled = Math.abs(target - cur) < 0.0006;
       if (settled) cur = target;
       // Velocidad (con signo) para deformación tipo "estiramiento" del texto.
-      const vel = Math.max(-1, Math.min(1, (target - cur) * 3.4));
+      const vel = Math.max(-1, Math.min(1, (target - cur) * 2.6));
       const av = Math.abs(vel);
       // FONDO CONTINUO: interpola el gradiente entre el panel actual y el
       // siguiente según `cur`. Repintar un gradiente a pantalla completa es
@@ -148,8 +148,8 @@ export default function PinnedHero() {
         // SLIDE HORIZONTAL + PROFUNDIDAD: el panel se desliza, además se aleja
         // (escala), se inclina en 3D (rotateY) y se atenúa al salir/entrar.
         const x = -d * 100;
-        const scale = 1 - ease * 0.16; // el activo 1, los vecinos retroceden
-        const rotY = sd * 9; // giro 3D (entrante/saliente "voltean")
+        const scale = 1 - ease * 0.12; // el activo 1, los vecinos retroceden
+        const rotY = sd * 6; // giro 3D (entrante/saliente "voltean")
         const t = `translate3d(${x.toFixed(3)}%,0,0) scale(${scale.toFixed(
           3
         )}) rotateY(${rotY.toFixed(2)}deg)`;
@@ -158,7 +158,7 @@ export default function PinnedHero() {
         if (z !== cc.z) (cc.z = z), (p.style.zIndex = z);
         const pe = ad < 0.5 ? "auto" : "none";
         if (pe !== cc.pe) (cc.pe = pe), (p.style.pointerEvents = pe);
-        const o = (1 - ease * 0.55).toFixed(3);
+        const o = (1 - ease * 0.45).toFixed(3);
         if (o !== cc.o) (cc.o = o), (p.style.opacity = o);
         // Media propia del proyecto (si existe): parallax lento de profundidad.
         const pbg = refs[i].pbg;
@@ -314,7 +314,7 @@ export default function PinnedHero() {
       className="pin"
       id="trabajo"
       ref={pinRef}
-      style={{ height: `${totalPanels * 112}vh` }}
+      style={{ height: `${totalPanels * 100}vh` }}
     >
       <div className="pin-sticky">
         {/* Fondo continuo: un solo gradiente que se interpola entre proyectos. */}

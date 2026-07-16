@@ -22,29 +22,49 @@ export default function Contact() {
 
   useCrumb(
     <>
-      <Link to="/">HOME</Link> › <span className="on">CONTACTO</span>
+      <Link to="/">HOME</Link> › <span className="on">CONTACT</span>
     </>
   );
   useReveal([cp]);
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
     c.contact.mapQuery || c.contact.location
   )}&output=embed`;
 
-  const send = () => {
+  const formText = () =>
+    `Service: ${form.service}\nName: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\nCompany: ${form.company}\n\nProject:\n${form.msg}`;
+
+  const validate = () => {
     if (!form.email && !form.name) {
-      alert("Escribe al menos tu nombre o correo.");
-      return;
+      alert("Please enter at least your name or email.");
+      return false;
     }
+    return true;
+  };
+
+  const send = () => {
+    if (!validate()) return;
     const subj = encodeURIComponent(
-      "Nuevo contacto desde el sitio" +
+      "New contact from the website" +
         (form.company ? " — " + form.company : "")
     );
-    const body = encodeURIComponent(
-      `Servicio: ${form.service}\nNombre: ${form.name}\nTelefono: ${form.phone}\nEmail: ${form.email}\nEmpresa: ${form.company}\n\nProyecto:\n${form.msg}`
+    window.location.href = `mailto:${c.contact.email}?subject=${subj}&body=${encodeURIComponent(formText())}`;
+  };
+
+  // WhatsApp: más confiable que mailto (no depende de un cliente de correo
+  // configurado). Usa el número del contacto global.
+  const sendWhatsApp = () => {
+    if (!validate()) return;
+    const num = (c.contact.whatsapp || c.contact.phone).replace(/[^\d]/g, "");
+    if (!num) return send();
+    window.open(
+      `https://wa.me/${num}?text=${encodeURIComponent(formText())}`,
+      "_blank",
+      "noopener"
     );
-    window.location.href = `mailto:${c.contact.email}?subject=${subj}&body=${body}`;
   };
 
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) =>
@@ -82,11 +102,11 @@ export default function Contact() {
           <div className="cinfo reveal">
             <div>
               <h3>{c.brand.name}</h3>
-              <div className="ci-lbl">Direccion</div>
+              <div className="ci-lbl">Address</div>
               <div className="ci-v">{c.contact.address}</div>
               <div className="ci-lbl">E-mail</div>
               <div className="ci-v">{c.contact.email}</div>
-              <div className="ci-lbl">Telefono · WhatsApp</div>
+              <div className="ci-lbl">Phone · WhatsApp</div>
               <div className="ci-v">{c.contact.phone}</div>
             </div>
             <div className="cmap">
@@ -94,7 +114,7 @@ export default function Contact() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 src={mapSrc}
-                title="mapa"
+                title="map"
               />
             </div>
           </div>
@@ -167,9 +187,14 @@ export default function Contact() {
                 value={form.msg}
                 onChange={set("msg")}
               />
-              <button className="send" onClick={send}>
-                {c.ui.contactForm.send} <span>→</span>
-              </button>
+              <div className="send-row">
+                <button className="send" onClick={sendWhatsApp}>
+                  Send via WhatsApp <span>→</span>
+                </button>
+                <button className="send send-alt" onClick={send}>
+                  {c.ui.contactForm.send} <span>→</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

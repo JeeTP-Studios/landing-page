@@ -570,6 +570,27 @@
   background: var(--pink);
   color: #fff;
 }
+.cform .send-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cform .send-row .send:first-child {
+  background: #25d366;
+  color: #06210f;
+}
+.cform .send-row .send:first-child:hover {
+  background: #2fe673;
+}
+.cform .send-alt {
+  background: transparent;
+  color: #fff;
+  border: 1px solid var(--line-2);
+}
+.cform .send-alt:hover {
+  background: #fff;
+  color: var(--deep);
+}
 @media (max-width: 860px) {
   .cgrid {
     grid-template-columns: 1fr;

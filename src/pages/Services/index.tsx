@@ -17,11 +17,13 @@ export default function Services() {
   const s = site.servicesPage;
   useCrumb(
     <>
-      <Link to="/">HOME</Link> › <span className="on">SERVICIOS</span>
+      <Link to="/">HOME</Link> › <span className="on">SERVICES</span>
     </>
   );
   useReveal([s]);
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

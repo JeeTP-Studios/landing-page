@@ -263,11 +263,12 @@ footer {
   color: var(--muted);
   font-size: 15px;
   padding: 7px 0;
-  transition: color 0.25s;
+  transition: color 0.25s, transform 0.3s var(--ease);
   cursor: pointer;
 }
 .fcol a:hover {
   color: #fff;
+  transform: translateX(6px);
 }
 .hireus {
   display: flex;
@@ -284,7 +285,7 @@ footer {
   font-size: clamp(20px, 2.4vw, 30px);
 }
 .hireus a {
-  background: var(--pink);
+  background: linear-gradient(120deg, var(--pink), #ff5c3d);
   color: #fff;
   padding: 15px 34px;
   font-family: var(--body);
@@ -294,10 +295,12 @@ footer {
   font-size: 14px;
   transition: 0.3s var(--ease);
   cursor: pointer;
+  box-shadow: 0 14px 34px -18px rgba(255, 46, 118, 0.8);
 }
 .hireus a:hover {
-  filter: brightness(1.12);
+  filter: brightness(1.1);
   transform: translateY(-2px);
+  box-shadow: 0 20px 44px -16px rgba(255, 46, 118, 0.9);
 }
 .fbot {
   display: flex;

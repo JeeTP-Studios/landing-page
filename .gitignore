@@ -2,3 +2,7 @@ node_modules
 .DS_Store
 .env*
 *.log
+
+# build/tool artifacts
+vite.config.ts.timestamp-*.mjs
+*.tsbuildinfo

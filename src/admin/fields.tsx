@@ -16,22 +16,34 @@ export function TextField({
   path,
   area,
   hint,
+  number,
 }: {
   label: string;
   path: string;
   area?: boolean;
   hint?: string;
+  /** Guarda el valor como número (input type=number). */
+  number?: boolean;
 }) {
-  const [v, set] = useField<string>(path);
+  const [v, set] = useField<string | number>(path);
   return (
     <div className="fld">
       <label>{label}</label>
       {area ? (
-        <textarea value={v ?? ""} onChange={(e) => set(e.target.value)} />
+        <textarea
+          value={(v as string) ?? ""}
+          onChange={(e) => set(e.target.value)}
+        />
+      ) : number ? (
+        <input
+          type="number"
+          value={v ?? 0}
+          onChange={(e) => set(Number(e.target.value) || 0)}
+        />
       ) : (
         <input
           type="text"
-          value={v ?? ""}
+          value={(v as string) ?? ""}
           onChange={(e) => set(e.target.value)}
         />
       )}

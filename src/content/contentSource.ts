@@ -74,6 +74,18 @@ export function migrate(content: SiteContent): SiteContent {
       }
     }
   }
+  // orden del home: inserta las secciones nuevas (stats, process) en JSONs
+  // viejos que no las incluyen. stats va tras highlighted; process tras services.
+  if (Array.isArray(c.order)) {
+    const order = c.order as string[];
+    const insertAfter = (key: string, after: string) => {
+      if (order.includes(key)) return;
+      const i = order.indexOf(after);
+      order.splice(i === -1 ? order.length : i + 1, 0, key);
+    };
+    insertAfter("stats", "highlighted");
+    insertAfter("process", "services");
+  }
   return content;
 }
 

@@ -14,11 +14,13 @@ export default function About() {
   const a = site.about;
   useCrumb(
     <>
-      <Link to="/">HOME</Link> › <span className="on">NOSOTROS</span>
+      <Link to="/">HOME</Link> › <span className="on">ABOUT US</span>
     </>
   );
   useReveal([a]);
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

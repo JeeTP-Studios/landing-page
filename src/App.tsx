@@ -11,6 +11,7 @@ import Cases from "@/pages/Cases";
 import CaseStudy from "@/pages/CaseStudy";
 import Contact from "@/pages/Contact";
 import AdminPanel from "@/admin/AdminPanel";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
 
 /** Dominio donde vive el admin (cerrado con Basic Auth en Dokploy). */
 const ADMIN_HOST =
@@ -64,6 +65,7 @@ export default function App() {
       )}
       <main id="app">
         <div className="route-fade" key={location.pathname}>
+          <ErrorBoundary>
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -74,6 +76,7 @@ export default function App() {
             <Route path="/admin" element={<AdminGate />} />
             <Route path="*" element={<Home />} />
           </Routes>
+          </ErrorBoundary>
         </div>
       </main>
     </LayoutProvider>

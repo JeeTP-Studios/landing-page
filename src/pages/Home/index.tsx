@@ -6,13 +6,17 @@ import type { HomeSectionKey } from "@/types/content";
 import Footer from "@/components/layout/Footer";
 import PinnedHero from "./PinnedHero";
 import HighlightedBlock from "./HighlightedBlock";
+import StatsBand from "./StatsBand";
 import ServicesPreview from "./ServicesPreview";
+import ProcessStrip from "./ProcessStrip";
 import FaqBlock from "./FaqBlock";
 import ClientsBlock from "@/components/common/ClientsBlock";
 
 const RENDERERS: Record<HomeSectionKey, () => JSX.Element | null> = {
   highlighted: () => <HighlightedBlock />,
+  stats: () => <StatsBand />,
   services: () => <ServicesPreview />,
+  process: () => <ProcessStrip />,
   clients: () => <ClientsWrapper />,
   faq: () => <FaqBlock />,
 };

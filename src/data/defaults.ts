@@ -245,6 +245,21 @@ export const DEFAULTS: SiteContent = {
     angle: 160,
     opacity: 1,
   },
+  stats: {
+    enabled: true,
+    label: "The factory in numbers",
+    title: "Results you can measure",
+    gradA: "#0e0636",
+    gradB: "#0b042a",
+    angle: 160,
+    opacity: 1,
+    items: [
+      { value: 12, suffix: "+", label: "Projects shipped" },
+      { value: 8, suffix: "", label: "Industries served" },
+      { value: 4, suffix: "", label: "Years building brands" },
+      { value: 120, suffix: "K+", label: "End users reached" },
+    ],
+  },
   services: {
     enabled: true,
     label: "Servicios",
@@ -283,6 +298,37 @@ export const DEFAULTS: SiteContent = {
         a: "Marketing con tecnologia",
         b: "Activaciones comerciales",
         color: "#ff7a2e",
+      },
+    ],
+  },
+  process: {
+    enabled: true,
+    label: "How we work",
+    title: "From idea to launch",
+    gradA: "#0b042a",
+    gradB: "#0e0636",
+    angle: 160,
+    opacity: 1,
+    steps: [
+      {
+        num: "01",
+        title: "Discover",
+        body: "A short call to understand your goals, users and constraints. We define scope, timeline and cost — no fluff.",
+      },
+      {
+        num: "02",
+        title: "Design",
+        body: "Concept, UX and visual direction. You see and react to real screens early, not at the end.",
+      },
+      {
+        num: "03",
+        title: "Build",
+        body: "Weekly iterations with working software from week one. You always know where the project stands.",
+      },
+      {
+        num: "04",
+        title: "Launch & grow",
+        body: "QA, launch and post-launch support. We stay to measure, learn and keep improving the product.",
       },
     ],
   },
@@ -340,7 +386,7 @@ export const DEFAULTS: SiteContent = {
     ],
   },
   contact: {
-    email: "hola@jeetpstudio.com",
+    email: "contact@jeetpstudio.com",
     whatsapp: "+52 55 3647 9693",
     phone: "+52 55 3647 9693",
     location: "CDMX, Mexico",
@@ -536,5 +582,5 @@ export const DEFAULTS: SiteContent = {
     },
   },
   carousel: { speedSec: 30 },
-  order: ["highlighted", "services", "clients", "faq"],
+  order: ["highlighted", "stats", "services", "process", "clients", "faq"],
 };
