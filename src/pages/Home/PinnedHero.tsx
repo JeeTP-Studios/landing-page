@@ -71,6 +71,14 @@ export default function PinnedHero() {
     let raf = 0;
     let alive = true;
     let running = false;
+    // Factor de parallax: en pantallas angostas las distancias fijas en px
+    // (±110–300px) son enormes relativas al viewport y avientan los textos
+    // fuera de pantalla; se escalan hacia abajo en móvil.
+    let pf = 1;
+    const readPf = () => {
+      pf = Math.min(1, Math.max(0.35, innerWidth / 1200));
+    };
+    readPf();
 
     // Cache de los últimos valores escritos al DOM: evita repintar/recalcular
     // cuando el valor no cambió respecto al frame anterior.
@@ -163,13 +171,13 @@ export default function PinnedHero() {
         // Media propia del proyecto (si existe): parallax lento de profundidad.
         const pbg = refs[i].pbg;
         if (pbg) {
-          const v = `translateX(${(d * 40).toFixed(1)}px) scale(1.1)`;
+          const v = `translateX(${(d * 40 * pf).toFixed(1)}px) scale(1.1)`;
           if (v !== sc.pbg) (sc.pbg = v), (pbg.style.transform = v);
         }
         // Texto fantasma de fondo: parallax MUY fuerte + estiramiento.
         const gh = refs[i].gh;
         if (gh) {
-          const v = `translate(-50%,-50%) translateX(${(d * -300).toFixed(
+          const v = `translate(-50%,-50%) translateX(${(d * -300 * pf).toFixed(
             0
           )}px) skewX(${(vel * -9).toFixed(2)}deg) scaleX(${(
             1 + av * 0.18
@@ -179,7 +187,7 @@ export default function PinnedHero() {
         // Emblema (primer plano): parallax fuerte adelantado + escala + giro.
         const em = refs[i].em;
         if (em) {
-          const v = `translateX(${(d * -170).toFixed(0)}px) scale(${(
+          const v = `translateX(${(d * -170 * pf).toFixed(0)}px) scale(${(
             1 - ease * 0.22
           ).toFixed(3)}) rotate(${(sd * 4).toFixed(2)}deg)`;
           if (v !== sc.em) (sc.em = v), (em.style.transform = v);
@@ -187,7 +195,7 @@ export default function PinnedHero() {
         // Meta (izq): entra con overshoot + skew + fade.
         const mt = refs[i].mt;
         if (mt) {
-          const v = `translateX(${(d * -110).toFixed(0)}px) skewX(${(
+          const v = `translateX(${(d * -110 * pf).toFixed(0)}px) skewX(${(
             vel * -5
           ).toFixed(2)}deg)`;
           if (v !== sc.mt) (sc.mt = v), (mt.style.transform = v);
@@ -196,7 +204,7 @@ export default function PinnedHero() {
         }
         const ds = refs[i].ds;
         if (ds) {
-          const v = `translateX(${(d * 130).toFixed(0)}px) skewX(${(
+          const v = `translateX(${(d * 130 * pf).toFixed(0)}px) skewX(${(
             vel * -5
           ).toFixed(2)}deg)`;
           if (v !== sc.ds) (sc.ds = v), (ds.style.transform = v);
@@ -205,7 +213,7 @@ export default function PinnedHero() {
         }
         const hc = refs[i].hc;
         if (hc) {
-          const v = `translateX(${(d * -70).toFixed(0)}px) skewX(${(
+          const v = `translateX(${(d * -70 * pf).toFixed(0)}px) skewX(${(
             vel * -3
           ).toFixed(2)}deg)`;
           if (v !== sc.hc) (sc.hc = v), (hc.style.transform = v);
@@ -225,9 +233,32 @@ export default function PinnedHero() {
       raf = requestAnimationFrame(frame);
     }
 
-    const onScroll = () => read();
+    // SNAP: en touch el usuario suelta el dedo en cualquier punto y el panel
+    // quedaba a medio deslizar (títulos cortados). Al parar el scroll dentro
+    // del pin, se anima al panel más cercano.
+    let snapTimer = 0;
+    const snap = () => {
+      const total = pin!.offsetHeight - sticky.offsetHeight;
+      const r = pin!.getBoundingClientRect();
+      if (r.top > 0 || -r.top >= total) return; // fuera del tramo pineado
+      const idx = Math.round(target);
+      if (Math.abs(target - idx) < 0.02) return; // ya está alineado
+      window.scrollTo({
+        top: pin!.offsetTop + (idx / (N - 1)) * total,
+        behavior: "smooth",
+      });
+    };
+    const onScroll = () => {
+      read();
+      clearTimeout(snapTimer);
+      snapTimer = window.setTimeout(snap, 160);
+    };
     addEventListener("scroll", onScroll, { passive: true });
-    addEventListener("resize", onScroll);
+    const onResize = () => {
+      readPf();
+      onScroll();
+    };
+    addEventListener("resize", onResize);
     read();
 
     // click en nav: navega por scroll a ese panel
@@ -300,8 +331,9 @@ export default function PinnedHero() {
       alive = false;
       cancelAnimationFrame(raf);
       cancelAnimationFrame(flRaf);
+      clearTimeout(snapTimer);
       removeEventListener("scroll", onScroll);
-      removeEventListener("resize", onScroll);
+      removeEventListener("resize", onResize);
       removeEventListener("mousemove", onMove);
       sticky.removeEventListener("click", stickyClick);
       navHandlers.forEach(([a, h]) => a.removeEventListener("click", h));
