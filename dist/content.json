@@ -106,12 +106,43 @@
           "id": "gallery-5",
           "type": "gallery",
           "enabled": true,
-          "title": "UI Design",
-          "layout": "grid",
+          "title": "UI & Gameplay",
+          "layout": "masonry",
           "items": [
+            {
+              "type": "video",
+              "url": "/resources/kings-league/KLAFantasy_Gameplay.mp4",
+              "poster": "/resources/kings-league/KLAFantasy_Gameplay.jpg"
+            },
+            {
+              "type": "video",
+              "url": "/resources/kings-league/KLAFantasy_PackOpening.mp4",
+              "poster": "/resources/kings-league/KLAFantasy_PackOpening.jpg"
+            },
+            {
+              "type": "video",
+              "url": "/resources/kings-league/KLAFantasy_Menus.mp4",
+              "poster": "/resources/kings-league/KLAFantasy_Menus.jpg"
+            },
             {
               "type": "image",
               "url": "/resources/kings-league/KLAFantasy_SS1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social23.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social24.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social25.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social38.jpg"
             }
           ]
         },
@@ -217,6 +248,39 @@
           ]
         },
         {
+          "id": "gallery-hostingwells-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "The site",
+          "layout": "grid",
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_3.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_3.jpg"
+            }
+          ]
+        },
+        {
           "id": "conclusion-mpxmt44l-5",
           "type": "conclusion",
           "enabled": true,
@@ -318,12 +382,17 @@
           "id": "gallery-c",
           "type": "gallery",
           "enabled": true,
-          "title": "Mascot",
+          "title": "Mascot & prototype",
           "layout": "grid",
           "items": [
             {
               "type": "image",
-              "url": "/resources/record/Record.png"
+              "url": "/resources/record/CopaRecord_Mascot.png"
+            },
+            {
+              "type": "video",
+              "url": "/resources/record/CopaRecord_Map.mp4",
+              "poster": "/resources/record/CopaRecord_Map.jpg"
             }
           ]
         },
@@ -494,6 +563,14 @@
             {
               "type": "image",
               "url": "/resources/club-premier/MundoPremier_SS9.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/TransfiereYViaja_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/TransfiereYViaja_2.jpg"
             }
           ]
         },
@@ -601,6 +678,39 @@
           ]
         },
         {
+          "id": "gallery-jokeland-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Art & Screens",
+          "layout": "masonry",
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Cover.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen3.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen4.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen5.jpg"
+            }
+          ]
+        },
+        {
           "id": "conclusion-mpxngzng-b",
           "type": "conclusion",
           "enabled": true,
@@ -698,6 +808,25 @@
             {
               "heading": "Loyalty loop",
               "body": "Play, earn tickets, redeem rewards: the fair turned brand exposure into a repeatable loop that kept users coming back."
+            }
+          ]
+        },
+        {
+          "id": "gallery-clubpepito-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Mini-games",
+          "layout": "grid",
+          "items": [
+            {
+              "type": "video",
+              "url": "/resources/pepito-jr/ClubPepito_CorrePepito.mp4",
+              "poster": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg"
+            },
+            {
+              "type": "video",
+              "url": "/resources/pepito-jr/ClubPepito_AguasConLaLava.mp4",
+              "poster": "/resources/pepito-jr/ClubPepito_AguasConLaLava.jpg"
             }
           ]
         },
