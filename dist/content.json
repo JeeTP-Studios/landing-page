@@ -52,6 +52,50 @@
           "image": ""
         },
         {
+          "id": "gallery-5",
+          "type": "gallery",
+          "enabled": true,
+          "title": "UI & Gameplay",
+          "layout": "masonry",
+          "items": [
+            {
+              "type": "video",
+              "url": "/resources/kings-league/KLAFantasy_Gameplay.mp4",
+              "poster": "/resources/kings-league/KLAFantasy_Gameplay.jpg"
+            },
+            {
+              "type": "video",
+              "url": "/resources/kings-league/KLAFantasy_PackOpening.mp4",
+              "poster": "/resources/kings-league/KLAFantasy_PackOpening.jpg"
+            },
+            {
+              "type": "video",
+              "url": "/resources/kings-league/KLAFantasy_Menus.mp4",
+              "poster": "/resources/kings-league/KLAFantasy_Menus.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_SS1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social23.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social24.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social25.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_Social38.jpg"
+            }
+          ]
+        },
+        {
           "id": "challenge-2",
           "type": "challenge",
           "enabled": true,
@@ -103,50 +147,6 @@
           ]
         },
         {
-          "id": "gallery-5",
-          "type": "gallery",
-          "enabled": true,
-          "title": "UI & Gameplay",
-          "layout": "masonry",
-          "items": [
-            {
-              "type": "video",
-              "url": "/resources/kings-league/KLAFantasy_Gameplay.mp4",
-              "poster": "/resources/kings-league/KLAFantasy_Gameplay.jpg"
-            },
-            {
-              "type": "video",
-              "url": "/resources/kings-league/KLAFantasy_PackOpening.mp4",
-              "poster": "/resources/kings-league/KLAFantasy_PackOpening.jpg"
-            },
-            {
-              "type": "video",
-              "url": "/resources/kings-league/KLAFantasy_Menus.mp4",
-              "poster": "/resources/kings-league/KLAFantasy_Menus.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/kings-league/KLAFantasy_SS1.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/kings-league/KLAFantasy_Social23.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/kings-league/KLAFantasy_Social24.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/kings-league/KLAFantasy_Social25.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/kings-league/KLAFantasy_Social38.jpg"
-            }
-          ]
-        },
-        {
           "id": "conclusion-6",
           "type": "conclusion",
           "enabled": true,
@@ -191,6 +191,39 @@
           "title": "All about Hosting Wells",
           "body": "Hosting Wells is a company specialized in the installation of elevators with German technology. We custom-built their official website: a modern, professional and responsive platform that clearly communicates their competitive advantages, services, guarantees and experience in the sector.",
           "image": ""
+        },
+        {
+          "id": "gallery-hostingwells-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "The site",
+          "layout": "grid",
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_3.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_3.jpg"
+            }
+          ]
         },
         {
           "id": "challenge-mpxmt44l-2",
@@ -248,39 +281,6 @@
           ]
         },
         {
-          "id": "gallery-hostingwells-1",
-          "type": "gallery",
-          "enabled": true,
-          "title": "The site",
-          "layout": "grid",
-          "items": [
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWells_1.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWells_2.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWells_3.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWellsV2_1.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWellsV2_2.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWellsV2_3.jpg"
-            }
-          ]
-        },
-        {
           "id": "conclusion-mpxmt44l-5",
           "type": "conclusion",
           "enabled": true,
@@ -326,6 +326,24 @@
           "title": "All about Copa Record",
           "body": "Copa Record is a nationwide soccer tournament by Record Mexico that promotes the sport and crowns the best team in the country. We designed its official mascot — created to represent the energy, passion and competitive spirit of the event, connecting with players and fans alike.",
           "image": ""
+        },
+        {
+          "id": "gallery-c",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Mascot & prototype",
+          "layout": "grid",
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/record/CopaRecord_Mascot.png"
+            },
+            {
+              "type": "video",
+              "url": "/resources/record/CopaRecord_Map.mp4",
+              "poster": "/resources/record/CopaRecord_Map.jpg"
+            }
+          ]
         },
         {
           "id": "challenge-9",
@@ -379,24 +397,6 @@
           ]
         },
         {
-          "id": "gallery-c",
-          "type": "gallery",
-          "enabled": true,
-          "title": "Mascot & prototype",
-          "layout": "grid",
-          "items": [
-            {
-              "type": "image",
-              "url": "/resources/record/CopaRecord_Mascot.png"
-            },
-            {
-              "type": "video",
-              "url": "/resources/record/CopaRecord_Map.mp4",
-              "poster": "/resources/record/CopaRecord_Map.jpg"
-            }
-          ]
-        },
-        {
           "id": "conclusion-d",
           "type": "conclusion",
           "enabled": true,
@@ -442,6 +442,56 @@
           "title": "All about Mundo Premier",
           "body": "We developed two dynamics for Aeromexico Rewards (formerly Club Premier) members, focused on building loyalty and letting them redeem points for prizes such as all-expense-paid trips. Mundo Premier was carried out in collaboration with Santander as part of the Toma Todo program.",
           "image": ""
+        },
+        {
+          "id": "gallery-mpyho3qe-2",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Gallery",
+          "layout": "masonry",
+          "items": [
+            {
+              "type": "video",
+              "url": "/resources/club-premier/MundoPremier_Video.mp4",
+              "poster": "/resources/club-premier/MundoPremier_SS9.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/MundoPremier_SS2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/MundoPremier_SS3.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/MundoPremier_SS5.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/MundoPremier_SS6.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/MundoPremier_SS7.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/MundoPremier_SS8.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/MundoPremier_SS9.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/TransfiereYViaja_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/club-premier/TransfiereYViaja_2.jpg"
+            }
+          ]
         },
         {
           "id": "challenge-g",
@@ -525,56 +575,6 @@
           ]
         },
         {
-          "id": "gallery-mpyho3qe-2",
-          "type": "gallery",
-          "enabled": true,
-          "title": "Gallery",
-          "layout": "masonry",
-          "items": [
-            {
-              "type": "video",
-              "url": "/resources/club-premier/MundoPremier_Video.mp4",
-              "poster": "/resources/club-premier/MundoPremier_SS9.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/MundoPremier_SS2.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/MundoPremier_SS3.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/MundoPremier_SS5.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/MundoPremier_SS6.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/MundoPremier_SS7.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/MundoPremier_SS8.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/MundoPremier_SS9.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/TransfiereYViaja_1.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/club-premier/TransfiereYViaja_2.jpg"
-            }
-          ]
-        },
-        {
           "id": "conclusion-k",
           "type": "conclusion",
           "enabled": true,
@@ -622,6 +622,39 @@
           "title": "All about Jokeland",
           "body": "Jokeland is a mobile game created to connect with new audiences and expand the Pepito cartoon universe. Users learn the story of the characters in an interactive way, and the game works as a direct sequel to the animated series developed for social media.",
           "image": ""
+        },
+        {
+          "id": "gallery-jokeland-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Art & Screens",
+          "layout": "masonry",
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Cover.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen3.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen4.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/jokeland/Jokeland_Screen5.jpg"
+            }
+          ]
         },
         {
           "id": "challenge-mpxngzng-8",
@@ -678,39 +711,6 @@
           ]
         },
         {
-          "id": "gallery-jokeland-1",
-          "type": "gallery",
-          "enabled": true,
-          "title": "Art & Screens",
-          "layout": "masonry",
-          "items": [
-            {
-              "type": "image",
-              "url": "/resources/jokeland/Jokeland_Cover.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/jokeland/Jokeland_Screen1.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/jokeland/Jokeland_Screen2.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/jokeland/Jokeland_Screen3.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/jokeland/Jokeland_Screen4.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/jokeland/Jokeland_Screen5.jpg"
-            }
-          ]
-        },
-        {
           "id": "conclusion-mpxngzng-b",
           "type": "conclusion",
           "enabled": true,
@@ -756,6 +756,25 @@
           "title": "All about Club Pepito",
           "body": "Club Pepito was an interactive project designed to position the Pepito brand among new audiences through an online mini-game fair. Users earned tickets by playing and could redeem them for physical branded products and other rewards.",
           "image": ""
+        },
+        {
+          "id": "gallery-clubpepito-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Mini-games",
+          "layout": "grid",
+          "items": [
+            {
+              "type": "video",
+              "url": "/resources/pepito-jr/ClubPepito_CorrePepito.mp4",
+              "poster": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg"
+            },
+            {
+              "type": "video",
+              "url": "/resources/pepito-jr/ClubPepito_AguasConLaLava.mp4",
+              "poster": "/resources/pepito-jr/ClubPepito_AguasConLaLava.jpg"
+            }
+          ]
         },
         {
           "id": "challenge-mpxnmpph-e",
@@ -808,25 +827,6 @@
             {
               "heading": "Loyalty loop",
               "body": "Play, earn tickets, redeem rewards: the fair turned brand exposure into a repeatable loop that kept users coming back."
-            }
-          ]
-        },
-        {
-          "id": "gallery-clubpepito-1",
-          "type": "gallery",
-          "enabled": true,
-          "title": "Mini-games",
-          "layout": "grid",
-          "items": [
-            {
-              "type": "video",
-              "url": "/resources/pepito-jr/ClubPepito_CorrePepito.mp4",
-              "poster": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg"
-            },
-            {
-              "type": "video",
-              "url": "/resources/pepito-jr/ClubPepito_AguasConLaLava.mp4",
-              "poster": "/resources/pepito-jr/ClubPepito_AguasConLaLava.jpg"
             }
           ]
         },
