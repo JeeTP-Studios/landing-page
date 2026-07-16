@@ -105,10 +105,15 @@
         {
           "id": "gallery-5",
           "type": "gallery",
-          "enabled": false,
+          "enabled": true,
           "title": "UI Design",
           "layout": "grid",
-          "items": []
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/kings-league/KLAFantasy_SS1.jpg"
+            }
+          ]
         },
         {
           "id": "conclusion-6",
@@ -152,8 +157,8 @@
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about the project",
-          "body": "A short overview of what this project is about.",
+          "title": "All about Hosting Wells",
+          "body": "Hosting Wells is a company specialized in the installation of elevators with German technology. We custom-built their official website: a modern, professional and responsive platform that clearly communicates their competitive advantages, services, guarantees and experience in the sector.",
           "image": ""
         },
         {
@@ -161,15 +166,17 @@
           "type": "challenge",
           "enabled": true,
           "title": "Challenge / Problem statement",
-          "intro": "Cuál era el reto o problema a resolver.",
+          "intro": "Hosting Wells needed a web presence that matched the quality of their engineering: their advantages, guarantees and track record weren't coming through online.",
           "problems": [
-            "Problema 1",
-            "Problema 2"
+            "The previous presence didn't reflect the company's quality and experience",
+            "Services and guarantees weren't clearly communicated",
+            "The site wasn't responsive or easy to update"
           ],
-          "approachTitle": "Solución",
+          "approachTitle": "Solution",
           "approach": [
-            "Cómo lo abordamos 1",
-            "Cómo lo abordamos 2"
+            "A modern, professional and fully responsive platform",
+            "Clear structure for services, guarantees and industry experience",
+            "A focus on efficiency, quality and specialized attention"
           ],
           "images": []
         },
@@ -204,8 +211,8 @@
           "title": "Methodology",
           "items": [
             {
-              "heading": "Stage",
-              "body": "What happened at this stage."
+              "heading": "Positioning",
+              "body": "The new site presents Hosting Wells as a specialized, reliable partner — German technology, clear guarantees and specialized attention front and center."
             }
           ]
         },
@@ -214,7 +221,7 @@
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "The final result and its impact.",
+          "body": "A clean, professional website that finally communicates Hosting Wells' competitive advantages. A second, more ambitious redesign (v2) is already in development.",
           "image": ""
         },
         {
@@ -252,8 +259,8 @@
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about Kings League",
-          "body": "Plataforma de fantasy sports para conectar a los fans con la liga con drafts y competencia en vivo.",
+          "title": "All about Copa Record",
+          "body": "Copa Record is a nationwide soccer tournament by Record Mexico that promotes the sport and crowns the best team in the country. We designed its official mascot — created to represent the energy, passion and competitive spirit of the event, connecting with players and fans alike.",
           "image": ""
         },
         {
@@ -261,13 +268,13 @@
           "type": "challenge",
           "enabled": true,
           "title": "Challenge / Problem statement",
-          "intro": "Construir una plataforma de fantasy que mantenga a los fans activos durante toda la temporada.",
+          "intro": "Record needed an identity piece that could connect with players and fans nationwide, work across commercial materials and scale to future sports projects.",
           "problems": [],
           "approachTitle": "Solution",
           "approach": [
-            "Drafts y armado de equipos.",
-            "Puntajes en vivo.",
-            "Competencia entre usuarios y ligas privadas."
+            "A mascot that embodies the energy, passion and competitive spirit of the tournament",
+            "Versatile design ready for commercial use and scalable across sports projects",
+            "An interactive map prototype to plan courts, advertising and key areas of the event"
           ],
           "images": []
         },
@@ -279,19 +286,19 @@
           "steps": [
             [
               "01",
-              "Research"
+              "Brief & research"
             ],
             [
               "02",
-              "Wireframing"
+              "Concepts & sketches"
             ],
             [
               "03",
-              "Development"
+              "Refinement"
             ],
             [
               "04",
-              "Testing"
+              "Final art & delivery"
             ]
           ]
         },
@@ -303,24 +310,29 @@
           "items": [
             {
               "heading": "Impact",
-              "body": "Mayor tiempo de permanencia y comunidad activa de fans."
+              "body": "The mascot became the face of the tournament across its materials, and the interactive map prototype — presented to Club Deportivo Pachuca — helped plan courts, estimate advertising and propose ideas for key areas like the food court."
             }
           ]
         },
         {
           "id": "gallery-c",
           "type": "gallery",
-          "enabled": false,
-          "title": "UI Design",
+          "enabled": true,
+          "title": "Mascot",
           "layout": "grid",
-          "items": []
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/record/Record.png"
+            }
+          ]
         },
         {
           "id": "conclusion-d",
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "Una plataforma que convirtio a los espectadores en participantes activos de la liga.",
+          "body": "A mascot ready for commercial use and scalable to more sports projects, plus an interactive map that made integral event planning easier.",
           "image": ""
         },
         {
@@ -520,7 +532,7 @@
       "angle": 140,
       "opacity": 1,
       "accent": "#7c5cff",
-      "category": "Website",
+      "category": "Mobile Game",
       "duration": "1 month",
       "year": "2025",
       "location": "Mexico",
@@ -530,7 +542,7 @@
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about the project",
+          "title": "All about Jokeland",
           "body": "Jokeland is a mobile game created to connect with new audiences and expand the Pepito cartoon universe. Users learn the story of the characters in an interactive way, and the game works as a direct sequel to the animated series developed for social media.",
           "image": ""
         },
@@ -539,15 +551,16 @@
           "type": "challenge",
           "enabled": true,
           "title": "Challenge / Problem statement",
-          "intro": "Cuál era el reto o problema a resolver.",
+          "intro": "The Pepito brand wanted to reach new audiences and extend its cartoon universe beyond the animated series on social media.",
           "problems": [
-            "Problema 1",
-            "Problema 2"
+            "The audience was limited to followers of the social media series",
+            "Fans had no way to go deeper into the characters' stories"
           ],
-          "approachTitle": "Solución",
+          "approachTitle": "Solution",
           "approach": [
-            "Cómo lo abordamos 1",
-            "Cómo lo abordamos 2"
+            "A mobile game that works as a direct sequel to the animated series",
+            "Interactive storytelling so players learn each character's story",
+            "Casual mechanics designed for broad audiences"
           ],
           "images": []
         },
@@ -582,8 +595,8 @@
           "title": "Methodology",
           "items": [
             {
-              "heading": "Stage",
-              "body": "What happened at this stage."
+              "heading": "Engagement",
+              "body": "Players discover the characters' stories through play, identify with them and keep the universe alive between episodes of the series."
             }
           ]
         },
@@ -592,7 +605,7 @@
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "The final result and its impact.",
+          "body": "Jokeland extended the Pepito universe into an interactive format and connected the brand with new audiences as a direct sequel to the animated series.",
           "image": ""
         },
         {
@@ -606,7 +619,7 @@
     },
     {
       "id": "proyecto-mpxnmppg",
-      "name": "Pepito Jr",
+      "name": "Club Pepito",
       "ghost": "PEPITO",
       "mono": "",
       "img": "/resources/pepito-jr/PepitoJr.png",
@@ -620,7 +633,7 @@
       "angle": 140,
       "opacity": 1,
       "accent": "#7c5cff",
-      "category": "Website",
+      "category": "Interactive Experience",
       "duration": "1 month",
       "year": "2025",
       "location": "Mexico",
@@ -630,7 +643,7 @@
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about the project",
+          "title": "All about Club Pepito",
           "body": "Club Pepito was an interactive project designed to position the Pepito brand among new audiences through an online mini-game fair. Users earned tickets by playing and could redeem them for physical branded products and other rewards.",
           "image": ""
         },
@@ -639,15 +652,16 @@
           "type": "challenge",
           "enabled": true,
           "title": "Challenge / Problem statement",
-          "intro": "Cuál era el reto o problema a resolver.",
+          "intro": "Pepito needed to position the brand with new audiences and turn passive exposure into active engagement.",
           "problems": [
-            "Problema 1",
-            "Problema 2"
+            "Traditional advertising wasn't generating engagement with new audiences",
+            "The brand needed a reason for users to come back"
           ],
-          "approachTitle": "Solución",
+          "approachTitle": "Solution",
           "approach": [
-            "Cómo lo abordamos 1",
-            "Cómo lo abordamos 2"
+            "An online mini-game fair (Corre Pepito, Aguas con la Lava and more)",
+            "A ticket system: play, earn tickets, redeem them for physical branded products",
+            "A trailer and social media push to drive traffic to the fair"
           ],
           "images": []
         },
@@ -682,8 +696,8 @@
           "title": "Methodology",
           "items": [
             {
-              "heading": "Stage",
-              "body": "What happened at this stage."
+              "heading": "Loyalty loop",
+              "body": "Play, earn tickets, redeem rewards: the fair turned brand exposure into a repeatable loop that kept users coming back."
             }
           ]
         },
@@ -692,7 +706,7 @@
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "The final result and its impact.",
+          "body": "Club Pepito turned brand positioning into play: users engaged with the mini-games and redeemed tickets for physical branded rewards, driving repeat visits.",
           "image": ""
         },
         {

@@ -86,7 +86,7 @@ function Challenge({ s }: { s: ChallengeSection }) {
         <div className="cs-cols">
           {s.problems.length > 0 && (
             <div>
-              <h3>El reto</h3>
+              <h3>The challenge</h3>
               <ul>
                 {s.problems.map((x, i) => (
                   <li key={i}>{x}</li>
