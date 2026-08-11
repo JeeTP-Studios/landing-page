@@ -1,110 +1,68 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import { useSite } from "@/content/ContentContext";
-import { grad } from "@/lib/style";
-import { useReveal } from "@/hooks/useReveal";
-import { useCrumb } from "@/components/layout/LayoutContext";
-import ScrollCue from "@/components/common/ScrollCue";
-import RowScroller from "@/components/common/RowScroller";
+import PageHero from "@/components/common/PageHero";
+import { Reveal, RevealItem, RevealList } from "@/components/common/Reveal";
 import ClientsBlock from "@/components/common/ClientsBlock";
-import NewsBlock from "@/components/common/NewsBlock";
 import Footer from "@/components/layout/Footer";
-
-const WHO_COLORS = ["#2ea3d8", "#ff3b3b", "#c44bff", "#ff7a2e", "#1fc7c7", "#7c5cff"];
 
 export default function Services() {
   const site = useSite();
   const s = site.servicesPage;
-  useCrumb(
-    <>
-      <Link to="/">HOME</Link> › <span className="on">SERVICES</span>
-    </>
-  );
-  useReveal([s]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <>
-      <section className="phero">
-        <div
-          className="ov"
-          style={{ background: grad(s.hero), opacity: s.hero.opacity }}
-        />
-        <div className="pin-content">
-          <div className="eye">{s.hero.eyebrow}</div>
-          <h1>{s.hero.title}</h1>
-        </div>
-        <ScrollCue id="scir" />
-      </section>
+      <PageHero eyebrow={s.hero.eyebrow} title={s.hero.title} tint={s.hero} />
 
+      {/* Capability groups. Each group is one chunk with its own set of
+          deliverables, rather than one long undifferentiated list. */}
       <section className="sect">
         <div className="wrap">
-          <div className="svcwrap">
-            <div className="svctitle reveal">
-              <h2>{site.ui.servicesPageTitle}</h2>
-            </div>
-            <div className="reveal">
-              {s.groups.map((g, i) => (
-                <div className="svcg" key={i}>
-                  <div className="num">{g.num}</div>
-                  <h3>{g.title}</h3>
-                  <div className="links">
-                    {(g.links || []).map((l, li) => (
-                      <Link to="/contact" key={li}>
-                        {l} <span className="ar">↗</span>
-                      </Link>
-                    ))}
-                  </div>
+          <RevealList className="groups" amount={0.08}>
+            {s.groups.map((g) => (
+              <RevealItem className="group" key={g.title}>
+                <span className="group-num num">{g.num}</span>
+                <h3 className="group-title">{g.title}</h3>
+                <div className="group-links">
+                  {(g.links || []).map((l) => (
+                    <Link className="group-link" to="/contact" key={l}>
+                      {l}
+                      <ArrowUpRight size={13} weight="bold" />
+                    </Link>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
+              </RevealItem>
+            ))}
+          </RevealList>
         </div>
       </section>
 
       {s.who.enabled && (
-        <section className="sect">
+        <section className="sect who">
           <div className="wrap">
-            <div className="head reveal">
-              <div>
-                <h2 style={{ fontSize: "clamp(28px,4vw,52px)" }}>
-                  {s.who.heading}
-                </h2>
-                <p
-                  style={{
-                    color: "var(--muted)",
-                    maxWidth: "60ch",
-                    marginTop: 16,
-                  }}
-                >
-                  {s.who.body}
-                </p>
-              </div>
-            </div>
-            <RowScroller className="whorow">
-              {s.who.cards.map((w, i) => (
-                <div className="whocard" key={i}>
-                  <div
-                    className="wov"
-                    style={{
-                      background: `linear-gradient(150deg, ${
-                        WHO_COLORS[i % WHO_COLORS.length]
-                      }, #06182e)`,
-                    }}
-                  />
-                  {w.img ? <img src={w.img} alt={w.title} /> : null}
-                  <h3>{w.title}</h3>
-                </div>
-              ))}
-            </RowScroller>
+            <Reveal className="who-head">
+              <h2>{s.who.heading}</h2>
+              <p>{s.who.body}</p>
+            </Reveal>
           </div>
+          <RevealList className="who-row" amount={0.1}>
+            {s.who.cards.map((w, i) => (
+              <RevealItem className={`who-card notch who-card-${i % 3}`} key={w.title}>
+                {w.img ? <img src={w.img} alt="" loading="lazy" /> : null}
+                <span className="who-scrim" />
+                <h3>{w.title}</h3>
+              </RevealItem>
+            ))}
+          </RevealList>
         </section>
       )}
 
       <ClientsBlock title={s.clientsTitle} />
-      <NewsBlock enabled={s.news.enabled} />
       <Footer />
     </>
   );

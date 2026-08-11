@@ -1,7 +1,7 @@
 {
   "brand": {
     "name": "JEETP STUDIOS",
-    "tagline": "SOFTWARE FACTORY",
+    "tagline": "SOFTWARE DEVELOPMENT",
     "logoType": "image",
     "logoImg": "/resources/logos/jeetp-logo-transparent.png"
   },
@@ -10,13 +10,23 @@
     "url": ""
   },
   "hero": {
-    "eyebrow": "The present",
-    "title": "We are a digital agency that helps brands grow without limits",
-    "gradA": "#7c5cff",
-    "gradB": "#06182e",
+    "eyebrow": "Software development agency",
+    "title": "We build custom software",
+    "gradA": "#3fa9f5",
+    "gradB": "#0b1220",
     "angle": 140,
     "opacity": 1,
-    "href": "/about"
+    "href": "/case-studies",
+    "lead": "We build",
+    "titles": [
+      "custom software",
+      "web platforms",
+      "mobile apps",
+      "internal tools",
+      "what you need"
+    ],
+    "sub": "You bring the problem. We design the software that solves it, build it, and stay on after launch.",
+    "chips": []
   },
   "projects": [
     {
@@ -48,7 +58,7 @@
           "enabled": true,
           "label": "Overview",
           "title": "All about KLA Fantasy",
-          "body": "A modern fantasy platform for the Kings League Americas: users build their ideal teams with player cards, compete every day and win tickets they can exchange for prizes like signed jerseys, exclusive experiences, trips and official merchandise — all inside an intuitive, dynamic platform designed so everyone has a chance to win.",
+          "body": "A modern fantasy platform for the Kings League Americas: users build their ideal teams with player cards, compete every day and win tickets they can exchange for prizes like signed jerseys, exclusive experiences, trips and official merchandise, all inside an intuitive, dynamic platform designed so everyone has a chance to win.",
           "image": ""
         },
         {
@@ -161,7 +171,10 @@
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ]
+      ],
+      "detailVariant": "bold",
+      "heroMode": "custom",
+      "heroImage": "/resources/kings-league/KLAFantasy_SS1.jpg"
     },
     {
       "id": "proyecto-mpxmt44l",
@@ -276,7 +289,7 @@
           "items": [
             {
               "heading": "Positioning",
-              "body": "The new site presents Hosting Wells as a specialized, reliable partner — German technology, clear guarantees and specialized attention front and center."
+              "body": "The new site presents Hosting Wells as a specialized, reliable partner: German technology, clear guarantees and specialized attention front and center."
             }
           ]
         },
@@ -295,7 +308,10 @@
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ]
+      ],
+      "detailVariant": "standard",
+      "heroMode": "custom",
+      "heroImage": "/resources/hosting-wells/HostingWellsV2_2.jpg"
     },
     {
       "id": "kings-league",
@@ -324,7 +340,7 @@
           "enabled": true,
           "label": "Overview",
           "title": "All about Copa Record",
-          "body": "Copa Record is a nationwide soccer tournament by Record Mexico that promotes the sport and crowns the best team in the country. We designed its official mascot — created to represent the energy, passion and competitive spirit of the event, connecting with players and fans alike.",
+          "body": "Copa Record is a nationwide soccer tournament by Record Mexico that promotes the sport and crowns the best team in the country. We designed its official mascot, created to represent the energy, passion and competitive spirit of the event, connecting with players and fans alike.",
           "image": ""
         },
         {
@@ -392,7 +408,7 @@
           "items": [
             {
               "heading": "Impact",
-              "body": "The mascot became the face of the tournament across its materials, and the interactive map prototype — presented to Club Deportivo Pachuca — helped plan courts, estimate advertising and propose ideas for key areas like the food court."
+              "body": "The mascot became the face of the tournament across its materials, and the interactive map prototype, presented to Club Deportivo Pachuca, helped plan courts, estimate advertising and propose ideas for key areas like the food court."
             }
           ]
         },
@@ -411,7 +427,10 @@
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ]
+      ],
+      "detailVariant": "editorial",
+      "heroMode": "custom",
+      "heroImage": "/resources/record/CopaRecord_Mascot.png"
     },
     {
       "id": "retail-experience",
@@ -509,7 +528,7 @@
           ],
           "approachTitle": "Solution",
           "approach": [
-            "From day one, we offered a comprehensive solution in which the development timeline was tailored to the client’s desired launch schedule—in this case, a two-month timeline for public launch, with zero margin for error during the launch.",
+            "From day one, we offered a comprehensive solution in which the development timeline was tailored to the client's desired launch schedule. In this case, a two-month timeline for public launch, with zero margin for error during the launch.",
             "Through constant communication with the client throughout the development process, extensive testing in a staging environment, and stress testing to handle high traffic volumes, we successfully achieved our goal."
           ],
           "images": []
@@ -591,7 +610,8 @@
         }
       ],
       "heroMode": "custom",
-      "heroImage": "/resources/club-premier/MundoPremier_SS1.jpg"
+      "heroImage": "/resources/club-premier/MundoPremier_SS1.jpg",
+      "detailVariant": "bold"
     },
     {
       "id": "proyecto-mpxngzng",
@@ -725,7 +745,10 @@
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ]
+      ],
+      "detailVariant": "editorial",
+      "heroMode": "custom",
+      "heroImage": "/resources/jokeland/Jokeland_Cover.jpg"
     },
     {
       "id": "proyecto-mpxnmppg",
@@ -737,7 +760,7 @@
         "App",
         "Gaming"
       ],
-      "desc": "An online mini-game fair that positioned the Pepito brand with new audiences — play, earn tickets and redeem branded rewards.",
+      "desc": "An online mini-game fair that positioned the Pepito brand with new audiences: play, earn tickets and redeem branded rewards.",
       "gradA": "#8fe561",
       "gradB": "#fcb105",
       "angle": 140,
@@ -845,64 +868,72 @@
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ]
+      ],
+      "detailVariant": "standard",
+      "heroMode": "custom",
+      "heroImage": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg"
     }
   ],
   "highlighted": {
     "enabled": true,
     "label": "Case studies",
-    "title": "Featured Projects",
-    "gradA": "#0e0636",
-    "gradB": "#0b042a",
+    "title": "Selected work",
+    "gradA": "#0e1015",
+    "gradB": "#08090c",
     "angle": 160,
     "opacity": 1
   },
   "services": {
     "enabled": true,
     "label": "Services",
-    "title": "Everything your brand needs to build",
-    "gradA": "#0b042a",
-    "gradB": "#0b042a",
+    "title": "No two projects here look the same",
+    "gradA": "#08090c",
+    "gradB": "#08090c",
     "angle": 160,
     "opacity": 1,
     "items": [
       {
-        "h": "Interactive Experiences",
-        "a": "Activations and dives",
-        "b": "Web · Mobile · AR",
-        "color": "#ff2e76"
+        "h": "Custom software",
+        "a": "Systems built around how your business actually works",
+        "b": "Architecture · Integrations",
+        "color": "#3fa9f5",
+        "img": "/resources/hosting-wells/HostingWellsV2_2.jpg"
       },
       {
-        "h": "Videogames",
-        "a": "Gaming for brands and entertainment",
-        "b": "Gamificacion · Engagement",
-        "color": "#2563d8"
-      },
-      {
-        "h": "Apps & Web",
-        "a": "Custom Products",
+        "h": "Web and mobile apps",
+        "a": "iOS, Android and the browser",
         "b": "iOS · Android · Web",
-        "color": "#7c4dff"
+        "color": "#2a9787",
+        "img": "/resources/kings-league/KLAFantasy_SS1.jpg"
       },
       {
-        "h": "Platforms",
-        "a": "Custom software",
+        "h": "Platforms and internal tools",
+        "a": "Dashboards, automation and the plumbing behind them",
         "b": "Dashboards · Automation",
-        "color": "#1fc7c7"
+        "color": "#7c8cff",
+        "img": "/resources/club-premier/MundoPremier_SS1.jpg"
       },
       {
-        "h": "Digital Strategy",
-        "a": "Technology-Driven Marketing",
-        "b": "Marketing Campaigns",
-        "color": "#ff7a2e"
+        "h": "Interactive work and games",
+        "a": "Activations, gamification and branded play",
+        "b": "Web · Mobile · AR",
+        "color": "#f1b74a",
+        "img": "/resources/jokeland/Jokeland_Cover.jpg"
+      },
+      {
+        "h": "Strategy and consulting",
+        "a": "Product direction, and a second opinion on the technical call",
+        "b": "Consulting · Support",
+        "color": "#ff6b4a",
+        "img": "/resources/club-premier/TransfiereYViaja_1.jpg"
       }
     ]
   },
   "clients": {
     "enabled": true,
-    "title": "Our clients",
-    "gradA": "#0e0636",
-    "gradB": "#0b042a",
+    "title": "Trusted by",
+    "gradA": "#0e1015",
+    "gradB": "#08090c",
     "angle": 160,
     "opacity": 1,
     "logos": [
@@ -930,28 +961,38 @@
         "name": "Etomin",
         "img": "/resources/our-clients/etomin.svg"
       }
-    ]
+    ],
+    "whiteLogos": true,
+    "colorOnHover": true
   },
   "faq": {
     "enabled": true,
-    "label": "FAQs",
-    "title": "Frequently asked questions",
-    "gradA": "#0b042a",
-    "gradB": "#0b042a",
+    "label": "FAQ",
+    "title": "Questions we get asked first",
+    "gradA": "#08090c",
+    "gradB": "#08090c",
     "angle": 160,
     "opacity": 1,
     "items": [
       {
-        "q": "What type of businesses that you offer services for?",
-        "a": "As the best design and development factory, we cover all brands from small and big businesses."
+        "q": "What kinds of projects do you take on?",
+        "a": "Anything that ends in working software. Web platforms, mobile apps, internal tools, integrations, e-commerce, and the occasional game or brand activation. If it can be built, it is in scope."
       },
       {
-        "q": "Do you offer custom design and development solutions?",
-        "a": "Yes, our team specialises in crating custom UX sand Software solutions aligned with your brand vision, audience needs, and business objectives.\nWe ensure very project is uniquely designed to deliver measurable results."
+        "q": "Do you work from templates?",
+        "a": "No. We scope every project around the problem in front of us, which is why two clients in the same industry rarely end up with the same system.\nIf an off-the-shelf tool would genuinely serve you better, we will say so instead of billing you the difference."
       },
       {
-        "q": "Who can benefit from our solutions?",
-        "a": "Our services are ideal for business, startups, and individuals looking to improve their digital products or user experiences. We tailor each project to meet specific goals and ensure an impactful user journey. "
+        "q": "How small or large a project do you take?",
+        "a": "From a one-month build to a platform we have run for years. We scale the team to the project rather than the other way round, so a small job does not get a small team's leftovers."
+      },
+      {
+        "q": "Do you work with agencies?",
+        "a": "Often. We are the development team a lot of agencies need without hiring one, either behind the scenes or in front of the client."
+      },
+      {
+        "q": "How does a project start?",
+        "a": "One short call about what you need to happen. We come back with scope, timeline and cost, and once you agree we start building."
       }
     ]
   },
@@ -965,57 +1006,41 @@
   },
   "about": {
     "hero": {
-      "eyebrow": "About Us",
-      "title": "A software development company that builds custom solutions from day one",
-      "gradA": "#0e0636",
+      "eyebrow": "About",
+      "title": "A development team that starts from your problem",
+      "gradA": "#3fa9f5",
       "gradB": "#06182e",
       "angle": 150,
       "opacity": 1
     },
     "intro": {
-      "heading": "Who we are?",
-      "body": "At JeeTP Studios, we design and build custom digital products: interactive experiences, video games, apps, and platforms. We’re a team of developers, designers, and strategists who serve as the technical arm of brands and agencies.\n\nWe operate like a factory, not an agency: with no layers of middlemen or unnecessary overhead. That means lower costs, realistic timelines, and the flexibility to scale according to each project."
+      "heading": "Who we are",
+      "body": "JeeTP Studios builds custom software. Web platforms, mobile apps, internal tools, integrations, and the interactive work some clients need on top. We are developers, designers and strategists acting as the technical team for companies that do not have one, or that need a bigger one for a while.\nThere are no account layers between you and the people writing the code. Cost stays down, timelines stay honest, and we can size a team to a single project instead of a retainer."
     },
     "overview": {
-      "heading": "Overview",
-      "body": "We have developed experiences for loyalty programs, sports leagues, and commercial activations, combining technology with business objectives.\n\nEvery project begins with a brief conversation to understand what needs to be achieved; from there, we define the scope, timeline, and costs, and then we build it."
+      "heading": "What we have built",
+      "body": "Loyalty platforms, sports products, elevator company websites, internal dashboards, commercial activations. Different industries, same job: work out what the business actually needs and build that.\nEvery project starts with one conversation about the problem. From there we set scope, timeline and cost, and then we build it."
     },
     "beliefs": {
-      "heading": "What do we believe in?",
-      "body": "We believe in building products that work for people, not the other way around. From research to design to testing, we don’t stop until we get it right."
+      "heading": "What we believe",
+      "body": "Software should fit the business, not the other way round. Most of the bad systems we get called in to replace were built to a template someone had lying around.\nWhen a project needs something we have never done, we learn it and build it."
     },
     "news": {
       "enabled": false,
-      "title": "En los medios",
-      "logos": [
-        {
-          "name": "MEDIO 1",
-          "img": ""
-        },
-        {
-          "name": "MEDIO 2",
-          "img": ""
-        },
-        {
-          "name": "MEDIO 3",
-          "img": ""
-        },
-        {
-          "name": "MEDIO 4",
-          "img": ""
-        },
-        {
-          "name": "MEDIO 5",
-          "img": ""
-        }
-      ]
-    }
+      "title": "In the press",
+      "logos": []
+    },
+    "gallery": [
+      "/resources/team/team-1.png",
+      "/resources/team/team-2.png",
+      "/resources/team/team-3.png"
+    ]
   },
   "servicesPage": {
     "hero": {
-      "eyebrow": "What we offer",
-      "title": "We create exceptional digital experiences for all industries",
-      "gradA": "#1a0633",
+      "eyebrow": "What we do",
+      "title": "Software built around your problem, not a template",
+      "gradA": "#3fa9f5",
       "gradB": "#06182e",
       "angle": 150,
       "opacity": 1
@@ -1023,102 +1048,104 @@
     "groups": [
       {
         "num": "01",
-        "title": "Interactive Experiences",
+        "title": "Custom software",
         "links": [
-          "Digital activations",
-          "AR experiences",
-          "Gamification",
-          "Interactive installations",
-          "Immersive web",
-          "Experience prototyping"
+          "Web platforms",
+          "Internal tools",
+          "Custom integrations",
+          "API development",
+          "Legacy rebuilds",
+          "Technical architecture"
         ]
       },
       {
         "num": "02",
-        "title": "Videogames",
+        "title": "Mobile and web apps",
         "links": [
-          "Advergaming",
-          "Engagement mechanics",
-          "Loyalty games",
-          "Web-based mini-games",
-          "Game design"
+          "iOS and Android apps",
+          "Progressive web apps",
+          "Cross-platform builds",
+          "App store releases",
+          "Websites and landing pages",
+          "E-commerce"
         ]
       },
       {
         "num": "03",
-        "title": "Apps & Web",
+        "title": "Data and automation",
         "links": [
-          "iOS/Android Apps",
-          "Websites and Landing Pages",
-          "E-commerce",
-          "PWAs",
-          "Custom Integrations"
+          "Client dashboards",
+          "Internal reporting",
+          "Process automation",
+          "Third-party integrations",
+          "Custom back offices"
         ]
       },
       {
         "num": "04",
-        "title": "Custom platforms",
+        "title": "Interactive work and games",
         "links": [
-          "Dashboards",
-          "Automation",
-          "APIs and Integrations",
-          "Internal Dashboards",
-          "Custom Software"
+          "Advergaming",
+          "Gamification",
+          "Loyalty games",
+          "AR experiences",
+          "Digital activations",
+          "Interactive installations"
         ]
       },
       {
         "num": "05",
-        "title": "Digital Strategy",
+        "title": "Strategy and support",
         "links": [
-          "Product Strategy",
-          "Technology-Driven Marketing",
-          "Sales Initiatives",
-          "Technical Consulting"
+          "Product strategy",
+          "Technical consulting",
+          "Maintenance and support",
+          "Team augmentation"
         ]
       }
     ],
     "who": {
       "enabled": true,
-      "heading": "Who we help?",
-      "body": "We work with everyone—from startups to large corporations and agencies—delivering digital products with user experiences that keep people coming back.",
+      "heading": "Who we work with",
+      "body": "Startups, agencies, corporations. Different budgets, same standard for what ships.",
       "cards": [
         {
           "title": "Startups",
-          "img": ""
+          "img": "/resources/jokeland/Jokeland_Screen1.jpg"
         },
         {
           "title": "Agencies",
-          "img": ""
+          "img": "/resources/hosting-wells/HostingWellsV2_2.jpg"
         },
         {
-          "title": "Brands & Retail",
-          "img": ""
+          "title": "Enterprise",
+          "img": "/resources/club-premier/MundoPremier_SS3.jpg"
         },
         {
-          "title": "Sports",
-          "img": ""
+          "title": "Retail and commerce",
+          "img": "/resources/club-premier/TransfiereYViaja_1.jpg"
         },
         {
-          "title": "Events",
-          "img": ""
+          "title": "Sports and entertainment",
+          "img": "/resources/kings-league/KLAFantasy_SS1.jpg"
         }
       ]
     },
-    "clientsTitle": "Our clients",
+    "clientsTitle": "Trusted by",
     "news": {
       "enabled": false
     }
   },
   "cases": {
-    "label": "Case studies · Real projects",
-    "title": "Case Studies"
+    "label": "Work",
+    "title": "Every project, start to finish"
   },
   "contactPage": {
     "hero": {
       "eyebrow": "Contact",
-      "title": "We'd love to hear from you",
-      "sub": "Whether you want to work with us on a new project, learn more about what we do, or just ask us a question.",
-      "gradA": "#1a0633",
+      "title": "Tell us what you are trying to build",
+      "sub": "A new project, a second opinion on one you already started, or just a question about how we work.",
+      "gradA": "#3fa9f5",
       "gradB": "#06182e",
       "angle": 150,
       "opacity": 1
@@ -1133,32 +1160,32 @@
         "flag": "🇲🇽"
       },
       {
-        "name": "Remoto · Worldwide",
+        "name": "Remote worldwide",
         "flag": "🌎"
       }
     ],
-    "interestedTitle": "Are you interested in our services?",
-    "getInTouch": "Tell us a little about your project:"
+    "interestedTitle": "Start a project with us",
+    "getInTouch": "The more you tell us up front, the more useful our first reply will be."
   },
   "ui": {
     "nav": {
       "home": "Home",
-      "about": "About Us",
+      "about": "About",
       "services": "Services",
-      "cases": "Case Studies",
+      "cases": "Work",
       "contact": "Contact"
     },
     "buttons": {
-      "allCases": "All cases studies",
-      "viewServices": "View services",
-      "viewCases": "View cases",
-      "floatLearn": "VIEW CASES",
-      "aboutCases": "Look our cases →"
+      "contact": "Start a project",
+      "work": "See the work",
+      "services": "All services",
+      "viewCase": "View case study",
+      "allWork": "All work"
     },
     "footer": {
       "navTitle": "Navigation",
       "servicesTitle": "Services",
-      "socialTitle": "Follow us",
+      "socialTitle": "Follow",
       "social": [
         {
           "label": "LinkedIn",
@@ -1173,50 +1200,53 @@
           "url": "#"
         }
       ],
-      "ctaText": "Transform and grow your business",
-      "ctaButton": "Work with us",
+      "ctaText": "Tell us the problem. We build what solves it.",
+      "ctaButton": "Start a project",
       "copyright": "© {year} {name}. All rights reserved.",
-      "madeIn": "Made by JeeTP Studios"
+      "madeIn": "Built in-house by JeeTP Studios"
     },
-    "servicesPageTitle": "Our services",
+    "servicesPageTitle": "What we do",
     "faqBox": {
-      "title": "Any more questions?",
-      "body": "If you have any further questions, feel free to contact us anytime.",
-      "button": "Go to contact →"
+      "title": "Still have a question?",
+      "body": "Send it over. We answer within one business day, and we will tell you straight if we are not the right team for it.",
+      "button": "Start a project"
     },
     "caseStudy": {
-      "back": "← Back to cases",
+      "back": "Back to work",
       "specCategory": "Type",
       "specDuration": "Duration",
-      "specMeta": "Year · Place",
-      "upNext": "Up next"
+      "specMeta": "Year and place",
+      "upNext": "Next case study"
     },
     "contactForm": {
       "getInTouch": "Get in touch",
-      "service": "Useful information",
+      "sendWhatsapp": "Send on WhatsApp",
+      "service": "What do you need",
       "name": "Your name",
-      "phone": "Phone number",
+      "phone": "Phone",
       "email": "Email",
-      "company": "Business name",
-      "message": "An overview of your project",
-      "send": "Send message"
+      "company": "Company",
+      "message": "About the project",
+      "send": "Send by email"
     }
   },
   "carousel": {
-    "speedSec": 60
+    "speedSec": 42
   },
   "order": [
-    "highlighted",
-    "services",
     "clients",
+    "highlighted",
+    "stats",
+    "services",
+    "process",
     "faq"
   ],
   "stats": {
     "enabled": true,
-    "label": "The factory in numbers",
-    "title": "Results you can measure",
-    "gradA": "#0e0636",
-    "gradB": "#0b042a",
+    "label": "In numbers",
+    "title": "What four years of building adds up to",
+    "gradA": "#0e1015",
+    "gradB": "#08090c",
     "angle": 160,
     "opacity": 1,
     "items": [
@@ -1239,6 +1269,37 @@
         "value": 120,
         "suffix": "K+",
         "label": "End users reached"
+      }
+    ]
+  },
+  "process": {
+    "enabled": true,
+    "label": "How we work",
+    "title": "From first call to launch",
+    "gradA": "#08090c",
+    "gradB": "#0e1015",
+    "angle": 160,
+    "opacity": 1,
+    "steps": [
+      {
+        "num": "01",
+        "title": "Discover",
+        "body": "One short call to understand the problem, the people who will use it, and the constraints. You leave with scope, timeline and cost, not a proposal deck."
+      },
+      {
+        "num": "02",
+        "title": "Design",
+        "body": "Architecture, UX and visual direction. You react to real screens in the first weeks, not at the end of the project."
+      },
+      {
+        "num": "03",
+        "title": "Build",
+        "body": "Weekly iterations with working software from the first one. You always know exactly where the project stands."
+      },
+      {
+        "num": "04",
+        "title": "Launch and grow",
+        "body": "QA, release and the months after it. We stay on to measure what happened and keep improving the product."
       }
     ]
   }

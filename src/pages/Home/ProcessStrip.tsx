@@ -1,31 +1,38 @@
 import { useSite } from "@/content/ContentContext";
-import { grad } from "@/lib/style";
+import { Reveal, RevealItem, RevealList } from "@/components/common/Reveal";
 
 /**
- * Tira de proceso ("how we work") del home: pasos numerados sobre una línea
- * conectora, con hover que enciende cada paso.
+ * How the work actually runs, as a vertical timeline. The rule on the left is
+ * the spine; each step steps further in, so the sequence is legible at a
+ * glance without numbering the reader through it.
  */
 export default function ProcessStrip() {
   const c = useSite();
   const s = c.process;
-  if (!s.enabled || !s.steps?.length) return null;
+  if (!s?.enabled || !s.steps?.length) return null;
+
   return (
-    <section className="blk process-blk">
-      <div className="blk-ov" style={{ background: grad(s), opacity: s.opacity }} />
+    <section className="sect process">
       <div className="wrap">
-        <div className="lbl reveal">{s.label}</div>
-        <div className="head reveal">
-          <h2>{s.title}</h2>
-        </div>
-        <ol className="proc-grid">
+        <Reveal as="h2" className="process-title">
+          {s.title}
+        </Reveal>
+        <RevealList as="ol" className="process-list" amount={0.12}>
           {s.steps.map((st, i) => (
-            <li className="proc-step reveal" key={i}>
-              <span className="proc-num">{st.num}</span>
-              <h3 className="proc-h">{st.title}</h3>
-              <p className="proc-b">{st.body}</p>
-            </li>
+            <RevealItem
+              as="li"
+              key={st.title}
+              className="process-step"
+              style={{ ["--step" as string]: i }}
+            >
+              <span className="process-num num">{st.num}</span>
+              <div className="process-body">
+                <h3>{st.title}</h3>
+                <p>{st.body}</p>
+              </div>
+            </RevealItem>
           ))}
-        </ol>
+        </RevealList>
       </div>
     </section>
   );

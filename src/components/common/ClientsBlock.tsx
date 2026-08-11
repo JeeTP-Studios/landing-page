@@ -1,28 +1,27 @@
-import { Link } from "react-router-dom";
 import { useSite } from "@/content/ContentContext";
+import { Reveal } from "./Reveal";
 import LogoMarquee from "./LogoMarquee";
 
-/** Bloque de clientes reutilizable (home / servicios): carrusel de logos. */
+/**
+ * Social proof band. Sits under the hero on the home page, never inside it.
+ * A quiet label plus the marks, nothing else.
+ */
 export default function ClientsBlock({ title }: { title: string }) {
-  const { clients, carousel, ui } = useSite();
+  const { clients, carousel } = useSite();
+  if (!clients.logos?.length) return null;
   return (
-    <section className="sect">
+    <section className="sect-tight clients">
       <div className="wrap">
-        <div className="head reveal">
-          <h2 style={{ fontSize: "clamp(28px,4vw,52px)" }}>{title}</h2>
-          <Link to="/case-studies" className="ghost-btn">
-            {ui.buttons.viewCases} <span>→</span>
-          </Link>
-        </div>
+        <Reveal as="p" className="clients-title">
+          {title}
+        </Reveal>
       </div>
-      <div className="wrap">
-        <LogoMarquee
-          logos={clients.logos}
-          speedSec={carousel.speedSec}
-          whiteLogos={clients.whiteLogos}
-          colorOnHover={clients.colorOnHover}
-        />
-      </div>
+      <LogoMarquee
+        logos={clients.logos}
+        speedSec={carousel.speedSec}
+        whiteLogos={clients.whiteLogos}
+        colorOnHover={clients.colorOnHover}
+      />
     </section>
   );
 }

@@ -1,32 +1,35 @@
 import { Link } from "react-router-dom";
+import { ArrowRight } from "@phosphor-icons/react";
 import { useSite } from "@/content/ContentContext";
-import { grad } from "@/lib/style";
+import { Reveal } from "@/components/common/Reveal";
 import Faq from "@/components/common/Faq";
 
 export default function FaqBlock() {
   const c = useSite();
   const s = c.faq;
-  if (!s.enabled) return null;
+  if (!s.enabled || !s.items?.length) return null;
+
   return (
-    <section className="blk">
-      <div
-        className="blk-ov"
-        style={{ background: grad(s), opacity: s.opacity }}
-      />
-      <div className="wrap">
-        <div className="lbl reveal">{s.label}</div>
-        <div className="head reveal">
-          <h2>{s.title}</h2>
+    <section className="sect faq-sect">
+      <div className="wrap faq-grid">
+        <div className="faq-head">
+          <Reveal>
+            <h2>{s.title}</h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="faq-card notch">
+              <h3>{c.ui.faqBox.title}</h3>
+              <p>{c.ui.faqBox.body}</p>
+              <Link to="/contact" className="btn">
+                {c.ui.buttons.contact}
+                <ArrowRight size={16} weight="bold" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
-        <div className="faqgrid reveal">
+        <Reveal delay={0.06}>
           <Faq items={s.items} />
-          <div className="faqbox">
-            <div className="env">✉</div>
-            <h3>{c.ui.faqBox.title}</h3>
-            <p>{c.ui.faqBox.body}</p>
-            <Link to="/contact">{c.ui.faqBox.button}</Link>
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

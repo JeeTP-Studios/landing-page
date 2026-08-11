@@ -1,26 +1,22 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowUpRight } from "@phosphor-icons/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useSite } from "@/content/ContentContext";
-import { grad } from "@/lib/style";
-import { useReveal } from "@/hooks/useReveal";
-import { useTilt } from "@/hooks/useTilt";
-import { useCrumb } from "@/components/layout/LayoutContext";
+import { posterFit, projectPoster } from "@/lib/project";
+import PageHero from "@/components/common/PageHero";
 import Footer from "@/components/layout/Footer";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+/** Column spans, cycled so no two rows have the same rhythm. */
+const SPANS = [7, 5, 5, 7, 6, 6];
 
 export default function Cases() {
   const c = useSite();
   const cs = c.cases;
-  const navigate = useNavigate();
   const [filter, setFilter] = useState("*");
-  const gridRef = useRef<HTMLDivElement>(null);
-  useTilt(gridRef, ".casecard", [c.projects, filter]);
+  const reduce = useReducedMotion();
 
-  useCrumb(
-    <>
-      <Link to="/">HOME</Link> › <span className="on">CASE STUDIES</span>
-    </>
-  );
-  useReveal([c.projects]);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -30,78 +26,113 @@ export default function Cases() {
     [c.projects]
   );
 
+  const shown = useMemo(
+    () =>
+      c.projects.filter(
+        (p) =>
+          filter === "*" ||
+          (p.tags || []).map((t) => t.toLowerCase()).includes(filter)
+      ),
+    [c.projects, filter]
+  );
+
   return (
     <>
-      <section className="pd" style={{ paddingTop: 150 }}>
+      <PageHero eyebrow={cs.label} title={cs.title}>
+        <div className="filters" role="group" aria-label="Filter by discipline">
+          <button
+            type="button"
+            className={`filter ${filter === "*" ? "is-on" : ""}`}
+            onClick={() => setFilter("*")}
+          >
+            {c.ui.buttons.allWork}
+          </button>
+          {allTags.map((t) => {
+            const key = t.toLowerCase();
+            return (
+              <button
+                type="button"
+                key={key}
+                className={`filter ${filter === key ? "is-on" : ""}`}
+                onClick={() => setFilter(key)}
+              >
+                {t}
+              </button>
+            );
+          })}
+        </div>
+      </PageHero>
+
+      <section className="sect-tight">
         <div className="wrap">
-          <div className="lbl reveal">{cs.label}</div>
-          <div className="head reveal" style={{ marginBottom: 24 }}>
-            <h2>{cs.title}</h2>
-          </div>
-          <div className="casefilters reveal">
-            <button
-              className={`chip ${filter === "*" ? "on" : ""}`}
-              onClick={() => setFilter("*")}
-            >
-              Todos
-            </button>
-            {allTags.map((t) => {
-              const key = t.toLowerCase();
-              return (
-                <button
-                  key={key}
-                  className={`chip ${filter === key ? "on" : ""}`}
-                  onClick={() => setFilter(key)}
-                >
-                  {t}
-                </button>
-              );
-            })}
-          </div>
-          <div className="casegrid" ref={gridRef}>
-            {c.projects
-              .filter(
-                (p) =>
-                  filter === "*" ||
-                  (p.tags || []).map((t) => t.toLowerCase()).includes(filter)
-              )
-              .map((p) => (
-                <div
-                  className="casecard"
-                  key={p.id}
-                  onClick={() => navigate(`/case-studies/${p.id}`)}
-                >
-                  <span className="br tl" />
-                  <span className="br tr" />
-                  <span className="br bl" />
-                  <span className="br brr" />
-                  <div className="htags">
-                    {(p.tags || []).slice(0, 3).map((t, i) => (
-                      <span className="t" key={i}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="fill" style={{ background: grad(p) }}>
-                    {p.pattern && p.pattern !== "none" ? (
-                      <span
-                        className={`cardpat pat-${p.pattern}`}
-                        style={{ opacity: p.patternOpacity ?? 0.25 }}
-                      />
-                    ) : null}
-                    {p.img ? (
-                      <img src={p.img} alt={p.name} />
-                    ) : (
-                      <span className="mono2">{p.mono}</span>
-                    )}
-                  </div>
-                  <div className="hn">{p.name}</div>
-                  <div className="hcta">
-                    Ver caso <span>↗</span>
-                  </div>
-                </div>
-              ))}
-          </div>
+          {shown.length === 0 ? (
+            <div className="empty">
+              <h3>Nothing filed under that discipline yet.</h3>
+              <p>
+                It is on the roadmap. In the meantime, the full archive is a
+                click away.
+              </p>
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={() => setFilter("*")}
+              >
+                {c.ui.buttons.allWork}
+              </button>
+            </div>
+          ) : (
+            <div className="case-grid">
+              <AnimatePresence mode="popLayout" initial={false}>
+                {shown.map((p, i) => {
+                  const poster = projectPoster(p);
+                  return (
+                    <motion.article
+                      key={p.id}
+                      layout={!reduce}
+                      className="case-card"
+                      style={{ ["--span" as string]: SPANS[i % SPANS.length] }}
+                      initial={reduce ? false : { opacity: 0, y: 26 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={reduce ? undefined : { opacity: 0, scale: 0.97 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: Math.min(i, 5) * 0.05,
+                        ease: EASE,
+                      }}
+                    >
+                      <Link to={`/case-studies/${p.id}`}>
+                        <span
+                          className="case-media notch"
+                          data-fit={posterFit(poster)}
+                        >
+                          <span
+                            className="case-fill"
+                            style={{
+                              background: `linear-gradient(152deg, ${p.gradA}, ${p.gradB})`,
+                            }}
+                          />
+                          {p.pattern && p.pattern !== "none" ? (
+                            <span
+                              className={`case-pattern pat-${p.pattern}`}
+                              style={{ opacity: p.patternOpacity ?? 0.25 }}
+                            />
+                          ) : null}
+                          {poster ? <img src={poster} alt={p.name} loading="lazy" /> : null}
+                        </span>
+                        <div className="case-foot">
+                          <div>
+                            <h3>{p.name}</h3>
+                            <p>{(p.tags || []).slice(0, 3).join(" / ")}</p>
+                          </div>
+                          <ArrowUpRight size={20} weight="bold" />
+                        </div>
+                      </Link>
+                    </motion.article>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
       </section>
       <Footer />

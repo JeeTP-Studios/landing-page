@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Efecto máquina de escribir en bucle sobre una lista de frases.
- * Escribe una, la mantiene unos segundos, la borra y pasa a la siguiente.
- * Con una sola frase la escribe y la deja fija (cursor parpadeando).
- * Respeta prefers-reduced-motion (muestra la primera sin animar).
+ * Types one phrase, holds it, deletes it, moves to the next. Renders an inline
+ * span so the surrounding heading owns the semantics and the type scale.
+ * Under prefers-reduced-motion it renders the first phrase, statically.
  */
 export default function Typewriter({
   texts,
-  className,
+  className = "",
 }: {
   texts: string[];
   className?: string;
@@ -17,13 +16,11 @@ export default function Typewriter({
   const [out, setOut] = useState(list[0] ?? "");
   const [typing, setTyping] = useState(true);
   const timer = useRef<ReturnType<typeof setTimeout>>();
+  const key = list.join("|");
 
   useEffect(() => {
     if (list.length === 0) return;
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (reduce) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setOut(list[0]);
       return;
     }
@@ -36,18 +33,17 @@ export default function Typewriter({
     const step = () => {
       if (!alive) return;
       const full = list[cur % list.length];
-
       if (phase === "typing") {
         char++;
         setOut(full.slice(0, char));
         setTyping(true);
         if (char >= full.length) {
-          if (list.length === 1) return; // una sola frase: queda fija
+          if (list.length === 1) return;
           phase = "hold";
-          timer.current = setTimeout(step, 2200);
+          timer.current = setTimeout(step, 2400);
           return;
         }
-        timer.current = setTimeout(step, 52 + Math.random() * 45);
+        timer.current = setTimeout(step, 48 + Math.random() * 40);
       } else if (phase === "hold") {
         phase = "deleting";
         setTyping(false);
@@ -58,27 +54,25 @@ export default function Typewriter({
         if (char <= 0) {
           phase = "typing";
           cur++;
-          timer.current = setTimeout(step, 320);
+          timer.current = setTimeout(step, 260);
           return;
         }
-        timer.current = setTimeout(step, 26);
+        timer.current = setTimeout(step, 24);
       }
     };
 
-    timer.current = setTimeout(step, 450);
+    timer.current = setTimeout(step, 500);
     return () => {
       alive = false;
       if (timer.current) clearTimeout(timer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list.join("|")]);
+  }, [key]);
 
   return (
-    <h1 className={className}>
+    <span className={`tw ${className}`}>
       <span className="tw-text">{out}</span>
-      <span className={`tw-caret ${typing ? "typing" : ""}`} aria-hidden>
-        |
-      </span>
-    </h1>
+      <span className={`tw-caret ${typing ? "is-typing" : ""}`} aria-hidden />
+    </span>
   );
 }

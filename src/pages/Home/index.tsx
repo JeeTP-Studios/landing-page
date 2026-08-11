@@ -1,19 +1,18 @@
 import { useEffect } from "react";
 import { useSite } from "@/content/ContentContext";
-import { useReveal } from "@/hooks/useReveal";
-import { useCrumb } from "@/components/layout/LayoutContext";
 import type { HomeSectionKey } from "@/types/content";
 import Footer from "@/components/layout/Footer";
-import PinnedHero from "./PinnedHero";
-import HighlightedBlock from "./HighlightedBlock";
+import ClientsBlock from "@/components/common/ClientsBlock";
+import Hero from "./Hero";
+import WorkRail from "./WorkRail";
 import StatsBand from "./StatsBand";
 import ServicesPreview from "./ServicesPreview";
 import ProcessStrip from "./ProcessStrip";
 import FaqBlock from "./FaqBlock";
-import ClientsBlock from "@/components/common/ClientsBlock";
 
+/** Section order is CMS-controlled; the hero and footer are fixed anchors. */
 const RENDERERS: Record<HomeSectionKey, () => JSX.Element | null> = {
-  highlighted: () => <HighlightedBlock />,
+  highlighted: () => <WorkRail />,
   stats: () => <StatsBand />,
   services: () => <ServicesPreview />,
   process: () => <ProcessStrip />,
@@ -29,8 +28,6 @@ function ClientsWrapper() {
 
 export default function Home() {
   const c = useSite();
-  useCrumb(null, []);
-  useReveal([c.order, c.projects]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,9 +35,9 @@ export default function Home() {
 
   return (
     <>
-      <PinnedHero />
+      <Hero />
       {c.order.map((k) => (
-        <div key={k}>{RENDERERS[k]()}</div>
+        <div key={k}>{RENDERERS[k]?.() ?? null}</div>
       ))}
       <Footer />
     </>

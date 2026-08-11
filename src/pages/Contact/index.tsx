@@ -1,31 +1,31 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { ArrowRight, WhatsappLogo } from "@phosphor-icons/react";
 import { useSite } from "@/content/ContentContext";
-import { grad } from "@/lib/style";
-import { useReveal } from "@/hooks/useReveal";
-import { useCrumb } from "@/components/layout/LayoutContext";
-import ScrollCue from "@/components/common/ScrollCue";
+import PageHero from "@/components/common/PageHero";
+import { Reveal } from "@/components/common/Reveal";
 import Footer from "@/components/layout/Footer";
+
+type Field = "service" | "name" | "phone" | "email" | "company" | "message";
+type Errors = Partial<Record<Field, string>>;
+
+const EMPTY = {
+  service: "",
+  name: "",
+  phone: "",
+  email: "",
+  company: "",
+  message: "",
+};
 
 export default function Contact() {
   const c = useSite();
   const cp = c.contactPage;
+  const F = c.ui.contactForm;
   const [region, setRegion] = useState(0);
-  const [form, setForm] = useState({
-    service: "",
-    name: "",
-    phone: "",
-    email: "",
-    company: "",
-    msg: "",
-  });
+  const [form, setForm] = useState(EMPTY);
+  const [errors, setErrors] = useState<Errors>({});
+  const [sent, setSent] = useState<"whatsapp" | "email" | null>(null);
 
-  useCrumb(
-    <>
-      <Link to="/">HOME</Link> › <span className="on">CONTACT</span>
-    </>
-  );
-  useReveal([cp]);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -34,169 +34,232 @@ export default function Contact() {
     c.contact.mapQuery || c.contact.location
   )}&output=embed`;
 
-  const formText = () =>
-    `Service: ${form.service}\nName: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\nCompany: ${form.company}\n\nProject:\n${form.msg}`;
+  const set = (k: Field) => (e: { target: { value: string } }) => {
+    setForm((f) => ({ ...f, [k]: e.target.value }));
+    setErrors((prev) => (prev[k] ? { ...prev, [k]: undefined } : prev));
+  };
 
-  const validate = () => {
-    if (!form.email && !form.name) {
-      alert("Please enter at least your name or email.");
-      return false;
+  const validate = (): boolean => {
+    const next: Errors = {};
+    if (!form.name.trim()) next.name = "We need a name to reply to.";
+    if (!form.email.trim()) {
+      next.email = "Add an email so we can get back to you.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim())) {
+      next.email = "That email address does not look complete.";
     }
-    return true;
+    if (form.message.trim().length < 12) {
+      next.message = "A sentence or two about the project is enough.";
+    }
+    setErrors(next);
+    return Object.keys(next).length === 0;
   };
 
-  const send = () => {
-    if (!validate()) return;
-    const subj = encodeURIComponent(
-      "New contact from the website" +
-        (form.company ? " — " + form.company : "")
-    );
-    window.location.href = `mailto:${c.contact.email}?subject=${subj}&body=${encodeURIComponent(formText())}`;
-  };
+  const body = () =>
+    [
+      `Service: ${form.service || "Not specified"}`,
+      `Name: ${form.name}`,
+      `Company: ${form.company || "-"}`,
+      `Email: ${form.email}`,
+      `Phone: ${form.phone || "-"}`,
+      "",
+      "Project:",
+      form.message,
+    ].join("\n");
 
-  // WhatsApp: más confiable que mailto (no depende de un cliente de correo
-  // configurado). Usa el número del contacto global.
   const sendWhatsApp = () => {
     if (!validate()) return;
-    const num = (c.contact.whatsapp || c.contact.phone).replace(/[^\d]/g, "");
-    if (!num) return send();
+    const num = (c.contact.whatsapp || c.contact.phone).replace(/\D/g, "");
+    if (!num) return sendEmail();
     window.open(
-      `https://wa.me/${num}?text=${encodeURIComponent(formText())}`,
+      `https://wa.me/${num}?text=${encodeURIComponent(body())}`,
       "_blank",
       "noopener"
     );
+    setSent("whatsapp");
   };
 
-  const set = (k: keyof typeof form) => (e: { target: { value: string } }) =>
-    setForm((f) => ({ ...f, [k]: e.target.value }));
+  const sendEmail = () => {
+    if (!validate()) return;
+    const subject = encodeURIComponent(
+      `New project enquiry${form.company ? ` from ${form.company}` : ""}`
+    );
+    window.location.href = `mailto:${c.contact.email}?subject=${subject}&body=${encodeURIComponent(
+      body()
+    )}`;
+    setSent("email");
+  };
+
+  const field = (
+    k: Field,
+    label: string,
+    type: "text" | "email" | "tel" = "text",
+    hint?: string
+  ) => (
+    <div className="field">
+      <label htmlFor={`f-${k}`}>{label}</label>
+      <input
+        id={`f-${k}`}
+        type={type}
+        value={form[k]}
+        onChange={set(k)}
+        aria-invalid={!!errors[k]}
+        aria-describedby={errors[k] ? `e-${k}` : hint ? `h-${k}` : undefined}
+      />
+      {errors[k] ? (
+        <span className="field-error" id={`e-${k}`} role="alert">
+          {errors[k]}
+        </span>
+      ) : hint ? (
+        <span className="field-hint" id={`h-${k}`}>
+          {hint}
+        </span>
+      ) : null}
+    </div>
+  );
 
   return (
     <>
-      <section className="phero">
-        <div
-          className="ov"
-          style={{ background: grad(cp.hero), opacity: cp.hero.opacity }}
-        />
-        <div className="pin-content">
-          <div className="eye">{cp.hero.eyebrow}</div>
-          <h1>{cp.hero.title}</h1>
-          <p className="sub">{cp.hero.sub}</p>
-          <div className="cregion" style={{ marginTop: 40 }}>
-            {cp.regions.map((r, i) => (
-              <button
-                key={i}
-                className={i === region ? "on" : ""}
-                onClick={() => setRegion(i)}
-              >
-                {r.flag ? <span>{r.flag}</span> : null}
-                {r.name}
-              </button>
-            ))}
-          </div>
+      <PageHero
+        eyebrow={cp.hero.eyebrow}
+        title={cp.hero.title}
+        sub={cp.hero.sub}
+        tint={cp.hero}
+      >
+        <div className="regions" role="group" aria-label="Where you are">
+          {cp.regions.map((r, i) => (
+            <button
+              type="button"
+              key={r.name}
+              className={`filter ${i === region ? "is-on" : ""}`}
+              onClick={() => setRegion(i)}
+            >
+              {r.flag ? <span aria-hidden>{r.flag}</span> : null}
+              {r.name}
+            </button>
+          ))}
         </div>
-        <ScrollCue id="ccir" />
+      </PageHero>
+
+      <section className="sect-tight">
+        <div className="wrap contact-info">
+          <Reveal className="contact-details">
+            <h3>{c.brand.name}</h3>
+            <span className="foot-line">Address</span>
+            <span className="foot-val">{c.contact.address}</span>
+            <span className="foot-line">Email</span>
+            <a className="foot-val" href={`mailto:${c.contact.email}`}>
+              {c.contact.email}
+            </a>
+            <span className="foot-line">Phone and WhatsApp</span>
+            <span className="foot-val">{c.contact.phone}</span>
+          </Reveal>
+          <Reveal delay={0.08} className="contact-map notch">
+            <iframe
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={mapSrc}
+              title={`Map of ${c.contact.location}`}
+            />
+          </Reveal>
+        </div>
       </section>
 
       <section className="sect">
-        <div className="wrap">
-          <div className="cinfo reveal">
-            <div>
-              <h3>{c.brand.name}</h3>
-              <div className="ci-lbl">Address</div>
-              <div className="ci-v">{c.contact.address}</div>
-              <div className="ci-lbl">E-mail</div>
-              <div className="ci-v">{c.contact.email}</div>
-              <div className="ci-lbl">Phone · WhatsApp</div>
-              <div className="ci-v">{c.contact.phone}</div>
-            </div>
-            <div className="cmap">
-              <iframe
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                src={mapSrc}
-                title="map"
-              />
-            </div>
-          </div>
+        <div className="wrap contact-grid">
+          <Reveal>
+            <h2 className="contact-title">{cp.interestedTitle}</h2>
+            <p className="lede">{cp.getInTouch}</p>
+          </Reveal>
 
-          <div className="cgrid reveal">
-            <div>
-              <h2>{cp.interestedTitle}</h2>
-            </div>
-            <div className="cform">
-              <span
-                className="br tl"
-                style={{
-                  position: "absolute",
-                  top: 14,
-                  left: 14,
-                  width: 22,
-                  height: 22,
-                  border: "2px solid var(--line-2)",
-                  borderRight: 0,
-                  borderBottom: 0,
-                }}
-              />
-              <span
-                className="br brr"
-                style={{
-                  position: "absolute",
-                  bottom: 14,
-                  right: 14,
-                  width: 22,
-                  height: 22,
-                  border: "2px solid var(--line-2)",
-                  borderLeft: 0,
-                  borderTop: 0,
-                }}
-              />
-              <div className="git">{c.ui.contactForm.getInTouch}</div>
-              <div className="gsub">{cp.getInTouch}</div>
-              <select value={form.service} onChange={set("service")}>
-                <option value="">{c.ui.contactForm.service}</option>
-                {c.servicesPage.groups.map((g, i) => (
-                  <option key={i}>{g.title}</option>
-                ))}
-              </select>
-              <input
-                type="text"
-                placeholder={c.ui.contactForm.name}
-                value={form.name}
-                onChange={set("name")}
-              />
-              <input
-                type="text"
-                placeholder={c.ui.contactForm.phone}
-                value={form.phone}
-                onChange={set("phone")}
-              />
-              <input
-                type="email"
-                placeholder={c.ui.contactForm.email}
-                value={form.email}
-                onChange={set("email")}
-              />
-              <input
-                type="text"
-                placeholder={c.ui.contactForm.company}
-                value={form.company}
-                onChange={set("company")}
-              />
-              <textarea
-                placeholder={c.ui.contactForm.message}
-                value={form.msg}
-                onChange={set("msg")}
-              />
-              <div className="send-row">
-                <button className="send" onClick={sendWhatsApp}>
-                  Send via WhatsApp <span>→</span>
-                </button>
-                <button className="send send-alt" onClick={send}>
-                  {c.ui.contactForm.send} <span>→</span>
+          <Reveal delay={0.06} className="form notch">
+            {sent ? (
+              <div className="form-done" role="status">
+                <h3>Your message is on its way.</h3>
+                <p>
+                  {sent === "whatsapp"
+                    ? "We opened WhatsApp with everything filled in. Hit send there and we will reply within one business day."
+                    : "We opened your mail client with everything filled in. Send it and we will reply within one business day."}
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={() => {
+                    setSent(null);
+                    setForm(EMPTY);
+                  }}
+                >
+                  Write another
                 </button>
               </div>
-            </div>
-          </div>
+            ) : (
+              <form
+                noValidate
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  sendWhatsApp();
+                }}
+              >
+                <div className="field">
+                  <label htmlFor="f-service">{F.service}</label>
+                  <select
+                    id="f-service"
+                    value={form.service}
+                    onChange={set("service")}
+                  >
+                    <option value="">Choose one</option>
+                    {c.servicesPage.groups.map((g) => (
+                      <option key={g.title}>{g.title}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="field-row">
+                  {field("name", F.name)}
+                  {field("company", F.company, "text", "Optional")}
+                </div>
+                <div className="field-row">
+                  {field("email", F.email, "email")}
+                  {field("phone", F.phone, "tel", "Optional")}
+                </div>
+
+                <div className="field">
+                  <label htmlFor="f-message">{F.message}</label>
+                  <textarea
+                    id="f-message"
+                    rows={5}
+                    value={form.message}
+                    onChange={set("message")}
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? "e-message" : "h-message"}
+                  />
+                  {errors.message ? (
+                    <span className="field-error" id="e-message" role="alert">
+                      {errors.message}
+                    </span>
+                  ) : (
+                    <span className="field-hint" id="h-message">
+                      What you want to build, and roughly when.
+                    </span>
+                  )}
+                </div>
+
+                <div className="form-actions">
+                  <button type="submit" className="btn">
+                    <WhatsappLogo size={17} weight="fill" />
+                    {F.sendWhatsapp}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={sendEmail}
+                  >
+                    {F.send}
+                    <ArrowRight size={16} weight="bold" />
+                  </button>
+                </div>
+              </form>
+            )}
+          </Reveal>
         </div>
       </section>
       <Footer />

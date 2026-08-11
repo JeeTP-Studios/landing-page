@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { isYouTube, youTubeThumb } from "@/lib/media";
+import { ArrowRight, Play } from "@phosphor-icons/react";
+import { mediaThumb } from "@/lib/project";
+import { paragraphs } from "@/lib/style";
 import Lightbox from "@/components/common/Lightbox";
+import { Reveal, RevealItem, RevealList } from "@/components/common/Reveal";
 import type {
   CaseSection,
   ChallengeSection,
@@ -13,200 +16,194 @@ import type {
   ProcessSection,
   Project,
 } from "@/types/content";
-import type { ReactNode } from "react";
-import { paragraphs } from "@/lib/style";
 
-/** Resalta la(s) aparicion(es) del nombre del proyecto dentro del título
- *  usando el accent color del proyecto (no editable, automático). */
-function highlightName(title: string, name: string, accent: string): ReactNode {
+/** Marks the project name inside a section title with the project accent. */
+function markName(title: string, name: string, accent: string): ReactNode {
   if (!title) return null;
   if (!name || !title.includes(name)) return title;
-  const parts = title.split(name);
-  return parts.flatMap((part, i) =>
+  return title.split(name).flatMap((part, i) =>
     i === 0
       ? [part]
       : [
-          <b key={i} style={{ color: accent }}>
+          <em key={i} style={{ color: accent, fontStyle: "normal" }}>
             {name}
-          </b>,
+          </em>,
           part,
         ]
   );
 }
 
-/* ---------- Overview ---------- */
 function Overview({ s, p }: { s: OverviewSection; p: Project }) {
   return (
-    <div className="pd-section cs-overview reveal">
-      <div className="pd-2col">
-        <div>
-          <h2>{highlightName(s.title, p.name, p.accent)}</h2>
-        </div>
-        <div>
-          <div className="ov-lbl">{s.label}</div>
-          {paragraphs(s.body).map((x, i) => (
-            <p key={i}>{x}</p>
+    <section className="cs cs-overview">
+      <div className="cs-split">
+        <Reveal as="h2">{markName(s.title, p.name, p.accent)}</Reveal>
+        <Reveal delay={0.06} className="cs-prose">
+          {paragraphs(s.body).map((x) => (
+            <p key={x.slice(0, 24)}>{x}</p>
           ))}
-        </div>
+        </Reveal>
       </div>
       {s.image ? (
-        <div className="cs-figure">
-          <img src={s.image} alt={s.title} />
-        </div>
+        <Reveal delay={0.1} className="cs-figure notch">
+          <img src={s.image} alt="" loading="lazy" />
+        </Reveal>
       ) : null}
-    </div>
+    </section>
   );
 }
 
-/* ---------- Process ---------- */
 function Process({ s }: { s: ProcessSection }) {
   return (
-    <div className="pd-section cs-process reveal">
-      <h2>{s.title}</h2>
-      <div className="cs-steps">
-        {s.steps.map(([n, t], i) => (
-          <div className="cs-step" key={i}>
-            <div className="n">{n}</div>
-            <div className="t">{t}</div>
-          </div>
+    <section className="cs cs-process">
+      <Reveal as="h2">{s.title}</Reveal>
+      <RevealList className="cs-steps" amount={0.15}>
+        {s.steps.map(([n, t]) => (
+          <RevealItem className="cs-step" key={n + t}>
+            <span className="num">{n}</span>
+            <span>{t}</span>
+          </RevealItem>
         ))}
-      </div>
-    </div>
+      </RevealList>
+    </section>
   );
 }
 
-/* ---------- Challenge ---------- */
 function Challenge({ s }: { s: ChallengeSection }) {
   const hasCols = s.problems.length > 0 || s.approach.length > 0;
   return (
-    <div className="pd-section cs-challenge reveal">
-      <h2>{s.title}</h2>
-      {s.intro ? <p className="cs-intro">{s.intro}</p> : null}
+    <section className="cs cs-challenge">
+      <Reveal as="h2">{s.title}</Reveal>
+      {s.intro ? (
+        <Reveal delay={0.05}>
+          <p className="cs-intro">{s.intro}</p>
+        </Reveal>
+      ) : null}
       {hasCols && (
         <div className="cs-cols">
           {s.problems.length > 0 && (
-            <div>
-              <h3>The challenge</h3>
+            <Reveal delay={0.08} className="cs-col">
+              <h4>What was in the way</h4>
               <ul>
-                {s.problems.map((x, i) => (
-                  <li key={i}>{x}</li>
+                {s.problems.map((x) => (
+                  <li key={x}>{x}</li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           )}
           {s.approach.length > 0 && (
-            <div>
-              <h3>{s.approachTitle}</h3>
+            <Reveal delay={0.14} className="cs-col cs-col-accent">
+              <h4>{s.approachTitle}</h4>
               <ul>
-                {s.approach.map((x, i) => (
-                  <li key={i}>{x}</li>
+                {s.approach.map((x) => (
+                  <li key={x}>{x}</li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           )}
         </div>
       )}
       {s.images.length > 0 && (
-        <div className="cs-imgs">
-          {s.images.map((src, i) => (
-            <img key={i} src={src} alt="" />
+        <RevealList className="cs-imgs" amount={0.12}>
+          {s.images.map((src) => (
+            <RevealItem className="notch" key={src}>
+              <img src={src} alt="" loading="lazy" />
+            </RevealItem>
           ))}
-        </div>
+        </RevealList>
       )}
-    </div>
+    </section>
   );
 }
 
-/* ---------- Methodology ---------- */
 function Methodology({ s }: { s: MethodologySection }) {
   return (
-    <div className="pd-section cs-method reveal">
-      <h2>{s.title}</h2>
-      <div className="cs-grid">
-        {s.items.map((it, i) => (
-          <div className="cs-item" key={i}>
+    <section className="cs cs-method">
+      <Reveal as="h2">{s.title}</Reveal>
+      <RevealList className="cs-method-grid" amount={0.12}>
+        {s.items.map((it) => (
+          <RevealItem className="cs-method-item" key={it.heading}>
             <h4>{it.heading}</h4>
             <p>{it.body}</p>
-          </div>
+          </RevealItem>
         ))}
-      </div>
-    </div>
+      </RevealList>
+    </section>
   );
 }
 
-/* ---------- Gallery ---------- */
 function Gallery({ s }: { s: GallerySection }) {
   const [open, setOpen] = useState<number | null>(null);
   if (!s.items.length) return null;
   return (
-    <div className="pd-section cs-gallery reveal">
-      <h2>{s.title}</h2>
-      <div className={`cs-g ${s.layout}`}>
+    <section className="cs cs-gallery">
+      <Reveal as="h2">{s.title}</Reveal>
+      <RevealList className={`cs-g cs-g-${s.layout}`} amount={0.08}>
         {s.items.map((m, i) => {
           const isVideo = m.type === "video";
-          const thumb =
-            m.type === "image"
-              ? m.url
-              : m.poster || (isYouTube(m.url) ? youTubeThumb(m.url) : "");
+          const thumb = mediaThumb(m);
           return (
-            <button
-              type="button"
-              className={`cs-gitem ${isVideo ? "is-video" : ""}`}
-              key={i}
-              onClick={() => setOpen(i)}
-              aria-label="Expandir"
-            >
-              {thumb ? (
-                <img src={thumb} alt="" />
-              ) : (
-                <div className="cs-gph">video</div>
-              )}
-              {isVideo ? <span className="cs-play">▶</span> : null}
-            </button>
+            <RevealItem key={m.url}>
+              <button
+                type="button"
+                className={`cs-shot notch ${isVideo ? "is-video" : ""}`}
+                onClick={() => setOpen(i)}
+                aria-label={isVideo ? "Play video" : "Open image"}
+              >
+                {thumb ? (
+                  <img src={thumb} alt="" loading="lazy" />
+                ) : (
+                  <span className="cs-shot-empty">Video</span>
+                )}
+                {isVideo ? (
+                  <span className="cs-play">
+                    <Play size={18} weight="fill" />
+                  </span>
+                ) : null}
+              </button>
+            </RevealItem>
           );
         })}
-      </div>
+      </RevealList>
       {open !== null && (
         <Lightbox media={s.items[open]} onClose={() => setOpen(null)} />
       )}
-    </div>
+    </section>
   );
 }
 
-/* ---------- Conclusion ---------- */
 function Conclusion({ s }: { s: ConclusionSection }) {
   return (
-    <div className="pd-section cs-conclusion reveal">
-      <div className="pd-2col">
-        <div>
-          <h2>{s.title}</h2>
-        </div>
-        <div>
-          {paragraphs(s.body).map((x, i) => (
-            <p key={i}>{x}</p>
+    <section className="cs cs-conclusion">
+      <div className="cs-split">
+        <Reveal as="h2">{s.title}</Reveal>
+        <Reveal delay={0.06} className="cs-prose">
+          {paragraphs(s.body).map((x) => (
+            <p key={x.slice(0, 24)}>{x}</p>
           ))}
-        </div>
+        </Reveal>
       </div>
       {s.image ? (
-        <div className="cs-figure">
-          <img src={s.image} alt={s.title} />
-        </div>
+        <Reveal delay={0.1} className="cs-figure notch">
+          <img src={s.image} alt="" loading="lazy" />
+        </Reveal>
       ) : null}
-    </div>
+    </section>
   );
 }
 
-/* ---------- CTA ---------- */
 function Cta({ s }: { s: CtaSection }) {
   return (
-    <div className="hireus" style={{ marginBottom: 60 }}>
-      <span>{s.text}</span>
-      <Link to="/contact">{s.buttonLabel}</Link>
-    </div>
+    <Reveal className="cs cs-cta notch">
+      <h3>{s.text}</h3>
+      <Link to="/contact" className="btn">
+        {s.buttonLabel}
+        <ArrowRight size={16} weight="bold" />
+      </Link>
+    </Reveal>
   );
 }
 
-/** Renderiza la sección correspondiente según su tipo. */
 export default function CaseSectionView({
   section,
   project,

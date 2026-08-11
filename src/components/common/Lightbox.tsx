@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { X } from "@phosphor-icons/react";
 import type { GalleryMedia } from "@/types/content";
 import { isYouTube, youTubeEmbed } from "@/lib/media";
 
@@ -25,8 +26,8 @@ export default function Lightbox({
 
   return (
     <div className="lightbox" onClick={onClose}>
-      <button className="lightbox-close" aria-label="Cerrar" onClick={onClose}>
-        ✕
+      <button className="lightbox-close" aria-label="Close" onClick={onClose}>
+        <X size={18} weight="bold" />
       </button>
       <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
         {media.type === "image" ? (

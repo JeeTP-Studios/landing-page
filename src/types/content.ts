@@ -25,6 +25,10 @@ export interface GradientLayer {
 
 export interface Hero extends GradientLayer {
   eyebrow: string;
+  /** Fixed opening words of the headline, before the rotating phrase. */
+  lead?: string;
+  /** Supporting line under the headline. Keep it under 20 words. */
+  sub?: string;
   /** Título base (compatibilidad / fallback). */
   title: string;
   /** Títulos que el hero escribe en bucle (efecto máquina de escribir).
@@ -269,6 +273,8 @@ export interface LogoItem {
 
 export interface AboutPage {
   hero: GradientLayer & { eyebrow: string; title: string };
+  /** Studio photography shown as an uneven three-up band. */
+  gallery?: string[];
   intro: { heading: string; body: string };
   overview: { heading: string; body: string };
   beliefs: { heading: string; body: string };
@@ -322,13 +328,22 @@ export interface UiStrings {
     cases: string;
     contact: string;
   };
-  /** Textos de botones repetidos por el sitio */
+  /**
+   * One label per intent, reused everywhere that intent appears. Two different
+   * words for the same action on one page is the fastest way to make a site
+   * feel assembled rather than designed.
+   */
   buttons: {
-    allCases: string; // home · proyectos destacados
-    viewServices: string; // home · tarjetas de servicios
-    viewCases: string; // bloque de clientes
-    floatLearn: string; // hover del hero ("VER CASO")
-    aboutCases: string; // about · "Mira nuestros casos →"
+    /** Contact intent: header, hero, FAQ card, footer, case study CTA. */
+    contact: string;
+    /** Portfolio intent: hero, work rail, about. */
+    work: string;
+    /** Services intent. */
+    services: string;
+    /** Opens a single case study. */
+    viewCase: string;
+    /** Clears the case-index filter. */
+    allWork: string;
   };
   /** Pie de página */
   footer: {
@@ -360,6 +375,7 @@ export interface UiStrings {
   /** Formulario de contacto */
   contactForm: {
     getInTouch: string;
+    sendWhatsapp: string;
     service: string;
     name: string;
     phone: string;

@@ -1,27 +1,29 @@
+import { Suspense, lazy } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useContent } from "@/content/ContentContext";
 import { LayoutProvider } from "@/components/layout/LayoutContext";
 import Header from "@/components/layout/Header";
 import Menu from "@/components/layout/Menu";
-import SiteBackground from "@/components/layout/SiteBackground";
 import Home from "@/pages/Home";
-import About from "@/pages/About";
-import Services from "@/pages/Services";
-import Cases from "@/pages/Cases";
-import CaseStudy from "@/pages/CaseStudy";
-import Contact from "@/pages/Contact";
-import AdminPanel from "@/admin/AdminPanel";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 
-/** Dominio donde vive el admin (cerrado con Basic Auth en Dokploy). */
+/* Home ships in the first chunk because it is the landing surface. Everything
+   else, including the whole editor, is fetched only when it is asked for. */
+const About = lazy(() => import("@/pages/About"));
+const Services = lazy(() => import("@/pages/Services"));
+const Cases = lazy(() => import("@/pages/Cases"));
+const CaseStudy = lazy(() => import("@/pages/CaseStudy"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const AdminPanel = lazy(() => import("@/admin/AdminPanel"));
+
+/** Host where the admin lives (Basic Auth in front of it). */
 const ADMIN_HOST =
   (import.meta.env.VITE_ADMIN_HOST as string | undefined) ||
   "admin.jeetpstudio.com";
 
 /**
- * Solo sirve el panel cuando estás en el dominio de admin (o en local para
- * desarrollo). Desde cualquier otro dominio, /admin reenvía al subdominio
- * protegido en vez de mostrar el editor.
+ * The editor is only served from the admin host (or locally). Anywhere else,
+ * /admin forwards to the protected subdomain instead of rendering.
  */
 function AdminGate() {
   const host = window.location.hostname;
@@ -39,16 +41,11 @@ export default function App() {
   const { loading } = useContent();
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
-  const isHome = location.pathname === "/";
 
   if (loading) {
     return (
       <div className="boot">
-        <div className="boot-word">
-          {"LOADING".split("").map((ch, i) => (
-            <span key={i}>{ch}</span>
-          ))}
-        </div>
+        <div className="boot-word">Loading</div>
         <div className="boot-bar" />
       </div>
     );
@@ -56,7 +53,6 @@ export default function App() {
 
   return (
     <LayoutProvider>
-      <SiteBackground active={isHome && !isAdmin} />
       {!isAdmin && (
         <>
           <Header />
@@ -66,16 +62,18 @@ export default function App() {
       <main id="app">
         <div className="route-fade" key={location.pathname}>
           <ErrorBoundary>
-          <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/case-studies" element={<Cases />} />
-            <Route path="/case-studies/:id" element={<CaseStudy />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={<AdminGate />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
+            <Suspense fallback={<div className="route-pending" />}>
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/case-studies" element={<Cases />} />
+                <Route path="/case-studies/:id" element={<CaseStudy />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/admin" element={<AdminGate />} />
+                <Route path="*" element={<Home />} />
+              </Routes>
+            </Suspense>
           </ErrorBoundary>
         </div>
       </main>
