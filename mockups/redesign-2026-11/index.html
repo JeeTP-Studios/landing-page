@@ -1,0 +1,419 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JeeTP Studios</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap">
+<style>
+/* Layout concept: a black stage lit by one blue. Three glass pieces float apart in the hero and lock together as you scroll: JeeTP joins the pieces of a business. */
+:root{
+  color-scheme:dark;
+  --black:#04060b; --panel:#0a0f1a; --line:#1b2536; --white:#f4f7fb; --dim:#8d9bb0; --blue:#3fa9f5; --deep:#1247e6;
+  --sans:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
+  --gut:clamp(16px,4vw,56px);
+  --ease:cubic-bezier(.19,1,.22,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-behavior:smooth}
+body{margin:0;background:var(--black);color:var(--white);font:400 17px/1.5 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+h1,h2,h3,p,ul,ol{margin:0;padding:0}ul,ol{list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:4px}
+::selection{background:var(--blue);color:var(--black)}
+.g{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.kick{font-size:14px;color:var(--dim)}
+.pill{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;background:var(--white);color:var(--black);font-weight:600;font-size:15.5px;transition:transform .5s var(--ease),background .25s}
+.pill:hover{background:var(--blue);transform:scale(1.045)}
+.pill:active{transform:scale(.97)}
+.pill i{font-style:normal;transition:transform .4s var(--ease)}.pill:hover i{transform:translateX(4px)}
+
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;transition:opacity .5s}
+.glow{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60vmax 60vmax at var(--gx,70%) var(--gy,45%),rgba(18,71,230,.5),transparent 62%);transition:opacity .6s}
+#tags span{position:fixed;left:0;top:0;z-index:1;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;white-space:nowrap;opacity:0;pointer-events:none}
+#tags span::before{content:"";width:30px;height:1px;background:var(--blue)}
+main,footer,header{position:relative;z-index:2}
+
+/* Nav */
+.nav{position:fixed;inset:0 0 auto;z-index:50;padding-top:env(safe-area-inset-top,0px);mix-blend-mode:normal;transition:transform .5s var(--ease)}
+.nav.away{transform:translateY(-110%)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:76px}
+.nav img{height:38px;width:auto}
+.nav nav{display:flex;gap:clamp(18px,2.4vw,36px);font-size:15px}
+.nav nav a{position:relative;color:var(--dim);transition:color .25s}
+.nav nav a:hover{color:var(--white)}
+.nav nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:1px;background:var(--white);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.nav nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav .pill{min-height:40px;padding:0 18px;font-size:14.5px}
+@media(max-width:820px){.nav nav{display:none}.nav-in{height:64px}.nav img{height:32px}}
+
+/* Hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:120px;padding-bottom:clamp(28px,4vw,52px)}
+h1{font-weight:700;font-size:clamp(46px,8.2vw,138px);line-height:.94;letter-spacing:-.045em;max-width:9.5em}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+h1 .ln>span{display:block}
+h1 em{color:var(--blue);letter-spacing:-.03em}
+.hero-b{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px 40px;margin-top:clamp(22px,3vw,40px);padding-top:20px;border-top:1px solid var(--line)}
+.hero-b p{max-width:44ch;font-size:clamp(17px,1.4vw,20px);color:var(--dim)}
+.scroll{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--dim)}
+.scroll::before{content:"";width:1px;height:34px;background:linear-gradient(var(--white),transparent);animation:drip 2s var(--ease) infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* Manifesto */
+.mani{height:440vh;position:relative}
+.mani-p{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
+.says{position:relative;width:min(100%,50vw);height:46vh}
+.say{position:absolute;inset:0;display:flex;align-items:center;font-weight:600;font-size:clamp(32px,5vw,82px);line-height:1.02;letter-spacing:-.035em;pointer-events:none}
+.say .sw{display:block}
+.say .sw span{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(.25em);transition:opacity .7s var(--ease),filter .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i)*38ms)}
+.say.on .sw span{opacity:1;filter:none;transform:none}
+.say.out .sw span{opacity:0;filter:blur(14px);transform:translateY(-.25em);transition-delay:calc(var(--i)*14ms)}
+.dots{position:absolute;left:max(var(--gut),env(safe-area-inset-left,0px));bottom:34px;display:flex;gap:8px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .3s,transform .3s}
+.dots i.on{background:var(--white);transform:scale(1.4)}
+@media(max-width:820px){.says{width:100%;height:40vh;align-self:flex-end;margin-bottom:12vh}}
+
+/* About */
+.about{position:relative;padding-block:clamp(90px,12vw,190px);overflow:hidden;background:var(--black)}
+.about-t{font-weight:500;font-size:clamp(27px,3.6vw,58px);line-height:1.1;letter-spacing:-.03em;max-width:20em}
+.about-t span{color:#3a4557;transition:color .4s}.about-t span.on{color:var(--white)}
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:clamp(50px,7vw,110px)}
+.nums strong{display:block;font-weight:600;font-size:clamp(44px,6vw,104px);line-height:.95;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.nums span{display:block;margin-top:10px;font-size:15px;color:var(--dim);max-width:16ch}
+.lens{position:absolute;left:0;top:0;width:230px;height:230px;margin:-115px 0 0 -115px;border-radius:50%;background:var(--white);mix-blend-mode:difference;pointer-events:none;transform:translate3d(-400px,-400px,0) scale(0);transition:scale .5s var(--ease);scale:0;z-index:3}
+.about:hover .lens{scale:1}
+@media(max-width:700px){.nums{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}}
+@media(hover:none){.lens{display:none}}
+
+/* Solutions: horizontal */
+.sol{position:relative;background:var(--black)}
+.sol-p{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;padding-block:92px 34px}
+.sol-h{display:flex;justify-content:space-between;font-size:14px;color:var(--dim)}
+.sol-h b{font-weight:400;font-variant-numeric:tabular-nums;color:var(--white)}
+.track{display:flex;gap:clamp(40px,9vw,170px);width:max-content;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:24vw;will-change:transform}
+.pane{width:min(78vw,860px);flex:none;display:grid;gap:clamp(14px,2vw,26px);align-content:center}
+.pane h3{font-weight:700;font-size:clamp(44px,7.4vw,124px);line-height:.92;letter-spacing:-.05em;color:var(--blue);transform-origin:0 60%;will-change:transform,opacity}
+.pane p{max-width:42ch;font-size:clamp(17px,1.4vw,21px);color:var(--white)}
+.pane ul{display:flex;flex-wrap:wrap;gap:8px;max-width:560px}
+.pane li{padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:14.5px;color:var(--dim);transition:border-color .3s,color .3s}
+.pane li:hover{border-color:var(--blue);color:var(--white)}
+.bar{height:1px;background:var(--line);position:relative}
+.bar i{position:absolute;inset:0;background:var(--white);transform:scaleX(0);transform-origin:left}
+
+/* Work */
+.work{background:var(--black);padding-block:clamp(90px,11vw,170px)}
+.sec-h{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 40px;margin-bottom:clamp(30px,4vw,56px)}
+.h2{font-weight:700;font-size:clamp(38px,5.6vw,92px);line-height:.96;letter-spacing:-.045em}
+.rows{border-top:1px solid var(--line)}
+.row{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,5fr) minmax(0,2fr) 34px;gap:16px;align-items:center;width:100%;padding:clamp(18px,2.2vw,32px) 0;border-bottom:1px solid var(--line);text-align:left;transition:padding .6s var(--ease),color .3s}
+.row::before{content:"";position:absolute;inset:0 calc(var(--gut)*-1);background:var(--white);transform:scaleY(0);transform-origin:bottom;transition:transform .55s var(--ease);z-index:-1}
+.row b{font-weight:600;font-size:clamp(26px,3.3vw,54px);line-height:1;letter-spacing:-.035em}
+.row span{font-size:16px;color:var(--dim);transition:color .3s}
+.row i{font-style:normal;font-size:22px;justify-self:end;transition:transform .5s var(--ease)}
+.row img{display:none}
+@media(hover:hover){.row:hover{color:var(--black);padding-inline:10px}.row:hover::before{transform:scaleY(1)}.row:hover span{color:#3a4557}.row:hover i{transform:rotate(-45deg)}}
+.float{position:fixed;left:0;top:0;z-index:40;width:min(34vw,470px);aspect-ratio:16/10;overflow:hidden;pointer-events:none;border-radius:6px;opacity:0;scale:.82;transition:opacity .3s,scale .5s var(--ease);will-change:transform}
+.float.on{opacity:1;scale:1}
+.float img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+.float img.on{opacity:1}
+@media(max-width:820px){.row{grid-template-columns:minmax(0,1fr) 30px;gap:6px 12px}.row img{display:block;grid-column:1/-1;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;margin-bottom:8px}.row span:nth-of-type(2){display:none}.row span{grid-column:1}.row i{grid-row:2;grid-column:2}}
+dialog{width:min(980px,calc(100vw - 32px));max-height:calc(100svh - 32px);padding:0;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--white);overflow:auto}
+dialog[open]{animation:rise .6s var(--ease)}
+@keyframes rise{from{transform:translateY(40px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+dialog::backdrop{background:rgba(4,6,11,.82);backdrop-filter:blur(8px)}
+.dm{position:relative;aspect-ratio:16/9;background:#000}
+.dm img,.dm video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.db{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 20px;padding:24px clamp(18px,3vw,34px) 30px}
+.db h3{font-weight:700;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:-.04em}
+.db small{grid-column:1;font-size:15px;color:var(--blue)}
+.db p{grid-column:1;max-width:60ch;color:var(--dim)}
+.db button{grid-column:2;grid-row:1;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);transition:.3s}
+.db button:hover{background:var(--white);color:var(--black);transform:rotate(90deg)}
+
+/* Clients marquee */
+.mq{background:var(--black);overflow:hidden;padding-block:clamp(26px,3vw,44px);border-block:1px solid var(--line)}
+.mq-t{display:flex;align-items:center;gap:clamp(56px,7vw,120px);width:max-content;will-change:transform}
+.mq img{height:clamp(26px,2.6vw,38px);width:auto;max-width:160px;object-fit:contain;filter:brightness(0) invert(1);opacity:.6;transition:opacity .3s}
+.mq img:hover{opacity:1}
+
+/* Products */
+.labs{background:var(--black);padding-block:clamp(90px,11vw,170px)}
+.labs .sec-h p{max-width:36ch;color:var(--dim);font-size:18px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,20px)}
+.card{--mx:50%;--my:0%;position:relative;display:flex;flex-direction:column;gap:12px;min-height:380px;padding:clamp(20px,2vw,30px);border:1px solid var(--line);border-radius:10px;background:radial-gradient(420px circle at var(--mx) var(--my),rgba(63,169,245,.2),transparent 60%),var(--panel);overflow:hidden;transition:border-color .4s,transform .6s var(--ease)}
+.card:hover{border-color:#34507a;transform:translateY(-6px)}
+.mk{display:flex;align-items:center;gap:10px;height:34px;font-weight:600;font-size:20px;letter-spacing:-.02em}
+.mk img{height:28px;width:auto;filter:brightness(0) invert(1)}
+.mk svg{width:32px;height:32px;flex:none}
+.card h3{margin-top:auto;font-weight:600;font-size:clamp(25px,2.3vw,36px);line-height:1.02;letter-spacing:-.035em}
+.card p{color:var(--dim);font-size:16px}
+.card a,.card small{margin-top:6px;font-size:15px;color:var(--dim)}
+.card a{color:var(--white);align-self:flex-start;border-bottom:1px solid var(--white);padding-bottom:2px}
+@media(max-width:860px){.cards{grid-template-columns:minmax(0,1fr)}.card{min-height:280px}}
+
+/* Method */
+.how{background:var(--black);padding-block:0 clamp(90px,11vw,170px)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.steps li{position:relative;padding:22px clamp(14px,1.6vw,26px) 8px 0}
+.steps li::before{content:"";position:absolute;left:0;top:-1px;width:100%;height:1px;background:var(--blue);transform:scaleX(var(--f,0));transform-origin:left}
+.steps b{font-weight:500;font-size:14px;color:var(--blue)}
+.steps h3{font-weight:600;font-size:clamp(25px,2.5vw,40px);letter-spacing:-.035em;line-height:1;margin:10px 0 10px}
+.steps p{color:var(--dim);font-size:16px;max-width:28ch}
+@media(max-width:820px){.steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:26px}}
+@media(max-width:460px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+/* Footer */
+footer{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:140px;padding-bottom:26px;background:linear-gradient(transparent,rgba(18,71,230,.42))}
+.talk{display:block;font-weight:700;font-size:clamp(64px,17vw,300px);line-height:.86;letter-spacing:-.06em;width:max-content;max-width:100%;transition:color .4s,letter-spacing .7s var(--ease)}
+.talk:hover{color:var(--blue);letter-spacing:-.045em}
+.ft{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;margin-top:clamp(34px,5vw,70px)}
+.ft small{display:block;font-size:13.5px;color:var(--dim);margin-bottom:6px}
+.ft p,.ft button{font-size:16px;user-select:text}
+.ft button{border-bottom:1px solid var(--dim);padding-bottom:1px;transition:border-color .3s}
+.ft button:hover{border-color:var(--white)}
+.fb{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:38px;padding-top:18px;border-top:1px solid rgba(244,247,251,.2);font-size:14px;color:var(--dim)}
+.fb nav{display:flex;flex-wrap:wrap;gap:6px 22px}.fb a:hover{color:var(--white)}
+@media(max-width:760px){.ft{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}
+ .mani{height:auto}.mani-p{position:static;height:auto;padding-block:80px}.says{height:auto;display:grid;gap:34px}.say{position:static}.say .sw span{opacity:1;filter:none;transform:none}.dots{display:none}
+ .sol-p{position:static;height:auto}.track{flex-direction:column;width:auto;padding-right:var(--gut)}.pane{width:auto}
+ .about-t span{color:var(--white)}
+}
+</style>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<div id="tags" aria-hidden="true"><span>Experiencia</span><span>Inteligencia</span><span>Datos y sistemas</span></div>
+
+<header class="nav" id="nav">
+  <div class="nav-in g">
+    <a href="#inicio" aria-label="JeeTP Studios, inicio"><img src="a/logo-white.png" alt="JeeTP Studios"></a>
+    <nav aria-label="Principal"><a href="#soluciones">Soluciones</a><a href="#trabajo">Trabajo</a><a href="#productos">Productos</a><a href="#metodo">Método</a></nav>
+    <a class="pill" href="#contacto">Hablemos</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero g" id="inicio">
+    <h1 aria-label="Tecnología que mueve negocios."><span class="ln" aria-hidden="true"><span>Tecnología</span></span><span class="ln" aria-hidden="true"><span>que <em>mueve</em></span></span><span class="ln" aria-hidden="true"><span>negocios.</span></span></h1>
+    <div class="hero-b">
+      <p>Software a la medida, inteligencia artificial y experiencias digitales para empresas que quieren crecer.</p>
+      <span class="scroll">Desliza</span>
+    </div>
+  </section>
+
+  <section class="mani" id="mani" aria-label="Nuestra forma de pensar">
+    <div class="mani-p g">
+      <div class="says" id="says">
+        <p class="say">Tu negocio no necesita más tecnología.</p>
+        <p class="say">Necesita la tecnología correcta.</p>
+        <p class="say">La diseñamos, la construimos y la hacemos crecer contigo.</p>
+        <p class="say">Datos, inteligencia y experiencia en una sola solución.</p>
+      </div>
+      <div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <section class="about g" id="nosotros">
+    <div class="lens" id="lens" aria-hidden="true"></div>
+    <p class="kick" style="margin-bottom:22px">Quiénes somos</p>
+    <p class="about-t" id="aboutT">Somos el socio tecnológico de marcas y empresas en México y Estados Unidos. Nacimos creando videojuegos, y de ahí viene nuestra regla: la tecnología sólo sirve si la gente quiere usarla.</p>
+    <div class="nums">
+      <div><strong data-n="12" data-s="+">12+</strong><span>proyectos lanzados</span></div>
+      <div><strong data-n="8" data-s="">8</strong><span>industrias atendidas</span></div>
+      <div><strong data-n="4" data-s="">4</strong><span>años construyendo marcas</span></div>
+      <div><strong data-n="120" data-s="K+">120K+</strong><span>usuarios finales alcanzados</span></div>
+    </div>
+  </section>
+
+  <section class="sol" id="soluciones">
+    <div class="sol-p">
+      <div class="sol-h g"><span>Soluciones</span><b id="solN">1 / 6</b></div>
+      <div class="track" id="track"></div>
+      <div class="g"><div class="bar"><i id="solB"></i></div></div>
+    </div>
+  </section>
+
+  <section class="work g" id="trabajo">
+    <div class="sec-h"><h2 class="h2">Trabajo <em>real.</em></h2><p class="kick">Seis proyectos en manos de la gente</p></div>
+    <div class="rows" id="rows"></div>
+  </section>
+
+  <div class="mq" aria-label="Marcas que han confiado en JeeTP"><div class="mq-t" id="mq"></div></div>
+
+  <section class="labs g" id="productos">
+    <div class="sec-h"><h2 class="h2">Productos <em>propios.</em></h2><p>Probamos en casa lo que después llevamos a nuestros clientes.</p></div>
+    <div class="cards">
+      <article class="card"><div class="mk"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#15181e" stroke="#34507a"/><g stroke="#fbfaf9" stroke-width="2.6" stroke-linecap="round"><path d="M16 6v7M16 19v7M6 16h7M19 16h7"/><path d="M9 9l3.5 3.5M19.5 19.5L23 23M23 9l-3.5 3.5M12.5 19.5L9 23" opacity=".5"/></g><circle cx="16" cy="16" r="2.6" fill="#d74b17"/></svg>Synthex</div><h3>Que la IA recomiende tu marca.</h3><p>Mide cómo aparece tu marca en las respuestas de los asistentes de IA y qué hacer para mejorar.</p><a href="https://synthex.com.mx" target="_blank" rel="noopener">Conocer Synthex ↗</a></article>
+      <article class="card"><div class="mk"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#15181e" stroke="#34507a"/><g stroke="#fbfaf9" stroke-width="2.6" stroke-linecap="round"><path d="M16 6v7M16 19v7M6 16h7M19 16h7"/><path d="M9 9l3.5 3.5M19.5 19.5L23 23M23 9l-3.5 3.5M12.5 19.5L9 23" opacity=".5"/></g><circle cx="16" cy="16" r="2.6" fill="#d74b17"/></svg>Synthex Commerce</div><h3>Tu tienda en línea, más inteligente.</h3><p>Búsqueda que entiende a tus clientes y recomendaciones que venden.</p><a href="https://commerce.synthex.com.mx" target="_blank" rel="noopener">Conocer Synthex Commerce ↗</a></article>
+      <article class="card"><div class="mk"><img src="a/pliks-logo.png" alt="Pliks"></div><h3>Tu próxima empresa, tomando forma.</h3><p>Un equipo ejecutivo de IA que investiga tu mercado, arma el plan y mueve tu negocio hacia adelante. Tú decides cada paso.</p><a href="https://trypliks.com" target="_blank" rel="noopener">Conocer Pliks ↗</a></article>
+    </div>
+  </section>
+
+  <section class="how g" id="metodo">
+    <div class="sec-h"><h2 class="h2">Cómo <em>trabajamos.</em></h2></div>
+    <ol class="steps" id="steps">
+      <li><b>01</b><h3>Diagnóstico</h3><p>Entendemos tu operación y dónde la tecnología mueve el resultado.</p></li>
+      <li><b>02</b><h3>Diseño</h3><p>Ves pantallas reales desde las primeras semanas.</p></li>
+      <li><b>03</b><h3>Construcción</h3><p>Entregas semanales con software funcionando.</p></li>
+      <li><b>04</b><h3>Evolución</h3><p>Medimos, operamos y mejoramos contigo.</p></li>
+    </ol>
+  </section>
+</main>
+
+<footer class="g" id="contacto">
+  <p class="kick" style="margin-bottom:14px">¿Tienes un reto?</p>
+  <a class="talk" id="talk" href="#contacto">Hablemos.</a>
+  <div class="ft">
+    <div><small>Escríbenos</small><button id="mail">contact@jeetpstudio.com</button></div>
+    <div><small>WhatsApp</small><p>+52 55 3647 9693</p></div>
+    <div><small>Dónde estamos</small><p>Texas · Ciudad de México</p></div>
+    <div><small>Trabajamos</small><p>Remoto, en español e inglés</p></div>
+  </div>
+  <div class="fb"><span>© 2026 JeeTP Studios</span><nav aria-label="Pie"><a href="#soluciones">Soluciones</a><a href="#trabajo">Trabajo</a><a href="#productos">Productos</a><a href="#metodo">Método</a></nav></div>
+</footer>
+
+<div class="float" id="float" aria-hidden="true"></div>
+<dialog id="dlg" aria-labelledby="dT"><div class="dm" id="dM"></div><div class="db"><h3 id="dT"></h3><button id="dX" aria-label="Cerrar">✕</button><small id="dK"></small><p id="dD"></p></div></dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>t*t*(3-2*t);
+let mx=innerWidth/2,my=innerHeight/2;addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY},{passive:true});
+
+/* Data */
+const SOL=[
+ ['Software a la medida.','Plataformas y sistemas construidos alrededor de cómo funciona tu negocio.',['Plataformas web','Sistemas internos','Integraciones','Modernización']],
+ ['Inteligencia artificial.','IA conectada a tus procesos, con personas aprobando lo importante.',['Agentes de IA','Asistentes','Búsqueda inteligente','Visibilidad en IA']],
+ ['Datos y automatización.','Tu información en un solo lugar y procesos que dejan de ser manuales.',['Tableros','Reportes','Automatización','Back office']],
+ ['Apps y producto digital.','Productos que la gente entiende, usa y recomienda.',['iOS y Android','Sitios web','E-commerce','UX y UI']],
+ ['Experiencias de marca.','Nuestro origen: juegos y activaciones que hacen volver a tus clientes.',['Gamificación','Lealtad','Activaciones','Realidad aumentada']],
+ ['Consultoría.','Definimos qué construir, en qué orden y con qué retorno.',['Diagnóstico','Hoja de ruta','Arquitectura']]
+];
+const CASES=[
+ {n:'KLA Fantasy',s:'Fantasy oficial de Kings League Américas',t:'Plataforma móvil',k:'Plataforma móvil · Latam y España · 12 meses',d:'Desarrollamos la plataforma Fantasy de Kings League Américas para modernizar la experiencia de juego y construir lealtad en la afición.',i:'KLAFantasy_SS1.jpg',v:'KLAFantasy_Gameplay.mp4'},
+ {n:'Mundo Premier',s:'Lealtad para Club Premier y Santander',t:'Experiencia interactiva',k:'Experiencia interactiva · México · 3 meses',d:'Una experiencia interactiva para socios de Aeromexico Rewards, antes Club Premier, creada con el programa Toma Todo de Santander.',i:'MundoPremier_SS1.jpg'},
+ {n:'Hosting Wells',s:'Modernización digital industrial',t:'Sitio web',k:'Sitio web · México · 1 mes',d:'Rediseñamos el sitio de la empresa de elevadores para modernizar su presencia y mejorar la experiencia de sus clientes.',i:'HostingWellsV2_2.jpg'},
+ {n:'Club Pepito',s:'Activación de marca con recompensas',t:'Experiencia digital',k:'Experiencia digital · México · 1 mes',d:'Una feria de minijuegos en línea que acercó a Pepito a nuevas audiencias: juegas, ganas boletos y canjeas premios.',i:'ClubPepito_CorrePepito.jpg',v:'ClubPepito_CorrePepito.mp4'},
+ {n:'Jokeland',s:'Expansión de un universo de marca',t:'Juego móvil',k:'Juego móvil · México · 1 mes',d:'Un juego móvil que expande el universo de Pepito y permite descubrir las historias de sus personajes.',i:'Jokeland_Cover.jpg'},
+ {n:'Copa Record',s:'Identidad para un torneo nacional',t:'Marca',k:'Marca · México · 1 mes',d:'Diseño de la mascota oficial de la Copa Record México para uso comercial y escalable en proyectos deportivos.',i:'CopaRecord_Map.jpg',v:'CopaRecord_Map.mp4'}
+];
+
+/* Manifesto words */
+const says=$$('.say');says.forEach(p=>{const w=p.textContent.split(' ');p.setAttribute('aria-label',p.textContent);p.innerHTML='<span class="sw" aria-hidden="true">'+w.map((x,i)=>`<span style="--i:${i}">${x}</span>`).join(' ')+'</span>'});
+const dots=$$('#dots i'),mani=$('#mani');let sayI=-2;
+function setSay(i){if(i===sayI)return;says.forEach((p,k)=>{p.classList.toggle('on',k===i);p.classList.toggle('out',k<i)});dots.forEach((d,k)=>d.classList.toggle('on',k===i));sayI=i}
+
+/* About */
+const aT=$('#aboutT');aT.innerHTML=aT.textContent.split(' ').map(w=>`<span>${w}</span>`).join(' ');const aW=$$('span',aT);
+const about=$('#nosotros'),lens=$('#lens');let lx=-400,ly=-400;
+
+/* Solutions */
+const track=$('#track');track.innerHTML=SOL.map(s=>`<article class="pane"><h3>${s[0]}</h3><p>${s[1]}</p><ul>${s[2].map(x=>`<li>${x}</li>`).join('')}</ul></article>`).join('');
+const panes=$$('.pane'),sol=$('#soluciones');let travel=0,tx=0;
+let offs=[0];
+/* Each pane comes to rest on the page gutter, so nothing is ever cut at the edge */
+function sizeSol(){if(calm)return;offs=panes.map(p=>p.offsetLeft-panes[0].offsetLeft);sol.style.height=(innerHeight+(panes.length-1)*innerHeight*.85)+'px'}
+
+/* Work */
+const rows=$('#rows'),flo=$('#float');
+rows.innerHTML=CASES.map((c,i)=>`<button class="row" data-i="${i}"><img src="a/${c.i}" alt="" loading="lazy"><b>${c.n}</b><span>${c.s}</span><span>${c.t}</span><i aria-hidden="true">→</i></button>`).join('');
+flo.innerHTML=CASES.map(c=>`<img src="a/${c.i}" alt="" loading="lazy">`).join('');const fI=$$('img',flo);let fx=0,fy=0,fOn=false;
+$$('.row').forEach(r=>{const i=+r.dataset.i;r.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;fOn=true;flo.classList.add('on');fI.forEach((im,k)=>im.classList.toggle('on',k===i))});r.addEventListener('pointerleave',()=>{fOn=false;flo.classList.remove('on')});r.onclick=()=>openC(i)});
+const dlg=$('#dlg');function openC(i){const c=CASES[i];flo.classList.remove('on');$('#dM').innerHTML=c.v?`<video src="a/${c.v}" poster="a/${c.i}" autoplay muted loop playsinline></video>`:`<img src="a/${c.i}" alt="${c.n}">`;$('#dT').textContent=c.n;$('#dK').textContent=c.k;$('#dD').textContent=c.d;dlg.showModal()}
+const closeD=()=>{dlg.close();$('#dM').innerHTML=''};$('#dX').onclick=closeD;dlg.addEventListener('click',e=>{if(e.target===dlg)closeD()});dlg.addEventListener('cancel',()=>{$('#dM').innerHTML=''});
+
+/* Marquee reacts to scroll speed */
+const LG=[['Club Premier','clubpremier.png'],['Kings League','kla.webp'],['Santander','santander.svg'],['Visa','visa.png'],['Hosting Wells','hostingwells.png'],['Etomin','etomin.svg']];
+const mq=$('#mq');mq.innerHTML=[0,1,2,3].map(k=>LG.map(([n,f])=>`<img src="a/${f}" alt="${k?'':n}">`).join('')).join('');let mqX=0,mqW=1,lastY=scrollY,vel=0;
+
+/* Cards glow follows the cursor */
+$$('.card').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+
+/* Copy email */
+$('#mail').onclick=async function(){const t='contact@jeetpstudio.com';try{await navigator.clipboard.writeText(t);this.textContent='Correo copiado';setTimeout(()=>this.textContent=t,2200)}catch{const r=document.createRange();r.selectNodeContents(this);const s=getSelection();s.removeAllRanges();s.addRange(r)}};
+
+/* Counters */
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return;io.unobserve(en.target);if(calm)return;const el=en.target,n=+el.dataset.n,s=el.dataset.s,t0=performance.now();(function f(t){const k=clamp((t-t0)/1300,0,1);el.textContent=Math.round(n*(1-Math.pow(1-k,4)))+s;if(k<1)requestAnimationFrame(f)})(t0)}),{threshold:.6});
+$$('[data-n]').forEach(e=>io.observe(e));
+
+/* Entrances from a visible state */
+const hL=$$('h1 .ln>span'),t00=performance.now();let heroDone=calm;
+function heroIn(t){if(heroDone)return;let all=true;hL.forEach((s,i)=>{const k=clamp((t-t00-120-i*110)/1200,0,1),e=1-Math.pow(1-k,4);if(k<1)all=false;s.style.transform=k>=1?'':`translateY(${(1-e)*105}%) rotate(${(1-e)*4}deg)`});heroDone=all}
+if(!calm){
+ const ro=new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return;ro.unobserve(en.target);en.target.animate([{transform:'translateY(46px)',opacity:.2},{transform:'none',opacity:1}],{duration:1100,easing:'cubic-bezier(.19,1,.22,1)'})}),{rootMargin:'0px 0px -8% 0px'});$$('.h2,.row,.card,.steps li,.talk').forEach(e=>ro.observe(e))}
+
+/* 3D: three glass slabs that lock into one block */
+const gl=$('#gl'),glow=$('#glow');let three=null;
+try{if(window.THREE){const T=THREE,r=new T.WebGLRenderer({canvas:gl,alpha:true,antialias:true});r.setPixelRatio(Math.min(devicePixelRatio||1,2));
+ const sc=new T.Scene(),cam=new T.PerspectiveCamera(32,1,.1,50);cam.position.set(0,0,9);
+ const sh=new T.Shape(),w=1.05,rd=.34;sh.moveTo(-w+rd,-w);sh.lineTo(w-rd,-w);sh.quadraticCurveTo(w,-w,w,-w+rd);sh.lineTo(w,w-rd);sh.quadraticCurveTo(w,w,w-rd,w);sh.lineTo(-w+rd,w);sh.quadraticCurveTo(-w,w,-w,w-rd);sh.lineTo(-w,-w+rd);sh.quadraticCurveTo(-w,-w,-w+rd,-w);
+ const geo=new T.ExtrudeGeometry(sh,{depth:.2,bevelEnabled:true,bevelThickness:.07,bevelSize:.07,bevelSegments:10,curveSegments:24});geo.center();geo.rotateX(Math.PI/2);
+ /* Each slab is one layer of a solution, drawn on its face: the screen people use, the intelligence behind it, the data underneath */
+ const S=1024,rr=(c,x,y,w,h,r)=>{c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()};
+ const FACE=[
+  c=>{c.fillStyle='#edf3ff';c.fillRect(0,0,S,S);c.fillStyle='#0a1a3a';rr(c,150,130,724,64,32);c.fill();c.fillStyle='#3fa9f5';[190,236,282].forEach(x=>{c.beginPath();c.arc(x,162,11,0,7);c.fill()});
+   const g=c.createLinearGradient(150,230,874,500);g.addColorStop(0,'#3fa9f5');g.addColorStop(1,'#1247e6');c.fillStyle=g;rr(c,150,230,724,270,30);c.fill();c.fillStyle='rgba(255,255,255,.95)';rr(c,196,280,330,34,17);c.fill();c.fillStyle='rgba(255,255,255,.6)';rr(c,196,336,230,22,11);c.fill();c.fillStyle='#fff';rr(c,196,400,170,54,27);c.fill();
+   [150,398,646].forEach((x,i)=>{c.fillStyle='#fff';rr(c,x,540,228,180,24);c.fill();c.fillStyle=i===1?'#1247e6':'#3fa9f5';rr(c,x+26,566,70,70,18);c.fill();c.fillStyle='#c4d3ee';rr(c,x+26,660,150,16,8);c.fill();rr(c,x+26,688,100,16,8);c.fill()});
+   c.strokeStyle='#1247e6';c.lineWidth=14;c.lineCap='round';c.lineJoin='round';c.beginPath();[[170,860],[300,820],[430,842],[560,784],[690,800],[850,748]].forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.stroke()},
+  c=>{const g=c.createRadialGradient(512,512,40,512,512,720);g.addColorStop(0,'#3a7bff');g.addColorStop(1,'#0b2aa8');c.fillStyle=g;c.fillRect(0,0,S,S);const P=[];for(let i=0;i<10;i++){const a=i/10*Math.PI*2;P.push([512+Math.cos(a)*330,512+Math.sin(a)*330])}const Q=[];for(let i=0;i<5;i++){const a=i/5*Math.PI*2+.3;Q.push([512+Math.cos(a)*175,512+Math.sin(a)*175])}
+   c.strokeStyle='rgba(255,255,255,.5)';c.lineWidth=5;P.forEach((p,i)=>{const q=Q[Math.floor(i/2)],n=P[(i+1)%10];c.beginPath();c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);c.moveTo(p[0],p[1]);c.lineTo(n[0],n[1]);c.stroke()});Q.forEach((q,i)=>{const n=Q[(i+1)%5];c.beginPath();c.moveTo(q[0],q[1]);c.lineTo(512,512);c.moveTo(q[0],q[1]);c.lineTo(n[0],n[1]);c.stroke()});
+   c.fillStyle='#bfe3ff';P.forEach(p=>{c.beginPath();c.arc(p[0],p[1],17,0,7);c.fill()});c.fillStyle='#fff';Q.forEach(q=>{c.beginPath();c.arc(q[0],q[1],24,0,7);c.fill()});c.save();c.translate(512,512);c.rotate(Math.PI/4);c.shadowColor='#fff';c.shadowBlur=60;rr(c,-62,-62,124,124,22);c.fill();c.restore()},
+  c=>{c.fillStyle='#07142e';c.fillRect(0,0,S,S);for(let i=0;i<10;i++)for(let j=0;j<10;j++){const on=(i*7+j*13)%5===0,mid=(i*3+j*5)%4===0;c.fillStyle=on?'#36d6ff':mid?'#1d55b8':'#102a55';rr(c,112+i*82,112+j*82,62,62,14);c.fill()}
+   c.strokeStyle='#36d6ff';c.lineWidth=6;c.beginPath();c.moveTo(143,225);c.lineTo(471,225);c.lineTo(471,553);c.lineTo(881,553);c.moveTo(307,881);c.lineTo(307,717);c.lineTo(717,717);c.stroke()}
+ ];
+ const sides=[0xc9dbff,0x1c5cf0,0x0e2c6e],grp=new T.Group(),parts=[];
+ const FROM=[[-1.5,1.25,-.6,.7,.3,-.5],[1.35,.1,.9,-.4,.9,.35],[-.5,-1.4,.4,.5,-.6,.8]];
+ FACE.forEach((fn,i)=>{const cv=document.createElement('canvas');cv.width=cv.height=S;fn(cv.getContext('2d'));const tx=new T.CanvasTexture(cv);tx.repeat.set(1/(2*w),1/(2*w));tx.offset.set(.5,.5);tx.anisotropy=r.capabilities.getMaxAnisotropy();
+  const face=new T.MeshPhysicalMaterial({map:tx,emissive:0xffffff,emissiveMap:tx,emissiveIntensity:.42,roughness:.22,metalness:.1,clearcoat:1,clearcoatRoughness:.1}),side=new T.MeshPhysicalMaterial({color:sides[i],roughness:.16,metalness:.3,clearcoat:1,clearcoatRoughness:.12});
+  const m=new T.Mesh(geo,[face,side]);grp.add(m);parts.push(m)});sc.add(grp);
+ sc.add(new T.AmbientLight(0x2a49b8,.9));const d1=new T.DirectionalLight(0xffffff,1.5);d1.position.set(-3,5,6);sc.add(d1);const p1=new T.PointLight(0x3fa9f5,2.4,30);p1.position.set(5,-2,4);sc.add(p1);const p2=new T.PointLight(0x1247e6,3,30);p2.position.set(-5,-4,-2);sc.add(p2);
+ three={r,sc,cam,grp,parts,FROM,T}}}catch(e){three=null}
+if(!three)gl.style.display='none';
+function sizeGL(){if(!three)return;three.r.setSize(innerWidth,innerHeight,false);three.cam.aspect=innerWidth/innerHeight;three.cam.updateProjectionMatrix()}
+let rotY=0,tiltX=0,tiltY=0;
+const tags=$$('#tags span');let v3=null;
+function draw3D(t,pA,vis,foot){if(!three)return;gl.style.opacity=vis;glow.style.opacity=clamp(vis+.0,0,1);if(vis<.02){tags.forEach(x=>x.style.opacity=0);return}const {r,sc,cam,grp,parts,FROM}=three,wide=innerWidth>820,a=ease(pA),sp=wide?.9:.72;
+ parts.forEach((m,i)=>{const f=FROM[i],fl=Math.sin(t*.0007+i*2.1)*.12*(1-a);m.position.set(f[0]*sp*(1-a),lerp(f[1]*sp+fl,(1-i)*.62,a),f[2]*(1-a));m.rotation.set(f[3]*(1-a),f[4]*(1-a)+t*.00025*(1-a)*(i%2?-1:1),f[5]*(1-a))});
+ rotY+=.0035+vel*.0006;tiltX=lerp(tiltX,(my/innerHeight-.5)*.5,.05);tiltY=lerp(tiltY,(mx/innerWidth-.5)*.7,.05);
+ grp.rotation.set(.42+tiltX,rotY+tiltY,-.16);const halfW=2.58*innerWidth/innerHeight,s=(wide?.8:.4)*(foot?.8:1),gx=wide?(foot?halfW*.56:halfW*.36):(a>.5?-.45*a:0);grp.scale.setScalar(s);grp.position.set(gx,wide?(foot?1.35:.2):(foot?1.75:1.35),0);
+ /* Layer names sit beside the stack once it has locked together */
+ grp.updateMatrixWorld();v3=v3||new three.T.Vector3();const lo=foot?0:vis*clamp((pA-.86)/.12,0,1);parts.forEach((m,i)=>{const el=tags[i];if(!el)return;el.style.opacity=lo;if(lo<.01)return;v3.setFromMatrixPosition(m.matrixWorld).project(cam);const px=(v3.x*.5+.5)*innerWidth+s*1.42/(halfW*2)*innerWidth,py=(-v3.y*.5+.5)*innerHeight;el.style.transform=`translate3d(${px}px,${py}px,0) translateY(-50%)`});
+ glow.style.setProperty('--gx',wide?'72%':'50%');glow.style.setProperty('--gy',wide?'48%':'32%');r.render(sc,cam)}
+
+/* One loop drives everything tied to scroll */
+const nav=$('#nav'),steps=$('#steps'),sLi=$$('li',steps),foot=$('#contacto'),hero=$('#inicio');let navY=scrollY;
+function frame(t){const y=scrollY,vh=innerHeight;vel=lerp(vel,y-lastY,.2);lastY=y;heroIn(t);
+ if(Math.abs(y-navY)>8){nav.classList.toggle('away',y>navY&&y>vh*.6);navY=y}
+ /* manifesto */
+ const mr=mani.getBoundingClientRect(),mp=clamp(-mr.top/Math.max(1,mr.height-vh),0,1);if(!calm)setSay(mr.top>vh*.35?-1:Math.min(3,Math.floor(mp*4)));
+ /* 3D visibility: hero and manifesto, then again at the footer */
+ const fr=foot.getBoundingClientRect(),inFoot=fr.top<vh*.75,endFade=clamp((mr.bottom-vh*.55)/(vh*.4),0,1),vis=inFoot?clamp((vh*.75-fr.top)/(vh*.4),0,1):endFade;
+ const pA=inFoot?1:clamp((y-vh*.25)/Math.max(1,(mr.height+hero.offsetHeight)-vh*1.9),0,1);draw3D(t,calm?1:pA,vis,inFoot);
+ /* about */
+ if(!calm){const ar=aT.getBoundingClientRect(),k=clamp((vh*.86-ar.top)/(ar.height+vh*.36),0,1)*aW.length;aW.forEach((w,i)=>w.classList.toggle('on',i<k))}
+ if(fine){const b=about.getBoundingClientRect();lx=lerp(lx,mx-b.left,.14);ly=lerp(ly,my-b.top,.14);lens.style.transform=`translate3d(${lx}px,${ly}px,0)`}
+ /* solutions */
+ if(!calm){const sr=sol.getBoundingClientRect(),sp=clamp(-sr.top/Math.max(1,sr.height-vh),0,1);const q=sp*(panes.length-1),qi=Math.min(panes.length-2,Math.floor(q)),qf=ease(clamp((q-qi-.18)/.64,0,1)),gutL=panes[0].offsetLeft;tx=lerp(tx,lerp(offs[qi],offs[qi+1],qf),.14);track.style.transform=`translate3d(${-tx}px,0,0)`;$('#solB').style.transform=`scaleX(${sp})`;
+  if(sr.top<vh&&sr.bottom>0){let best=0,bd=1e9;panes.forEach((p,i)=>{const b=p.getBoundingClientRect(),d=b.left-gutL,ad=Math.abs(d);if(ad<bd){bd=ad;best=i}const f=clamp(d/innerWidth,-1,1),h=p.firstChild;h.style.transform=`skewX(${(f*-10).toFixed(2)}deg) scaleX(${(1+Math.max(0,f)*.22).toFixed(3)})`;h.style.opacity=(1-Math.min(.62,Math.max(0,Math.abs(f)-.12)*1.1)).toFixed(2)});$('#solN').textContent=(best+1)+' / '+panes.length}}
+ /* floating case image */
+ if(fOn){fx=lerp(fx,mx+26,.16);fy=lerp(fy,my-flo.offsetHeight/2,.16);flo.style.transform=`translate3d(${Math.min(fx,innerWidth-flo.offsetWidth-12)}px,${fy}px,0) rotate(${clamp(vel*.25+(mx+26-fx)*.03,-9,9)}deg)`}
+ /* marquee */
+ mqX-=(.7+Math.abs(vel)*.5);if(mqX<-mqW)mqX+=mqW;if(!calm)mq.style.transform=`translate3d(${mqX}px,0,0) skewX(${clamp(vel*-.35,-14,14)}deg)`;
+ /* steps */
+ const st=steps.getBoundingClientRect(),f=calm?4:clamp((vh*.82-st.top)/(vh*.5),0,1)*4;sLi.forEach((l,i)=>l.style.setProperty('--f',clamp(f-i,0,1).toFixed(3)));
+ if(!calm)requestAnimationFrame(frame)}
+function fit(){sizeSol();sizeGL();mqW=mq.scrollWidth/4;const tk=$('#talk');tk.style.fontSize='';}
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(fit,100)});fit();addEventListener('load',fit);if(document.fonts)document.fonts.ready.then(fit);
+requestAnimationFrame(frame);if(calm)addEventListener('scroll',()=>frame(performance.now()),{passive:true});
+})();
+</script>
