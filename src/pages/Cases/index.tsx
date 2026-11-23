@@ -31,7 +31,7 @@ export default function Cases() {
   return (
     <>
       <main className="page">
-        <PageHero eyebrow={c.cases.label} title={c.cases.title} accent={c.cases.accent}>
+        <PageHero editKey="cases-hero" eyebrow={c.cases.label} title={c.cases.title} accent={c.cases.accent}>
           <div className="filters" role="group" aria-label={c.ui.casesIndex.filterLabel}>
             <button
               type="button"
@@ -68,6 +68,7 @@ export default function Cases() {
                   <Reveal
                     as="article"
                     className="case-card"
+                    data-edit={`project:${p.id}`}
                     key={p.id}
                     style={{ ["--span" as string]: SPANS[i % SPANS.length] }}
                   >

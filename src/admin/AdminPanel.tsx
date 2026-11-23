@@ -1,69 +1,108 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useContent } from "@/content/ContentContext";
 import type { Lang } from "@/content/i18n";
-import {
-  AboutTab,
-  CasesPageTab,
-  ClientsTab,
-  ContactTab,
-  GlobalTab,
-  ServicesTab,
-  TextsTab,
-} from "./tabs";
-import HomeTab from "./HomeTab";
-import ProjectsTab from "./CasesTab";
 import { EditLangContext } from "./editLang";
+import { Icon } from "./icons";
+import { AdminNavContext, type AdminNav } from "./nav";
+import PageEditor from "./PageEditor";
+import PreviewPane from "./PreviewPane";
+import ProjectsPage from "./ProjectsPage";
+import PublishPanel from "./PublishPanel";
+import Rail from "./Rail";
+import { locate, pageByKey, previewKeyFor, routeOfPage } from "./sections";
+import TopBar from "./TopBar";
+import { useMediaQuery } from "./useMediaQuery";
 
-type TabDef = { key: string; label: string; Comp: () => JSX.Element };
-type Group = { label: string; tabs: TabDef[] };
+const TOAST_MS = 2600;
 
-const GROUPS: Group[] = [
-  {
-    label: "General",
-    tabs: [
-      { key: "global", label: "Global", Comp: GlobalTab },
-      { key: "texts", label: "Texts", Comp: TextsTab },
-    ],
-  },
-  {
-    label: "Pages",
-    tabs: [
-      { key: "home", label: "Home", Comp: HomeTab },
-      { key: "about", label: "About Us", Comp: AboutTab },
-      { key: "services", label: "Services", Comp: ServicesTab },
-      { key: "casesPage", label: "Case Studies", Comp: CasesPageTab },
-      { key: "contact", label: "Contact", Comp: ContactTab },
-    ],
-  },
-  {
-    label: "Clients",
-    tabs: [{ key: "clients", label: "Clients", Comp: ClientsTab }],
-  },
-  {
-    label: "Case Studies",
-    tabs: [{ key: "projects", label: "Projects", Comp: ProjectsTab }],
-  },
-];
-
-const ALL_TABS: TabDef[] = GROUPS.flatMap((g) => g.tabs);
-
+/**
+ * The content editor: pages on the left, the fields of one page in the middle,
+ * the real site on the right. Opening a block in either side finds it in the
+ * other. Nothing is saved to the repository from here: Publish downloads the
+ * file that replaces `public/content.json`.
+ */
 export default function AdminPanel() {
-  const {
-    saveLocal,
-    exportJson,
-    importJson,
-    resetToDefaults,
-    resetToRemote,
-    hasLocalOverride,
-    remoteLoaded,
-  } = useContent();
-  const navigate = useNavigate();
-  const [tab, setTab] = useState("global");
+  const { content, unsaved, saveLocal, undo, redo } = useContent();
+  const [page, setPage] = useState("home");
+  const [projectId, setProjectIdState] = useState<string | null>(null);
+  const [openKey, setOpenKeyState] = useState<string | null>(null);
   const [editLang, setEditLang] = useState<Lang>("en");
+  const [search, setSearch] = useState("");
+  const [route, setRoute] = useState("/");
+  const [focus, setFocus] = useState<{ key: string; n: number } | null>(null);
+  const [previewWide, setPreviewWide] = useState(true);
+  const [previewNarrow, setPreviewNarrow] = useState(false);
+  const [publishOpen, setPublishOpen] = useState(false);
   const [toast, setToast] = useState("");
-  const fileRef = useRef<HTMLInputElement>(null);
-  const mainRef = useRef<HTMLDivElement>(null);
+  const narrow = useMediaQuery("(max-width: 1099px)");
+  const editor = useRef<HTMLDivElement>(null);
+  const toastTimer = useRef(0);
+
+  const previewVisible = narrow ? previewNarrow : previewWide;
+  const query = search.trim().toLowerCase();
+  const es = editLang === "es";
+
+  const notify = useCallback((msg: string) => {
+    setToast(msg);
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(""), TOAST_MS);
+  }, []);
+
+  const askFocus = (key: string) => setFocus((f) => ({ key, n: (f?.n ?? 0) + 1 }));
+
+  const selectPage = (key: string) => {
+    setPage(key);
+    setProjectIdState(null);
+    setOpenKeyState(null);
+    setSearch("");
+    setRoute(routeOfPage(key));
+  };
+
+  const nav: AdminNav = {
+    openKey,
+    setOpenKey: (k) => {
+      setOpenKeyState(k);
+      if (k) askFocus(previewKeyFor(k));
+    },
+    projectId,
+    setProjectId: (id) => {
+      setProjectIdState(id);
+      setOpenKeyState(null);
+      setRoute(id ? `/case-studies/${id}` : "/case-studies");
+    },
+    go: (target, section) => {
+      selectPage(target);
+      if (section) {
+        setOpenKeyState(section);
+        askFocus(previewKeyFor(section));
+      }
+    },
+    query,
+  };
+
+  // A click on a block in the preview: open it here. The preview is already
+  // showing it, so neither the page nor the scroll of the preview changes.
+  const onSelect = (key: string) => {
+    const loc = locate(key, content);
+    if (!loc) return;
+    setPage(loc.page);
+    setProjectIdState(loc.project ?? null);
+    setOpenKeyState(loc.open);
+    setSearch("");
+    if (narrow) setPreviewNarrow(false);
+  };
+
+  // Bring the open card into view, whoever opened it.
+  useEffect(() => {
+    if (!openKey) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const id = window.requestAnimationFrame(() =>
+      document
+        .getElementById(`sec-${openKey}`)
+        ?.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" })
+    );
+    return () => window.cancelAnimationFrame(id);
+  }, [openKey, page, projectId]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -72,153 +111,132 @@ export default function AdminPanel() {
     };
   }, []);
 
+  // Save by itself a moment after the last change, and when the tab is left.
   useEffect(() => {
-    if (mainRef.current) mainRef.current.scrollTop = 0;
-  }, [tab]);
+    if (!unsaved) return;
+    const t = window.setTimeout(saveLocal, 1200);
+    return () => window.clearTimeout(t);
+  }, [unsaved, content, saveLocal]);
 
-  const showToast = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(""), 1800);
-  };
+  const unsavedRef = useRef(unsaved);
+  unsavedRef.current = unsaved;
+  useEffect(() => {
+    const flush = () => unsavedRef.current && saveLocal();
+    const onHide = () => document.visibilityState === "hidden" && flush();
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", onHide);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", onHide);
+    };
+  }, [saveLocal]);
 
-  const onImport = (file: File | undefined) => {
-    if (!file) return;
-    const r = new FileReader();
-    r.onload = () => {
-      try {
-        importJson(String(r.result));
-        showToast("JSON imported");
-      } catch {
-        alert("The file is not valid JSON.");
+  // Undo and redo act on the draft, also while a field has the focus.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey) || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "z") {
+        e.preventDefault();
+        if (e.shiftKey) redo();
+        else undo();
+      } else if (k === "y") {
+        e.preventDefault();
+        redo();
+      } else if (k === "s") {
+        e.preventDefault();
+        saveLocal();
+        notify("Saved in this browser.");
       }
     };
-    r.readAsText(file);
-  };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [undo, redo, saveLocal, notify]);
 
-  const ActiveTab = ALL_TABS.find((t) => t.key === tab)?.Comp ?? GlobalTab;
+  const routes = useMemo(
+    () => [
+      {
+        group: "Pages",
+        items: [
+          { path: "/", label: "Home" },
+          { path: "/about", label: "About" },
+          { path: "/services", label: "Services" },
+          { path: "/case-studies", label: "Work" },
+          { path: "/contact", label: "Contact" },
+        ],
+      },
+      {
+        group: "Case studies",
+        items: content.projects.map((p) => ({ path: `/case-studies/${p.id}`, label: p.name || "Project" })),
+      },
+    ],
+    [content.projects]
+  );
+
+  const def = pageByKey(page);
+  const hidePreview = () => (narrow ? setPreviewNarrow(false) : setPreviewWide(false));
 
   return (
     <div className="admin">
-      <div className="ad-top">
-        <div>
-          <h1>JeeTP · Content panel</h1>
-          <div className="sub">
-            {remoteLoaded ? "Remote JSON loaded" : "Using default content"}
-            {hasLocalOverride ? " · you have unpublished local changes" : ""}
+      <TopBar
+        editLang={editLang}
+        onLang={setEditLang}
+        previewVisible={previewVisible}
+        onTogglePreview={() => (narrow ? setPreviewNarrow(!previewNarrow) : setPreviewWide(!previewWide))}
+        onPublish={() => setPublishOpen(true)}
+        notify={notify}
+      />
+
+      <div className={`ad-body${previewVisible ? " with-preview" : ""}${narrow && previewVisible ? " preview-only" : ""}`}>
+        <Rail page={page} onPage={selectPage} />
+
+        <main className="ad-editor" ref={editor}>
+          <div className="ad-tools">
+            <label className="search">
+              <Icon name="search" size={16} />
+              <input
+                type="search"
+                placeholder="Search this page by name or text"
+                aria-label="Search this page by name or text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </label>
           </div>
-        </div>
-        <div className="ad-actions">
-          <div className="ad-lang" role="group" aria-label="Editing language">
-            <span>Editing</span>
-            {(["en", "es"] as Lang[]).map((l) => (
-              <button
-                key={l}
-                className={`ad-btn ghost ${editLang === l ? "on" : ""}`}
-                aria-pressed={editLang === l}
-                onClick={() => setEditLang(l)}
-              >
-                {l.toUpperCase()}
-              </button>
-            ))}
-          </div>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="application/json"
-            style={{ display: "none" }}
-            onChange={(e) => onImport(e.target.files?.[0])}
+          {es ? (
+            <div className="modebar" role="note">
+              <b>Editing Spanish.</b> A field marked “Shows English until translated” is still in
+              English on the Spanish site. “Copy English” starts you from the English text.
+            </div>
+          ) : null}
+          <AdminNavContext.Provider value={nav}>
+            <EditLangContext.Provider value={editLang}>
+              {/* Remount on language change so text fields reload their raw text. */}
+              <div className="ad-page" key={`${editLang}:${page}`}>
+                {page === "projects" ? <ProjectsPage /> : def ? <PageEditor page={def} /> : null}
+              </div>
+            </EditLangContext.Provider>
+          </AdminNavContext.Provider>
+        </main>
+
+        {previewVisible ? (
+          <PreviewPane
+            content={content}
+            lang={editLang}
+            route={route}
+            onRoute={setRoute}
+            routes={routes}
+            focus={focus}
+            onSelect={onSelect}
+            onHide={hidePreview}
           />
-          <button
-            className="ad-btn ghost"
-            onClick={() => fileRef.current?.click()}
-          >
-            Import JSON
-          </button>
-          <button
-            className="ad-btn ghost"
-            onClick={() => {
-              exportJson();
-              showToast("content.json downloaded");
-            }}
-          >
-            Export JSON
-          </button>
-          <button
-            className="ad-btn ghost"
-            onClick={() => {
-              if (
-                confirm(
-                  "Discard your local changes and reload the JSON from the bucket?"
-                )
-              )
-                resetToRemote();
-            }}
-          >
-            Reload remote
-          </button>
-          <button
-            className="ad-btn warn"
-            onClick={() => {
-              if (confirm("Reset everything to default values?"))
-                resetToDefaults();
-            }}
-          >
-            Reset
-          </button>
-          <button
-            className="ad-btn ghost"
-            onClick={() => {
-              saveLocal();
-              navigate("/");
-            }}
-          >
-            View site
-          </button>
-          <button
-            className="ad-btn primary"
-            onClick={() => {
-              saveLocal();
-              showToast("Saved locally");
-            }}
-          >
-            Save
-          </button>
-        </div>
+        ) : null}
       </div>
 
-      <div className="ad-body">
-        <nav className="ad-tabs">
-          {GROUPS.map((g) => (
-            <div className="ad-group" key={g.label}>
-              <div className="ad-grouptitle">{g.label}</div>
-              {g.tabs.map((t) => (
-                <button
-                  key={t.key}
-                  className={`ad-tab ${t.key === tab ? "on" : ""}`}
-                  onClick={() => setTab(t.key)}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-          ))}
-        </nav>
-        <div className="ad-main" ref={mainRef}>
-          {editLang === "es" && (
-            <div className="ad-eslabel">
-              Editing the Spanish version. Text fields show the English as a guide and fall back to it
-              when left empty. Images, links, numbers, colours and switches are shared and keep
-              their English values.
-            </div>
-          )}
-          <EditLangContext.Provider value={editLang}>
-            {/* Remount on language change so text fields reload their raw text. */}
-            <ActiveTab key={editLang} />
-          </EditLangContext.Provider>
-        </div>
+      {publishOpen ? <PublishPanel onClose={() => setPublishOpen(false)} /> : null}
+      <div className={`toast${toast ? " show" : ""}`} role="status" aria-live="polite">
+        {toast}
       </div>
-
-      <div className={`save-toast ${toast ? "show" : ""}`}>{toast}</div>
     </div>
   );
 }

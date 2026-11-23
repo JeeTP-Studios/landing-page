@@ -34,7 +34,7 @@ export default function Home() {
         {c.order
           .filter((k) => isHomeSectionEnabled(c, k))
           .map((k) => (
-            <div key={k} className={`home-${k}`}>
+            <div key={k} className={`home-${k}`} data-edit={k}>
               {SECTIONS[k]()}
             </div>
           ))}

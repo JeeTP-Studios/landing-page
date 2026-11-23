@@ -51,7 +51,7 @@ export default function ClientsMarquee({
 
   if (!logos.length) return null;
   return (
-    <div className="mq" role="group" aria-label={label}>
+    <div className="mq" role="group" aria-label={label} data-edit="clients">
       <div className="mq-t" ref={track}>
         {Array.from({ length: COPIES }).flatMap((_, k) =>
           logos.map((l) =>

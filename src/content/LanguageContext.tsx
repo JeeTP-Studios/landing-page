@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { useLocation } from "react-router-dom";
+import { IS_PREVIEW } from "@/preview/mode";
 import { DEFAULT_LANG, isLang, type Lang } from "./i18n";
 
 const STORAGE_LANG = "jeetp_lang";
@@ -46,6 +47,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
+    // The editor's preview follows the editor's language and must not
+    // overwrite the language this browser chose as a visitor.
+    if (IS_PREVIEW) return;
     try {
       localStorage.setItem(STORAGE_LANG, l);
     } catch {

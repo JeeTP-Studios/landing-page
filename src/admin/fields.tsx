@@ -1,17 +1,21 @@
 import { useContent } from "@/content/ContentContext";
 import { getOverlay, overlayAlignLines, setOverlay } from "@/content/i18n";
 import { getByPath, setByPath } from "@/lib/path";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type ReactNode } from "react";
 import { useEditLang } from "./editLang";
+import { Icon } from "./icons";
+import { useFieldSearch } from "./search";
 
 /* ============================================================
    Field components, bound to the document by path ("hero.sub").
 
    Text fields (TextField, ListField, StepsField) follow the editing language:
-   in Spanish they read and write the overlay and show the English text as a
-   hint. Every other field (images, colours, switches, selects, numbers, links)
-   edits the shared base and says so.
+   in Spanish they read and write the overlay, show the English as a guide, and
+   flag themselves while Spanish is missing. Every other field (images,
+   switches, selects, numbers, links) edits the shared base and says so.
    ============================================================ */
+
+const hasText = (v: unknown) => typeof v === "string" && v.trim() !== "";
 
 /** Binding of a text path to either the base or the Spanish overlay. */
 function useText<T>(path: string, shared = false) {
@@ -33,12 +37,52 @@ function useShared<T>(path: string): [T, (v: T) => void, boolean] {
   return [value, set, es];
 }
 
-function Label({ children, shared }: { children: ReactNode; shared?: boolean }) {
+/** Common frame of a field: label, tags, control, guidance. */
+function Field({
+  label,
+  text = "",
+  sharedTag,
+  missing,
+  onCopyEnglish,
+  counter,
+  hint,
+  children,
+}: {
+  label: string;
+  /** Current content, for the search box. */
+  text?: string;
+  sharedTag?: boolean;
+  /** Spanish mode and nothing translated yet. */
+  missing?: boolean;
+  onCopyEnglish?: () => void;
+  counter?: { len: number; max: number; what?: string };
+  hint?: ReactNode;
+  children: (id: string) => ReactNode;
+}) {
+  const id = useId();
+  const { query, sectionHit } = useFieldSearch();
+  if (query && !sectionHit && !`${label} ${text}`.toLowerCase().includes(query)) return null;
   return (
-    <label>
-      {children}
-      {shared ? <span className="sharedtag">same in both languages</span> : null}
-    </label>
+    <div className={`fld${missing ? " untranslated" : ""}`}>
+      <div className="fld-head">
+        <label htmlFor={id}>{label}</label>
+        {sharedTag ? <span className="sharedtag">same in both languages</span> : null}
+        {missing ? <span className="misstag">Shows English until translated</span> : null}
+        {missing && onCopyEnglish ? (
+          <button type="button" className="linkbtn" onClick={onCopyEnglish}>
+            <Icon name="copy" size={13} /> Copy English
+          </button>
+        ) : null}
+        {counter ? (
+          <span className={`counter${counter.len > counter.max ? " over" : ""}`}>
+            {counter.what ? `${counter.what} ` : ""}
+            {counter.len}/{counter.max}
+          </span>
+        ) : null}
+      </div>
+      {children(id)}
+      {hint ? <div className="hint">{hint}</div> : null}
+    </div>
   );
 }
 
@@ -50,6 +94,7 @@ export function TextField({
   hint,
   number,
   shared,
+  max,
 }: {
   label: string;
   path: string;
@@ -59,36 +104,56 @@ export function TextField({
   number?: boolean;
   /** Not translatable (links, codes, names): always edits the base. */
   shared?: boolean;
+  /** Recommended length; the counter turns red past it (it never blocks typing). */
+  max?: number;
 }) {
   const isShared = !!(shared || number);
   const { es, base, value, set } = useText<string | number>(path, isShared);
+  const lang = useEditLang();
   const inEs = es && !isShared;
+  const missing = inEs && hasText(base) && !hasText(value);
+  const str = (value as string | number | undefined) ?? "";
   return (
-    <div className="fld">
-      <Label shared={useEditLang() === "es" && isShared}>{label}</Label>
-      {area ? (
-        <textarea
-          value={(value as string) ?? ""}
-          placeholder={inEs ? String(base ?? "") : undefined}
-          onChange={(e) => set(e.target.value)}
-        />
-      ) : number ? (
-        <input
-          type="number"
-          value={(value as number) ?? 0}
-          onChange={(e) => set(Number(e.target.value) || 0)}
-        />
-      ) : (
-        <input
-          type="text"
-          value={(value as string) ?? ""}
-          placeholder={inEs ? String(base ?? "") : undefined}
-          onChange={(e) => set(e.target.value)}
-        />
-      )}
-      {inEs ? <div className="hint">English: {String(base ?? "")}</div> : null}
-      {hint ? <div className="hint">{hint}</div> : null}
-    </div>
+    <Field
+      label={label}
+      text={String(str || base || "")}
+      sharedTag={lang === "es" && isShared}
+      missing={missing}
+      onCopyEnglish={() => set(base as string)}
+      counter={max ? { len: String(str).length, max } : undefined}
+      hint={
+        <>
+          {inEs && hasText(base) ? <span className="english">English: {String(base)}</span> : null}
+          {hint}
+        </>
+      }
+    >
+      {(id) =>
+        area ? (
+          <textarea
+            id={id}
+            value={String(str)}
+            placeholder={inEs ? String(base ?? "") : undefined}
+            onChange={(e) => set(e.target.value)}
+          />
+        ) : number ? (
+          <input
+            id={id}
+            type="number"
+            value={(value as number) ?? 0}
+            onChange={(e) => set(Number(e.target.value) || 0)}
+          />
+        ) : (
+          <input
+            id={id}
+            type="text"
+            value={String(str)}
+            placeholder={inEs ? String(base ?? "") : undefined}
+            onChange={(e) => set(e.target.value)}
+          />
+        )
+      }
+    </Field>
   );
 }
 
@@ -106,11 +171,14 @@ export function ListField({
   path,
   mode = "lines",
   hint,
+  maxLine,
 }: {
   label: string;
   path: string;
   mode?: "lines" | "commas";
   hint?: string;
+  /** Recommended length of the longest line. */
+  maxLine?: number;
 }) {
   const { update } = useContent();
   const { es, base, value, set } = useText<string[]>(path);
@@ -120,7 +188,7 @@ export function ListField({
   // Raw text state lets commas, spaces and Enter be typed freely.
   const [raw, setRaw] = useState<string>(() => current.map((s) => s ?? "").join(sep));
 
-  // Re-sync when the value changes from outside (import, reset).
+  // Re-sync when the value changes from outside (import, reset, undo, copy).
   useEffect(() => {
     const parsed = parseLines(raw, splitChar, es);
     if (JSON.stringify(parsed) !== JSON.stringify(current.map((s) => s ?? ""))) {
@@ -143,30 +211,46 @@ export function ListField({
     });
   };
 
+  const missing = es && (base || []).some(hasText) && !current.some(hasText);
+  const longest = Math.max(0, ...parseLines(raw, splitChar, false).map((l) => l.length));
   return (
-    <div className="fld">
-      <Label>{label}</Label>
-      {mode === "commas" ? (
-        <input
-          type="text"
-          value={raw}
-          placeholder={es ? (base || []).join(sep) : undefined}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      ) : (
-        <textarea
-          value={raw}
-          placeholder={es ? (base || []).join(sep) : undefined}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      )}
-      {es ? (
-        <div className="hint">
-          English: {(base || []).join(" · ")}. Keep one line per item, in the same order.
-        </div>
-      ) : null}
-      {hint ? <div className="hint">{hint}</div> : null}
-    </div>
+    <Field
+      label={label}
+      text={raw}
+      missing={missing}
+      onCopyEnglish={() => set([...(base || [])])}
+      counter={maxLine ? { len: longest, max: maxLine, what: "longest line" } : undefined}
+      hint={
+        <>
+          {es ? (
+            <span className="english">
+              English: {(base || []).join(" · ")}. Keep one line per item, in the same order.
+            </span>
+          ) : null}
+          {hint}
+        </>
+      }
+    >
+      {(id) =>
+        mode === "commas" ? (
+          <input
+            id={id}
+            type="text"
+            value={raw}
+            placeholder={es ? (base || []).join(sep) : undefined}
+            onChange={(e) => onChange(e.target.value)}
+          />
+        ) : (
+          <textarea
+            id={id}
+            value={raw}
+            rows={Math.min(8, Math.max(3, raw.split("\n").length + 1))}
+            placeholder={es ? (base || []).join(sep) : undefined}
+            onChange={(e) => onChange(e.target.value)}
+          />
+        )
+      }
+    </Field>
   );
 }
 
@@ -211,21 +295,44 @@ export function StepsField({
     });
   };
 
+  const missing = es && texts(base).some(hasText) && !texts(value).some(hasText);
   return (
-    <div className="fld">
-      <Label>{label}</Label>
-      <textarea
-        value={raw}
-        placeholder={es ? texts(base).join("\n") : undefined}
-        onChange={(e) => onChange(e.target.value)}
-      />
-      {es ? <div className="hint">English: {texts(base).join(" · ")}</div> : null}
-      {hint ? <div className="hint">{hint}</div> : null}
-    </div>
+    <Field
+      label={label}
+      text={raw}
+      missing={missing}
+      onCopyEnglish={() => set(texts(base).map((t) => ["", t] as [string, string]))}
+      hint={
+        <>
+          {es ? <span className="english">English: {texts(base).join(" · ")}</span> : null}
+          {hint}
+        </>
+      }
+    >
+      {(id) => (
+        <textarea
+          id={id}
+          value={raw}
+          rows={Math.min(8, Math.max(3, raw.split("\n").length + 1))}
+          placeholder={es ? texts(base).join("\n") : undefined}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      )}
+    </Field>
   );
 }
 
-/* ---------- image (url + upload) ---------- */
+/* ---------- image ---------- */
+
+/** Above this an embedded image makes the whole content file heavy. */
+const EMBED_WARN_KB = 300;
+
+/** Size in KB of the file inside a data: URL, or 0 for an ordinary path. */
+function embeddedKb(v: string): number {
+  if (!v.startsWith("data:")) return 0;
+  return Math.round(((v.length - v.indexOf(",") - 1) * 3) / 4 / 1024);
+}
+
 export function ImageField({
   label,
   path,
@@ -236,35 +343,97 @@ export function ImageField({
   hint?: string;
 }) {
   const [v, set, es] = useShared<string>(path);
+  const [over, setOver] = useState(false);
+  const [broken, setBroken] = useState(false);
+  const value = v || "";
+  const kb = embeddedKb(value);
+
+  useEffect(() => setBroken(false), [value]);
+
   const onFile = (file: File | undefined) => {
-    if (!file) return;
+    if (!file || !file.type.startsWith("image/")) return;
     const r = new FileReader();
     r.onload = () => set(String(r.result));
     r.readAsDataURL(file);
   };
+
   return (
-    <div className="fld">
-      <Label shared={es}>{label}</Label>
-      <div className="imgrow">
-        <div className="imgthumb">{v ? <img src={v} alt="" /> : "no img"}</div>
-        <input
-          type="text"
-          value={v || ""}
-          onChange={(e) => set(e.target.value)}
-          placeholder="Image URL"
-        />
-        <label className="uploadbtn">
-          Upload
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={(e) => onFile(e.target.files?.[0])}
-          />
-        </label>
-      </div>
-      {hint ? <div className="hint">{hint}</div> : null}
-    </div>
+    <Field label={label} text={value.startsWith("data:") ? "" : value} sharedTag={es} hint={hint}>
+      {(id) => (
+        <>
+          <div
+            className={`imgfield${over ? " over" : ""}`}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setOver(true);
+            }}
+            onDragLeave={() => setOver(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setOver(false);
+              const f = e.dataTransfer.files[0];
+              if (f) onFile(f);
+              else {
+                const t = e.dataTransfer.getData("text/uri-list") || e.dataTransfer.getData("text/plain");
+                if (t) set(t.trim());
+              }
+            }}
+          >
+            <div className="imgthumb">
+              {value && !broken ? (
+                <img src={value} alt="" onError={() => setBroken(true)} />
+              ) : (
+                <span>
+                  <Icon name="image" size={22} />
+                  {broken ? "Cannot load" : "No image"}
+                </span>
+              )}
+            </div>
+            <div className="imgside">
+              <input
+                id={id}
+                type="text"
+                value={kb ? "" : value}
+                placeholder={kb ? `Uploaded image (${kb} KB)` : "Path or link, e.g. /resources/photo.jpg"}
+                onChange={(e) => set(e.target.value)}
+              />
+              <div className="imgbtns">
+                <label className="btn ghost small">
+                  <Icon name="upload" size={14} /> Upload
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => {
+                      onFile(e.target.files?.[0]);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+                {value ? (
+                  <button type="button" className="btn ghost small" onClick={() => set("")}>
+                    Remove
+                  </button>
+                ) : null}
+                <span className="dropnote">or drop a file here</span>
+              </div>
+            </div>
+          </div>
+          {kb > EMBED_WARN_KB ? (
+            <div className="warnbox" role="alert">
+              This image is stored inside the content file ({kb} KB) and will slow the whole site
+              down. Better: add the file to <code>public/resources/</code> in the repository and
+              paste its path here (for example <code>/resources/photo.jpg</code>).
+            </div>
+          ) : kb ? (
+            <div className="hint">
+              Stored inside the content file ({kb} KB). For big images, use a file in{" "}
+              <code>public/resources/</code> instead.
+            </div>
+          ) : null}
+        </>
+      )}
+    </Field>
   );
 }
 
@@ -280,57 +449,65 @@ export function SelectField({
 }) {
   const [v, set, es] = useShared<string>(path);
   return (
-    <div className="fld">
-      <Label shared={es}>{label}</Label>
-      <select className="selfld" value={v} onChange={(e) => set(e.target.value)}>
-        {options.map(([val, txt]) => (
-          <option key={val} value={val}>
-            {txt}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Field label={label} text={v} sharedTag={es}>
+      {(id) => (
+        <select id={id} className="selfld" value={v} onChange={(e) => set(e.target.value)}>
+          {options.map(([val, txt]) => (
+            <option key={val} value={val}>
+              {txt}
+            </option>
+          ))}
+        </select>
+      )}
+    </Field>
   );
 }
 
 /* ---------- switch ---------- */
-export function SwitchField({ label, path }: { label: string; path: string }) {
+export function SwitchField({ label, path, hint }: { label: string; path: string; hint?: string }) {
   const [v, set, es] = useShared<boolean>(path);
+  const { query, sectionHit } = useFieldSearch();
+  const id = useId();
+  if (query && !sectionHit && !label.toLowerCase().includes(query)) return null;
   return (
     <div className="switch-row">
-      <label className="lbltxt">
-        {label}
+      <div>
+        <label htmlFor={id} className="lbltxt">
+          {label}
+        </label>
         {es ? <span className="sharedtag">same in both languages</span> : null}
-      </label>
-      <label className="switch">
-        <input type="checkbox" checked={!!v} onChange={(e) => set(e.target.checked)} />
+        {hint ? <div className="hint">{hint}</div> : null}
+      </div>
+      <span className="switch">
+        <input id={id} type="checkbox" checked={!!v} onChange={(e) => set(e.target.checked)} />
         <span className="sl" />
-      </label>
+      </span>
     </div>
   );
 }
 
-/* ---------- accordion ---------- */
-export function Accordion({
-  summary,
+/* ---------- layout helpers ---------- */
+
+/** A titled cluster of fields inside a section. */
+export function Group({
+  title,
+  hint,
   children,
-  open,
-  right,
 }: {
-  summary: ReactNode;
+  title: string;
+  hint?: string;
   children: ReactNode;
-  open?: boolean;
-  right?: ReactNode;
 }) {
   return (
-    <details className="acc" open={open}>
-      <summary>
-        <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {summary}
-          {right}
-        </span>
-      </summary>
-      <div className="accbody">{children}</div>
-    </details>
+    <div className="ad-group">
+      <div className="ad-group-title">{title}</div>
+      {hint ? <div className="hint">{hint}</div> : null}
+      {children}
+    </div>
   );
+}
+
+/** Two short fields side by side. */
+export function Row({ children }: { children: ReactNode }) {
+  return <div className="frow">{children}</div>;
 }

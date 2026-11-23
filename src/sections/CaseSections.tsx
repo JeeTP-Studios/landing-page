@@ -28,7 +28,7 @@ function markName(title: string, name: string): ReactNode {
 
 function Overview({ s, p }: { s: OverviewSection; p: Project }) {
   return (
-    <section className="cs">
+    <section className="cs" data-edit={`section:${s.id}`}>
       <div className="cs-split">
         <Reveal as="h2" className="h3">
           {markName(s.title, p.name)}
@@ -50,7 +50,7 @@ function Overview({ s, p }: { s: OverviewSection; p: Project }) {
 
 function Process({ s }: { s: ProcessSection }) {
   return (
-    <section className="cs">
+    <section className="cs" data-edit={`section:${s.id}`}>
       <Reveal as="h2" className="h3">
         {s.title}
       </Reveal>
@@ -70,7 +70,7 @@ function Challenge({ s }: { s: ChallengeSection }) {
   const { ui } = useSite();
   const hasCols = s.problems.length > 0 || s.approach.length > 0;
   return (
-    <section className="cs">
+    <section className="cs" data-edit={`section:${s.id}`}>
       <Reveal as="h2" className="h3">
         {s.title}
       </Reveal>
@@ -118,7 +118,7 @@ function Challenge({ s }: { s: ChallengeSection }) {
 
 function Methodology({ s }: { s: MethodologySection }) {
   return (
-    <section className="cs">
+    <section className="cs" data-edit={`section:${s.id}`}>
       <Reveal as="h2" className="h3">
         {s.title}
       </Reveal>
@@ -139,7 +139,7 @@ function Gallery({ s }: { s: GallerySection }) {
   const [open, setOpen] = useState<number | null>(null);
   if (!s.items.length) return null;
   return (
-    <section className="cs">
+    <section className="cs" data-edit={`section:${s.id}`}>
       <Reveal as="h2" className="h3">
         {s.title}
       </Reveal>
@@ -177,7 +177,7 @@ function Gallery({ s }: { s: GallerySection }) {
 
 function Conclusion({ s }: { s: ConclusionSection }) {
   return (
-    <section className="cs">
+    <section className="cs" data-edit={`section:${s.id}`}>
       <div className="cs-split">
         <Reveal as="h2" className="h3">
           {s.title}
@@ -199,7 +199,7 @@ function Conclusion({ s }: { s: ConclusionSection }) {
 
 function Cta({ s }: { s: CtaSection }) {
   return (
-    <Reveal className="cs cs-cta">
+    <Reveal className="cs cs-cta" data-edit={`section:${s.id}`}>
       <h3>{s.text}</h3>
       <Pill to="/contact">{s.buttonLabel}</Pill>
     </Reveal>

@@ -31,7 +31,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="foot g" ref={stageRef("footer")}>
+    <footer className="foot g" ref={stageRef("footer")} data-edit="closing">
       <p className="kick foot-kick">{closing.kicker}</p>
       <Reveal as={Link} to="/contact" className="talk">
         {closing.word}

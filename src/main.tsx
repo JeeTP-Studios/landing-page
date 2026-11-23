@@ -10,6 +10,7 @@ import "@/styles/layout.css";
 import "@/styles/home.css";
 import "@/styles/pages.css";
 import "@/styles/casestudy.css";
+import "@/styles/preview.css";
 import "@/styles/admin.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -11,10 +11,15 @@ export default function Services() {
   return (
     <>
       <main className="page">
-        <PageHero eyebrow={s.hero.eyebrow} title={s.hero.title} accent={s.hero.accent} />
+        <PageHero
+          editKey="services-hero"
+          eyebrow={s.hero.eyebrow}
+          title={s.hero.title}
+          accent={s.hero.accent}
+        />
 
         {/* The same solutions the home presents, here as a list. */}
-        <section className="g sv-sol">
+        <section className="g sv-sol" data-edit="services-solutions">
           {solutions.items.map((it, i) => (
             <Reveal className="sv-row" key={i}>
               <h3>{it.title}</h3>
@@ -33,7 +38,7 @@ export default function Services() {
         </section>
 
         {/* Capability groups: what each solution is made of. */}
-        <section className="sect g groups">
+        <section className="sect g groups" data-edit="services-groups">
           {s.groups.map((g) => (
             <Reveal className="group" key={g.num + g.title}>
               <span className="group-num">{g.num}</span>
@@ -50,7 +55,7 @@ export default function Services() {
         </section>
 
         {s.who.enabled && (
-          <section className="sect who">
+          <section className="sect who" data-edit="services-who">
             <div className="g who-head">
               <Reveal as="h2" className="h3">
                 {s.who.heading}

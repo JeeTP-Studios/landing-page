@@ -22,7 +22,7 @@ export default function Hero() {
   }, [key]);
 
   return (
-    <section className="hero g" ref={stageRef("hero")}>
+    <section className="hero g" ref={stageRef("hero")} data-edit="hero">
       <h1 aria-label={hero.lines.join(" ")}>
         {hero.lines.map((line, i) => (
           <span className="ln" aria-hidden="true" key={i}>

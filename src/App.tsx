@@ -7,6 +7,8 @@ import Menu from "@/components/layout/Menu";
 import Home from "@/pages/Home";
 import Stage from "@/components/stage/Stage";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
+import PreviewBridge from "@/preview/PreviewBridge";
+import { IS_PREVIEW } from "@/preview/mode";
 
 /* Home ships in the first chunk because it is the landing surface. Everything
    else, including the whole editor, is fetched only when it is asked for. */
@@ -59,6 +61,7 @@ export default function App() {
 
   return (
     <LayoutProvider>
+      {IS_PREVIEW && !isAdmin && <PreviewBridge />}
       {!isAdmin && (
         <>
           <Stage />

@@ -165,6 +165,32 @@ export function overlayMove(
   list.splice(to, 0, moved ?? null);
 }
 
+/** Item `from` of the base list is about to be copied to position `to` (the
+ *  copy carries `newId` when the list is id-addressed). The copy starts with
+ *  the original's translations. */
+export function overlayInsertCopy(
+  doc: SiteContent,
+  arrPath: string,
+  from: number,
+  to: number,
+  newId?: string
+): void {
+  const list = overlayList(doc, arrPath);
+  if (!list) return;
+  if (Array.isArray(list)) {
+    // Nothing translated at or after `from`: nothing to shift.
+    if (from >= list.length) return;
+    const src = list[from];
+    list.splice(to, 0, src == null ? null : JSON.parse(JSON.stringify(src)));
+    return;
+  }
+  const base = getByPath(doc, arrPath);
+  const el = Array.isArray(base) ? base[from] : undefined;
+  if (newId && hasId(el) && el.id in list) {
+    list[newId] = JSON.parse(JSON.stringify(list[el.id]));
+  }
+}
+
 /** Text lists edited as lines (tags, chips, bullet lists): turns the change
  *  from `before` to `after` into the overlay operation it implies. A line
  *  added or removed shifts the translations below it; an edited line keeps its

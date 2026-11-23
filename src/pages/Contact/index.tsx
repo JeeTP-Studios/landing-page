@@ -125,6 +125,7 @@ export default function Contact() {
     <>
       <main className="page">
         <PageHero
+          editKey="contact-hero"
           eyebrow={cp.hero.eyebrow}
           title={cp.hero.title}
           accent={cp.hero.accent}
@@ -145,7 +146,7 @@ export default function Contact() {
           </div>
         </PageHero>
 
-        <section className="sect g contact-info">
+        <section className="sect g contact-info" data-edit="contact-info">
           <Reveal className="contact-details">
             <h3 className="h3">{c.brand.name}</h3>
             <small>{F.addressLabel}</small>
@@ -165,7 +166,7 @@ export default function Contact() {
           </Reveal>
         </section>
 
-        <section className="sect g contact-grid">
+        <section className="sect g contact-grid" data-edit="contact-form">
           <Reveal>
             <h2 className="h3">{cp.interestedTitle}</h2>
             <p className="lede">{cp.getInTouch}</p>

@@ -269,6 +269,8 @@ function build(layers: unknown[]): SiteContent {
 
 export async function resolveContent(): Promise<{
   content: SiteContent;
+  /** What the site ships: defaults plus the published file, without the local override. */
+  published: SiteContent;
   hasLocalOverride: boolean;
   remoteLoaded: boolean;
 }> {
@@ -279,6 +281,7 @@ export async function resolveContent(): Promise<{
   if (local) layers.push(local);
   return {
     content: build(layers),
+    published: build(remote ? [remote] : []),
     hasLocalOverride: !!local,
     remoteLoaded: !!remote,
   };

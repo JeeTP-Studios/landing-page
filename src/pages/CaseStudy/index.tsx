@@ -32,7 +32,7 @@ export default function CaseStudy() {
             ← {L.back}
           </Link>
 
-          <header className="case-top">
+          <header className="case-top" data-edit={`project:${p.id}`}>
             <div className="case-tags">
               {(p.tags || []).map((t) => (
                 <span className="chip" key={t}>
@@ -44,11 +44,11 @@ export default function CaseStudy() {
             <p className="lede">{p.desc}</p>
           </header>
 
-          <Reveal className="case-hero" data-fit={posterFit(hero)}>
+          <Reveal className="case-hero" data-fit={posterFit(hero)} data-edit={`project:${p.id}`}>
             {hero ? <img src={hero} alt={p.name} /> : null}
           </Reveal>
 
-          <dl className="case-specs">
+          <dl className="case-specs" data-edit={`project:${p.id}`}>
             <div>
               <dt>{L.specCategory}</dt>
               <dd>{p.category}</dd>

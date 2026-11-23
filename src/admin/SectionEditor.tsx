@@ -1,200 +1,9 @@
-import { useContent } from "@/content/ContentContext";
-import { overlayRemoveAt } from "@/content/i18n";
-import { useEditLang } from "./editLang";
-import { getByPath } from "@/lib/path";
-import type { CaseSection } from "@/types/content";
-import {
-  ImageField,
-  ListField,
-  SelectField,
-  StepsField,
-  TextField,
-} from "./fields";
+import { mediaThumb } from "@/lib/project";
+import type { CaseSection, GalleryMedia } from "@/types/content";
+import { Group, ImageField, ListField, SelectField, StepsField, TextField } from "./fields";
+import ObjectListEditor from "./ObjectListEditor";
 
-/** Editor de imágenes (array de URLs) con agregar/eliminar. */
-function ImageListEditor({ basePath }: { basePath: string }) {
-  const { content, update } = useContent();
-  if (useEditLang() === "es") return null;
-  const imgs = (getByPath(content, basePath) as string[]) || [];
-  return (
-    <div className="fld">
-      <label>Images</label>
-      {imgs.map((_, i) => (
-        <div key={i} style={{ marginBottom: 8 }}>
-          <ImageField label={`Image ${i + 1}`} path={`${basePath}.${i}`} />
-          <button
-            className="ad-btn warn"
-            onClick={() =>
-              update((d) => {
-                (getByPath(d, basePath) as string[]).splice(i, 1);
-              })
-            }
-          >
-            Remove image
-          </button>
-        </div>
-      ))}
-      <button
-        className="miniadd"
-        onClick={() =>
-          update((d) => {
-            (getByPath(d, basePath) as string[]).push("");
-          })
-        }
-      >
-        + Add image
-      </button>
-    </div>
-  );
-}
-
-/** Editor de items de galería (imagen o video, URL o YouTube + póster). */
-function GalleryItemsEditor({ basePath }: { basePath: string }) {
-  const { content, update } = useContent();
-  if (useEditLang() === "es") {
-    return (
-      <div className="hint">
-        Gallery media is shared between languages. Edit it in English.
-      </div>
-    );
-  }
-  const items =
-    (getByPath(content, basePath) as { type: string; url: string }[]) || [];
-  return (
-    <div className="fld">
-      <label>Gallery items (images or videos)</label>
-      <div className="hint" style={{ marginBottom: 10 }}>
-        Video accepts a file URL (.mp4) or YouTube; auto-detected. On
-        click on the site, the media expands.
-      </div>
-      {items.map((it, i) => (
-        <details className="acc" key={i}>
-          <summary>
-            {(it.type === "video" ? "🎬 " : "🖼 ") +
-              (it.url ? it.url.slice(0, 40) : `Item ${i + 1}`)}
-          </summary>
-          <div className="accbody">
-            <SelectField
-              label="Type"
-              path={`${basePath}.${i}.type`}
-              options={[
-                ["image", "Image"],
-                ["video", "Video (URL or YouTube)"],
-              ]}
-            />
-            {it.type === "video" ? (
-              <>
-                <TextField
-                  label="Video URL (.mp4 or YouTube)"
-                  path={`${basePath}.${i}.url`}
-                />
-                <ImageField
-                  label="Poster / thumbnail (optional)"
-                  path={`${basePath}.${i}.poster`}
-                  hint="For YouTube its thumbnail is used if left empty."
-                />
-              </>
-            ) : (
-              <ImageField label="Image" path={`${basePath}.${i}.url`} />
-            )}
-            <button
-              className="ad-btn warn"
-              onClick={() =>
-                update((d) => {
-                  (getByPath(d, basePath) as unknown[]).splice(i, 1);
-                })
-              }
-            >
-              Remove item
-            </button>
-          </div>
-        </details>
-      ))}
-      <div className="row" style={{ marginTop: 8 }}>
-        <button
-          className="miniadd"
-          onClick={() =>
-            update((d) => {
-              (getByPath(d, basePath) as unknown[]).push({
-                type: "image",
-                url: "",
-              });
-            })
-          }
-        >
-          + Add image
-        </button>
-        <button
-          className="miniadd"
-          onClick={() =>
-            update((d) => {
-              (getByPath(d, basePath) as unknown[]).push({
-                type: "video",
-                url: "",
-                poster: "",
-              });
-            })
-          }
-        >
-          + Add video
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/** Editor de items de metodología (heading + body). */
-function MethodologyItemsEditor({ basePath }: { basePath: string }) {
-  const { content, update } = useContent();
-  const es = useEditLang() === "es";
-  const items =
-    (getByPath(content, basePath) as { heading: string; body: string }[]) || [];
-  return (
-    <div className="fld">
-      <label>Stages / blocks</label>
-      {items.map((it, i) => (
-        <details className="acc" key={i}>
-          <summary>{it.heading || `Stage ${i + 1}`}</summary>
-          <div className="accbody">
-            <TextField label="Heading" path={`${basePath}.${i}.heading`} />
-            <TextField label="Text" path={`${basePath}.${i}.body`} area />
-            {!es && (
-              <button
-                className="ad-btn warn"
-                onClick={() =>
-                  update((d) => {
-                    overlayRemoveAt(d, basePath, i);
-                    (
-                      getByPath(d, basePath) as { heading: string; body: string }[]
-                    ).splice(i, 1);
-                  })
-                }
-              >
-                Remove stage
-              </button>
-            )}
-          </div>
-        </details>
-      ))}
-      {!es && (
-        <button
-          className="miniadd"
-          onClick={() =>
-            update((d) => {
-              (
-                getByPath(d, basePath) as { heading: string; body: string }[]
-              ).push({ heading: "New stage", body: "" });
-            })
-          }
-        >
-          + Add stage
-        </button>
-      )}
-    </div>
-  );
-}
-
-/** Campos específicos según el tipo de sección. */
+/** Fields of one case-study section, by its type. `base` is its document path. */
 export default function SectionEditor({
   base,
   section,
@@ -206,9 +15,9 @@ export default function SectionEditor({
     case "overview":
       return (
         <>
-          <TextField label="Label" path={`${base}.label`} />
+          <TextField label="Small label" path={`${base}.label`} />
           <TextField label="Title" path={`${base}.title`} />
-          <TextField label="Text" path={`${base}.body`} area />
+          <TextField label="Text" path={`${base}.body`} area hint="A line break starts a new paragraph." />
           <ImageField label="Image (optional)" path={`${base}.image`} />
         </>
       );
@@ -217,7 +26,7 @@ export default function SectionEditor({
         <>
           <TextField label="Title" path={`${base}.title`} />
           <StepsField
-            label="Steps (one per line)"
+            label="Steps, one per line"
             path={`${base}.steps`}
             hint="Numbered automatically."
           />
@@ -227,24 +36,41 @@ export default function SectionEditor({
       return (
         <>
           <TextField label="Title" path={`${base}.title`} />
-          <TextField label="Intro" path={`${base}.intro`} area />
-          <ListField
-            label="The challenge (one per line)"
-            path={`${base}.problems`}
-          />
-          <TextField label="Solution title" path={`${base}.approachTitle`} />
-          <ListField
-            label="Solution (one per line)"
-            path={`${base}.approach`}
-          />
-          <ImageListEditor basePath={`${base}.images`} />
+          <TextField label="Introduction" path={`${base}.intro`} area />
+          <ListField label="What was in the way, one per line" path={`${base}.problems`} />
+          <TextField label="Title of the solution" path={`${base}.approachTitle`} />
+          <ListField label="How we solved it, one per line" path={`${base}.approach`} />
+          <Group title="Images" hint="Shown beside the challenge.">
+            <ObjectListEditor
+              path={`${base}.images`}
+              noun="image"
+              factory={() => ""}
+              labeler={(_, i) => `Image ${i + 1}`}
+              thumb={(u) => String(u)}
+              renderItem={(i) => <ImageField label="Image" path={`${base}.images.${i}`} />}
+            />
+          </Group>
         </>
       );
     case "methodology":
       return (
         <>
           <TextField label="Title" path={`${base}.title`} />
-          <MethodologyItemsEditor basePath={`${base}.items`} />
+          <Group title="Stages">
+            <ObjectListEditor
+              path={`${base}.items`}
+              noun="stage"
+              factory={() => ({ heading: "New stage", body: "" })}
+              labeler={(it, i) => (it as { heading: string }).heading || `Stage ${i + 1}`}
+              summary={(it) => (it as { body: string }).body}
+              renderItem={(i) => (
+                <>
+                  <TextField label="Heading" path={`${base}.items.${i}.heading`} />
+                  <TextField label="Text" path={`${base}.items.${i}.body`} area />
+                </>
+              )}
+            />
+          </Group>
         </>
       );
     case "gallery":
@@ -255,12 +81,54 @@ export default function SectionEditor({
             label="Layout"
             path={`${base}.layout`}
             options={[
-              ["grid", "Grid (3 col)"],
-              ["masonry", "Masonry (4 col)"],
+              ["grid", "Grid (3 columns)"],
+              ["masonry", "Masonry (4 columns)"],
               ["wide", "Full width"],
             ]}
           />
-          <GalleryItemsEditor basePath={`${base}.items`} />
+          <Group
+            title="Images and videos"
+            hint="Clicking one on the site opens it large. Videos take a file link (.mp4) or a YouTube link."
+          >
+            <ObjectListEditor
+              path={`${base}.items`}
+              noun="item"
+              factory={() => ({ type: "image", url: "" })}
+              labeler={(it, i) => {
+                const m = it as GalleryMedia;
+                return m.url ? m.url.replace(/^https?:\/\//, "").slice(0, 38) : `Item ${i + 1}`;
+              }}
+              summary={(it) => ((it as GalleryMedia).type === "video" ? "Video" : "Image")}
+              thumb={(it) => mediaThumb(it as GalleryMedia)}
+              renderItem={(i) => {
+                const m = (section as { items: GalleryMedia[] }).items[i];
+                return (
+                  <>
+                    <SelectField
+                      label="Kind"
+                      path={`${base}.items.${i}.type`}
+                      options={[
+                        ["image", "Image"],
+                        ["video", "Video"],
+                      ]}
+                    />
+                    {m?.type === "video" ? (
+                      <>
+                        <TextField label="Video link" path={`${base}.items.${i}.url`} shared />
+                        <ImageField
+                          label="Cover picture (optional)"
+                          path={`${base}.items.${i}.poster`}
+                          hint="For a YouTube link its own thumbnail is used when this is empty."
+                        />
+                      </>
+                    ) : (
+                      <ImageField label="Image" path={`${base}.items.${i}.url`} />
+                    )}
+                  </>
+                );
+              }}
+            />
+          </Group>
         </>
       );
     case "conclusion":
@@ -274,7 +142,7 @@ export default function SectionEditor({
     case "cta":
       return (
         <>
-          <TextField label="Text" path={`${base}.text`} />
+          <TextField label="Invitation" path={`${base}.text`} />
           <TextField label="Button text" path={`${base}.buttonLabel`} />
         </>
       );

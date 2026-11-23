@@ -84,6 +84,11 @@ export function createSection(type: CaseSectionType): CaseSection {
   return SECTION_FACTORIES[type]();
 }
 
+/** A copy of a section with an id of its own. */
+export function duplicateSection(s: CaseSection): CaseSection {
+  return { ...JSON.parse(JSON.stringify(s)), id: uid(s.type) };
+}
+
 export const SECTION_TYPES: CaseSectionType[] = [
   "overview",
   "process",

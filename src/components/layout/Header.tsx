@@ -39,7 +39,7 @@ export default function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="nav" ref={ref}>
+    <header className="nav" ref={ref} data-edit="nav">
       <div className="nav-in g">
         <Logo />
         <nav className="nav-links" aria-label="Main">
