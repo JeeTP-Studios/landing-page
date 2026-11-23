@@ -1,40 +1,138 @@
 {
   "brand": {
-    "name": "JEETP STUDIOS",
-    "tagline": "SOFTWARE DEVELOPMENT",
-    "logoType": "image",
-    "logoImg": "/resources/logos/jeetp-logo-transparent.png"
-  },
-  "bg": {
-    "type": "none",
-    "url": ""
+    "name": "JeeTP Studios",
+    "logoImg": "/resources/logos/logo-white.png"
   },
   "hero": {
-    "eyebrow": "Software development agency",
-    "title": "We build custom software",
-    "gradA": "#3fa9f5",
-    "gradB": "#0b1220",
-    "angle": 140,
-    "opacity": 1,
-    "href": "/case-studies",
-    "lead": "We build",
-    "titles": [
-      "custom software",
-      "web platforms",
-      "mobile apps",
-      "internal tools",
-      "what you need"
+    "lines": [
+      "Technology",
+      "that moves",
+      "business."
     ],
-    "sub": "You bring the problem. We design the software that solves it, build it, and stay on after launch.",
-    "chips": []
+    "accent": "moves",
+    "sub": "Custom software, artificial intelligence and digital experiences for companies that want to grow.",
+    "scrollLabel": "Scroll"
+  },
+  "manifesto": {
+    "enabled": true,
+    "statements": [
+      "Your business doesn't need more technology.",
+      "It needs the right technology.",
+      "We design it, build it and grow it with you.",
+      "Data, intelligence and experience in one solution."
+    ]
+  },
+  "stack": {
+    "labels": [
+      "Experience",
+      "Intelligence",
+      "Data & systems"
+    ]
+  },
+  "aboutBlock": {
+    "enabled": true,
+    "kicker": "Who we are",
+    "statement": "We are the technology partner for brands and companies in Mexico and the United States. We started out making video games, and that gave us our rule: technology only works if people want to use it."
+  },
+  "stats": {
+    "enabled": true,
+    "items": [
+      {
+        "value": 12,
+        "suffix": "+",
+        "label": "Projects shipped"
+      },
+      {
+        "value": 8,
+        "suffix": "",
+        "label": "Industries served"
+      },
+      {
+        "value": 4,
+        "suffix": "",
+        "label": "Years building brands"
+      },
+      {
+        "value": 120,
+        "suffix": "K+",
+        "label": "End users reached"
+      }
+    ]
+  },
+  "solutions": {
+    "enabled": true,
+    "label": "Solutions",
+    "items": [
+      {
+        "title": "Custom software.",
+        "body": "Platforms and systems built around how your business works.",
+        "chips": [
+          "Web platforms",
+          "Internal systems",
+          "Integrations",
+          "Modernization"
+        ]
+      },
+      {
+        "title": "Artificial intelligence.",
+        "body": "AI connected to your processes, with people approving what matters.",
+        "chips": [
+          "AI agents",
+          "Assistants",
+          "Smart search",
+          "AI visibility"
+        ]
+      },
+      {
+        "title": "Data and automation.",
+        "body": "Your information in one place and processes that stop being manual.",
+        "chips": [
+          "Dashboards",
+          "Reports",
+          "Automation",
+          "Back office"
+        ]
+      },
+      {
+        "title": "Apps and digital products.",
+        "body": "Products people understand, use and recommend.",
+        "chips": [
+          "iOS and Android",
+          "Websites",
+          "E-commerce",
+          "UX and UI"
+        ]
+      },
+      {
+        "title": "Brand experiences.",
+        "body": "Where we began: games and activations that bring your customers back.",
+        "chips": [
+          "Gamification",
+          "Loyalty",
+          "Activations",
+          "Augmented reality"
+        ]
+      },
+      {
+        "title": "Consulting.",
+        "body": "We define what to build, in what order and with what return.",
+        "chips": [
+          "Diagnosis",
+          "Roadmap",
+          "Architecture"
+        ]
+      }
+    ]
   },
   "projects": [
     {
       "id": "club-premier",
       "name": "KLA Fantasy",
-      "ghost": "KINGS",
-      "mono": "",
-      "img": "/resources/kings-league/KingsLeague.png",
+      "tagline": "Official fantasy game of Kings League Americas",
+      "category": "Mobile platform",
+      "duration": "12 months",
+      "year": "2024-2025",
+      "location": "Latam & Spain",
       "tags": [
         "App",
         "Gaming",
@@ -42,15 +140,7 @@
         "Soccer"
       ],
       "desc": "Development of the Kings League Americas Fantasy platform, with the goal of modernizing the gaming experience and building end-user loyalty.",
-      "gradA": "#f1b74a",
-      "gradB": "#cc8100",
-      "angle": 140,
-      "opacity": 1,
-      "accent": "#fdc64d",
-      "category": "App",
-      "duration": "12 months",
-      "year": "2024-2025",
-      "location": "Latam & Spain",
+      "heroImage": "/resources/kings-league/KLAFantasy_SS1.jpg",
       "sections": [
         {
           "id": "overview-1",
@@ -171,287 +261,22 @@
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ],
-      "detailVariant": "bold",
-      "heroMode": "custom",
-      "heroImage": "/resources/kings-league/KLAFantasy_SS1.jpg"
-    },
-    {
-      "id": "proyecto-mpxmt44l",
-      "name": "Hosting Wells",
-      "ghost": "WELLS",
-      "mono": "",
-      "img": "/resources/hosting-wells/HostingWells.png",
-      "tags": [
-        "Web"
-      ],
-      "desc": "Redesign of the Hosting Wells elevator company website to modernize it and improve the user experience.",
-      "gradA": "#2a9787",
-      "gradB": "#3671ba",
-      "angle": 140,
-      "opacity": 1,
-      "accent": "#2a9787",
-      "category": "Website",
-      "duration": "1 month",
-      "year": "2025",
-      "location": "Mexico",
-      "sections": [
-        {
-          "id": "overview-mpxmt44l-1",
-          "type": "overview",
-          "enabled": true,
-          "label": "Overview",
-          "title": "All about Hosting Wells",
-          "body": "Hosting Wells is a company specialized in the installation of elevators with German technology. We custom-built their official website: a modern, professional and responsive platform that clearly communicates their competitive advantages, services, guarantees and experience in the sector.",
-          "image": ""
-        },
-        {
-          "id": "gallery-hostingwells-1",
-          "type": "gallery",
-          "enabled": true,
-          "title": "The site",
-          "layout": "grid",
-          "items": [
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWells_1.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWells_2.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWells_3.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWellsV2_1.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWellsV2_2.jpg"
-            },
-            {
-              "type": "image",
-              "url": "/resources/hosting-wells/HostingWellsV2_3.jpg"
-            }
-          ]
-        },
-        {
-          "id": "challenge-mpxmt44l-2",
-          "type": "challenge",
-          "enabled": true,
-          "title": "Challenge / Problem statement",
-          "intro": "Hosting Wells needed a web presence that matched the quality of their engineering: their advantages, guarantees and track record weren't coming through online.",
-          "problems": [
-            "The previous presence didn't reflect the company's quality and experience",
-            "Services and guarantees weren't clearly communicated",
-            "The site wasn't responsive or easy to update"
-          ],
-          "approachTitle": "Solution",
-          "approach": [
-            "A modern, professional and fully responsive platform",
-            "Clear structure for services, guarantees and industry experience",
-            "A focus on efficiency, quality and specialized attention"
-          ],
-          "images": []
-        },
-        {
-          "id": "process-mpxmt44l-3",
-          "type": "process",
-          "enabled": true,
-          "title": "Project process",
-          "steps": [
-            [
-              "01",
-              "Research"
-            ],
-            [
-              "02",
-              "Design"
-            ],
-            [
-              "03",
-              "Development"
-            ],
-            [
-              "04",
-              "Launch"
-            ]
-          ]
-        },
-        {
-          "id": "methodology-mpxmt44l-4",
-          "type": "methodology",
-          "enabled": true,
-          "title": "Methodology",
-          "items": [
-            {
-              "heading": "Positioning",
-              "body": "The new site presents Hosting Wells as a specialized, reliable partner: German technology, clear guarantees and specialized attention front and center."
-            }
-          ]
-        },
-        {
-          "id": "conclusion-mpxmt44l-5",
-          "type": "conclusion",
-          "enabled": true,
-          "title": "Conclusion",
-          "body": "A clean, professional website that finally communicates Hosting Wells' competitive advantages. A second, more ambitious redesign (v2) is already in development.",
-          "image": ""
-        },
-        {
-          "id": "cta-mpxmt44l-6",
-          "type": "cta",
-          "enabled": true,
-          "text": "Want something like this for your brand?",
-          "buttonLabel": "Work with us"
-        }
-      ],
-      "detailVariant": "standard",
-      "heroMode": "custom",
-      "heroImage": "/resources/hosting-wells/HostingWellsV2_2.jpg"
-    },
-    {
-      "id": "kings-league",
-      "name": "Copa Record",
-      "ghost": "RECORD",
-      "mono": "",
-      "img": "/resources/record/Record.png",
-      "tags": [
-        "Design",
-        "Branding"
-      ],
-      "desc": "Design of the official mascot for the Copa Record México for commercial use and scalability in sports projects.",
-      "gradA": "#ff3b3b",
-      "gradB": "#2a0508",
-      "angle": 140,
-      "opacity": 1,
-      "accent": "#ff3b3b",
-      "category": "Design",
-      "duration": "1 month",
-      "year": "2024",
-      "location": "Mexico",
-      "sections": [
-        {
-          "id": "overview-8",
-          "type": "overview",
-          "enabled": true,
-          "label": "Overview",
-          "title": "All about Copa Record",
-          "body": "Copa Record is a nationwide soccer tournament by Record Mexico that promotes the sport and crowns the best team in the country. We designed its official mascot, created to represent the energy, passion and competitive spirit of the event, connecting with players and fans alike.",
-          "image": ""
-        },
-        {
-          "id": "gallery-c",
-          "type": "gallery",
-          "enabled": true,
-          "title": "Mascot & prototype",
-          "layout": "grid",
-          "items": [
-            {
-              "type": "image",
-              "url": "/resources/record/CopaRecord_Mascot.png"
-            },
-            {
-              "type": "video",
-              "url": "/resources/record/CopaRecord_Map.mp4",
-              "poster": "/resources/record/CopaRecord_Map.jpg"
-            }
-          ]
-        },
-        {
-          "id": "challenge-9",
-          "type": "challenge",
-          "enabled": true,
-          "title": "Challenge / Problem statement",
-          "intro": "Record needed an identity piece that could connect with players and fans nationwide, work across commercial materials and scale to future sports projects.",
-          "problems": [],
-          "approachTitle": "Solution",
-          "approach": [
-            "A mascot that embodies the energy, passion and competitive spirit of the tournament",
-            "Versatile design ready for commercial use and scalable across sports projects",
-            "An interactive map prototype to plan courts, advertising and key areas of the event"
-          ],
-          "images": []
-        },
-        {
-          "id": "process-a",
-          "type": "process",
-          "enabled": true,
-          "title": "Project process",
-          "steps": [
-            [
-              "01",
-              "Brief & research"
-            ],
-            [
-              "02",
-              "Concepts & sketches"
-            ],
-            [
-              "03",
-              "Refinement"
-            ],
-            [
-              "04",
-              "Final art & delivery"
-            ]
-          ]
-        },
-        {
-          "id": "methodology-b",
-          "type": "methodology",
-          "enabled": true,
-          "title": "Methodology",
-          "items": [
-            {
-              "heading": "Impact",
-              "body": "The mascot became the face of the tournament across its materials, and the interactive map prototype, presented to Club Deportivo Pachuca, helped plan courts, estimate advertising and propose ideas for key areas like the food court."
-            }
-          ]
-        },
-        {
-          "id": "conclusion-d",
-          "type": "conclusion",
-          "enabled": true,
-          "title": "Conclusion",
-          "body": "A mascot ready for commercial use and scalable to more sports projects, plus an interactive map that made integral event planning easier.",
-          "image": ""
-        },
-        {
-          "id": "cta-e",
-          "type": "cta",
-          "enabled": true,
-          "text": "Want something like this for your brand?",
-          "buttonLabel": "Work with us"
-        }
-      ],
-      "detailVariant": "editorial",
-      "heroMode": "custom",
-      "heroImage": "/resources/record/CopaRecord_Mascot.png"
+      ]
     },
     {
       "id": "retail-experience",
       "name": "Mundo Premier",
-      "ghost": "CLUB",
-      "mono": "",
-      "img": "/resources/club-premier/MundoPremier.png",
+      "tagline": "Loyalty for Club Premier and Santander",
+      "category": "Interactive experience",
+      "duration": "3 months",
+      "year": "2022",
+      "location": "Mexico",
       "tags": [
         "Web",
         "Gaming"
       ],
       "desc": "An interactive experience for Aeromexico Rewards (formerly Club Premier) members, built with Santander's Toma Todo program to reward loyalty.",
-      "gradA": "#2ea3d8",
-      "gradB": "#061823",
-      "angle": 140,
-      "opacity": 1,
-      "accent": "#2ea3d8",
-      "category": "Juego",
-      "duration": "3 months",
-      "year": "2022",
-      "location": "Mexico",
+      "heroImage": "/resources/club-premier/MundoPremier_SS1.jpg",
       "sections": [
         {
           "id": "overview-f",
@@ -597,7 +422,7 @@
           "id": "conclusion-k",
           "type": "conclusion",
           "enabled": true,
-          "title": "Conclussion",
+          "title": "Conclusion",
           "body": "An experience that turned loyalty points into an opportunity to win big prizes, thereby further strengthening member loyalty",
           "image": ""
         },
@@ -608,31 +433,264 @@
           "text": "Would you like something like this for your brand?",
           "buttonLabel": "Work with us"
         }
+      ]
+    },
+    {
+      "id": "proyecto-mpxmt44l",
+      "name": "Hosting Wells",
+      "tagline": "Digital modernization for an industrial brand",
+      "category": "Website",
+      "duration": "1 month",
+      "year": "2025",
+      "location": "Mexico",
+      "tags": [
+        "Web"
       ],
-      "heroMode": "custom",
-      "heroImage": "/resources/club-premier/MundoPremier_SS1.jpg",
-      "detailVariant": "bold"
+      "desc": "Redesign of the Hosting Wells elevator company website to modernize it and improve the user experience.",
+      "heroImage": "/resources/hosting-wells/HostingWellsV2_2.jpg",
+      "sections": [
+        {
+          "id": "overview-mpxmt44l-1",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about Hosting Wells",
+          "body": "Hosting Wells is a company specialized in the installation of elevators with German technology. We custom-built their official website: a modern, professional and responsive platform that clearly communicates their competitive advantages, services, guarantees and experience in the sector.",
+          "image": ""
+        },
+        {
+          "id": "gallery-hostingwells-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "The site",
+          "layout": "grid",
+          "items": [
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWells_3.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_1.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_2.jpg"
+            },
+            {
+              "type": "image",
+              "url": "/resources/hosting-wells/HostingWellsV2_3.jpg"
+            }
+          ]
+        },
+        {
+          "id": "challenge-mpxmt44l-2",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Hosting Wells needed a web presence that matched the quality of their engineering: their advantages, guarantees and track record weren't coming through online.",
+          "problems": [
+            "The previous presence didn't reflect the company's quality and experience",
+            "Services and guarantees weren't clearly communicated",
+            "The site wasn't responsive or easy to update"
+          ],
+          "approachTitle": "Solution",
+          "approach": [
+            "A modern, professional and fully responsive platform",
+            "Clear structure for services, guarantees and industry experience",
+            "A focus on efficiency, quality and specialized attention"
+          ],
+          "images": []
+        },
+        {
+          "id": "process-mpxmt44l-3",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Research"
+            ],
+            [
+              "02",
+              "Design"
+            ],
+            [
+              "03",
+              "Development"
+            ],
+            [
+              "04",
+              "Launch"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-mpxmt44l-4",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Methodology",
+          "items": [
+            {
+              "heading": "Positioning",
+              "body": "The new site presents Hosting Wells as a specialized, reliable partner: German technology, clear guarantees and specialized attention front and center."
+            }
+          ]
+        },
+        {
+          "id": "conclusion-mpxmt44l-5",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclusion",
+          "body": "A clean, professional website that finally communicates Hosting Wells' competitive advantages. A second, more ambitious redesign (v2) is already in development.",
+          "image": ""
+        },
+        {
+          "id": "cta-mpxmt44l-6",
+          "type": "cta",
+          "enabled": true,
+          "text": "Want something like this for your brand?",
+          "buttonLabel": "Work with us"
+        }
+      ]
+    },
+    {
+      "id": "proyecto-mpxnmppg",
+      "name": "Club Pepito",
+      "tagline": "Brand activation with rewards",
+      "category": "Digital experience",
+      "duration": "1 month",
+      "year": "2025",
+      "location": "Mexico",
+      "tags": [
+        "App",
+        "Gaming"
+      ],
+      "desc": "An online mini-game fair that positioned the Pepito brand with new audiences: play, earn tickets and redeem branded rewards.",
+      "heroImage": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg",
+      "sections": [
+        {
+          "id": "overview-mpxnmpph-d",
+          "type": "overview",
+          "enabled": true,
+          "label": "Overview",
+          "title": "All about Club Pepito",
+          "body": "Club Pepito was an interactive project designed to position the Pepito brand among new audiences through an online mini-game fair. Users earned tickets by playing and could redeem them for physical branded products and other rewards.",
+          "image": ""
+        },
+        {
+          "id": "gallery-clubpepito-1",
+          "type": "gallery",
+          "enabled": true,
+          "title": "Mini-games",
+          "layout": "grid",
+          "items": [
+            {
+              "type": "video",
+              "url": "/resources/pepito-jr/ClubPepito_CorrePepito.mp4",
+              "poster": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg"
+            },
+            {
+              "type": "video",
+              "url": "/resources/pepito-jr/ClubPepito_AguasConLaLava.mp4",
+              "poster": "/resources/pepito-jr/ClubPepito_AguasConLaLava.jpg"
+            }
+          ]
+        },
+        {
+          "id": "challenge-mpxnmpph-e",
+          "type": "challenge",
+          "enabled": true,
+          "title": "Challenge / Problem statement",
+          "intro": "Pepito needed to position the brand with new audiences and turn passive exposure into active engagement.",
+          "problems": [
+            "Traditional advertising wasn't generating engagement with new audiences",
+            "The brand needed a reason for users to come back"
+          ],
+          "approachTitle": "Solution",
+          "approach": [
+            "An online mini-game fair (Corre Pepito, Aguas con la Lava and more)",
+            "A ticket system: play, earn tickets, redeem them for physical branded products",
+            "A trailer and social media push to drive traffic to the fair"
+          ],
+          "images": []
+        },
+        {
+          "id": "process-mpxnmpph-f",
+          "type": "process",
+          "enabled": true,
+          "title": "Project process",
+          "steps": [
+            [
+              "01",
+              "Research"
+            ],
+            [
+              "02",
+              "Design"
+            ],
+            [
+              "03",
+              "Development"
+            ],
+            [
+              "04",
+              "Launch"
+            ]
+          ]
+        },
+        {
+          "id": "methodology-mpxnmpph-g",
+          "type": "methodology",
+          "enabled": true,
+          "title": "Methodology",
+          "items": [
+            {
+              "heading": "Loyalty loop",
+              "body": "Play, earn tickets, redeem rewards: the fair turned brand exposure into a repeatable loop that kept users coming back."
+            }
+          ]
+        },
+        {
+          "id": "conclusion-mpxnmpph-h",
+          "type": "conclusion",
+          "enabled": true,
+          "title": "Conclusion",
+          "body": "Club Pepito turned brand positioning into play: users engaged with the mini-games and redeemed tickets for physical branded rewards, driving repeat visits.",
+          "image": ""
+        },
+        {
+          "id": "cta-mpxnmpph-i",
+          "type": "cta",
+          "enabled": true,
+          "text": "Want something like this for your brand?",
+          "buttonLabel": "Work with us"
+        }
+      ]
     },
     {
       "id": "proyecto-mpxngzng",
       "name": "Jokeland",
-      "ghost": "PEPITO",
-      "mono": "",
-      "img": "/resources/jokeland/Jokeland.png",
+      "tagline": "Expanding a brand universe",
+      "category": "Mobile game",
+      "duration": "1 month",
+      "year": "2025",
+      "location": "Mexico",
       "tags": [
         "App",
         "Gaming"
       ],
       "desc": "A mobile game that expands the Pepito cartoon universe, letting players discover the characters' stories through interactive play.",
-      "gradA": "#d4d4d4",
-      "gradB": "#6c6b6c",
-      "angle": 140,
-      "opacity": 1,
-      "accent": "#7c5cff",
-      "category": "Mobile Game",
-      "duration": "1 month",
-      "year": "2025",
-      "location": "Mexico",
+      "heroImage": "/resources/jokeland/Jokeland_Cover.jpg",
       "sections": [
         {
           "id": "overview-mpxngzng-7",
@@ -745,197 +803,128 @@
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ],
-      "detailVariant": "editorial",
-      "heroMode": "custom",
-      "heroImage": "/resources/jokeland/Jokeland_Cover.jpg"
+      ]
     },
     {
-      "id": "proyecto-mpxnmppg",
-      "name": "Club Pepito",
-      "ghost": "PEPITO",
-      "mono": "",
-      "img": "/resources/pepito-jr/PepitoJr.png",
-      "tags": [
-        "App",
-        "Gaming"
-      ],
-      "desc": "An online mini-game fair that positioned the Pepito brand with new audiences: play, earn tickets and redeem branded rewards.",
-      "gradA": "#8fe561",
-      "gradB": "#fcb105",
-      "angle": 140,
-      "opacity": 1,
-      "accent": "#7c5cff",
-      "category": "Interactive Experience",
+      "id": "kings-league",
+      "name": "Copa Record",
+      "tagline": "Identity for a national tournament",
+      "category": "Brand",
       "duration": "1 month",
-      "year": "2025",
+      "year": "2024",
       "location": "Mexico",
+      "tags": [
+        "Design",
+        "Branding"
+      ],
+      "desc": "Design of the official mascot for the Copa Record México for commercial use and scalability in sports projects.",
+      "heroImage": "/resources/record/CopaRecord_Mascot.png",
       "sections": [
         {
-          "id": "overview-mpxnmpph-d",
+          "id": "overview-8",
           "type": "overview",
           "enabled": true,
           "label": "Overview",
-          "title": "All about Club Pepito",
-          "body": "Club Pepito was an interactive project designed to position the Pepito brand among new audiences through an online mini-game fair. Users earned tickets by playing and could redeem them for physical branded products and other rewards.",
+          "title": "All about Copa Record",
+          "body": "Copa Record is a nationwide soccer tournament by Record Mexico that promotes the sport and crowns the best team in the country. We designed its official mascot, created to represent the energy, passion and competitive spirit of the event, connecting with players and fans alike.",
           "image": ""
         },
         {
-          "id": "gallery-clubpepito-1",
+          "id": "gallery-c",
           "type": "gallery",
           "enabled": true,
-          "title": "Mini-games",
+          "title": "Mascot & prototype",
           "layout": "grid",
           "items": [
             {
-              "type": "video",
-              "url": "/resources/pepito-jr/ClubPepito_CorrePepito.mp4",
-              "poster": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg"
+              "type": "image",
+              "url": "/resources/record/CopaRecord_Mascot.png"
             },
             {
               "type": "video",
-              "url": "/resources/pepito-jr/ClubPepito_AguasConLaLava.mp4",
-              "poster": "/resources/pepito-jr/ClubPepito_AguasConLaLava.jpg"
+              "url": "/resources/record/CopaRecord_Map.mp4",
+              "poster": "/resources/record/CopaRecord_Map.jpg"
             }
           ]
         },
         {
-          "id": "challenge-mpxnmpph-e",
+          "id": "challenge-9",
           "type": "challenge",
           "enabled": true,
           "title": "Challenge / Problem statement",
-          "intro": "Pepito needed to position the brand with new audiences and turn passive exposure into active engagement.",
-          "problems": [
-            "Traditional advertising wasn't generating engagement with new audiences",
-            "The brand needed a reason for users to come back"
-          ],
+          "intro": "Record needed an identity piece that could connect with players and fans nationwide, work across commercial materials and scale to future sports projects.",
+          "problems": [],
           "approachTitle": "Solution",
           "approach": [
-            "An online mini-game fair (Corre Pepito, Aguas con la Lava and more)",
-            "A ticket system: play, earn tickets, redeem them for physical branded products",
-            "A trailer and social media push to drive traffic to the fair"
+            "A mascot that embodies the energy, passion and competitive spirit of the tournament",
+            "Versatile design ready for commercial use and scalable across sports projects",
+            "An interactive map prototype to plan courts, advertising and key areas of the event"
           ],
           "images": []
         },
         {
-          "id": "process-mpxnmpph-f",
+          "id": "process-a",
           "type": "process",
           "enabled": true,
           "title": "Project process",
           "steps": [
             [
               "01",
-              "Research"
+              "Brief & research"
             ],
             [
               "02",
-              "Design"
+              "Concepts & sketches"
             ],
             [
               "03",
-              "Development"
+              "Refinement"
             ],
             [
               "04",
-              "Launch"
+              "Final art & delivery"
             ]
           ]
         },
         {
-          "id": "methodology-mpxnmpph-g",
+          "id": "methodology-b",
           "type": "methodology",
           "enabled": true,
           "title": "Methodology",
           "items": [
             {
-              "heading": "Loyalty loop",
-              "body": "Play, earn tickets, redeem rewards: the fair turned brand exposure into a repeatable loop that kept users coming back."
+              "heading": "Impact",
+              "body": "The mascot became the face of the tournament across its materials, and the interactive map prototype, presented to Club Deportivo Pachuca, helped plan courts, estimate advertising and propose ideas for key areas like the food court."
             }
           ]
         },
         {
-          "id": "conclusion-mpxnmpph-h",
+          "id": "conclusion-d",
           "type": "conclusion",
           "enabled": true,
           "title": "Conclusion",
-          "body": "Club Pepito turned brand positioning into play: users engaged with the mini-games and redeemed tickets for physical branded rewards, driving repeat visits.",
+          "body": "A mascot ready for commercial use and scalable to more sports projects, plus an interactive map that made integral event planning easier.",
           "image": ""
         },
         {
-          "id": "cta-mpxnmpph-i",
+          "id": "cta-e",
           "type": "cta",
           "enabled": true,
           "text": "Want something like this for your brand?",
           "buttonLabel": "Work with us"
         }
-      ],
-      "detailVariant": "standard",
-      "heroMode": "custom",
-      "heroImage": "/resources/pepito-jr/ClubPepito_CorrePepito.jpg"
+      ]
     }
   ],
-  "highlighted": {
+  "work": {
     "enabled": true,
-    "label": "Case studies",
-    "title": "Selected work",
-    "gradA": "#0e1015",
-    "gradB": "#08090c",
-    "angle": 160,
-    "opacity": 1
-  },
-  "services": {
-    "enabled": true,
-    "label": "Services",
-    "title": "No two projects here look the same",
-    "gradA": "#08090c",
-    "gradB": "#08090c",
-    "angle": 160,
-    "opacity": 1,
-    "items": [
-      {
-        "h": "Custom software",
-        "a": "Systems built around how your business actually works",
-        "b": "Architecture · Integrations",
-        "color": "#3fa9f5",
-        "img": "/resources/hosting-wells/HostingWellsV2_2.jpg"
-      },
-      {
-        "h": "Web and mobile apps",
-        "a": "iOS, Android and the browser",
-        "b": "iOS · Android · Web",
-        "color": "#2a9787",
-        "img": "/resources/kings-league/KLAFantasy_SS1.jpg"
-      },
-      {
-        "h": "Platforms and internal tools",
-        "a": "Dashboards, automation and the plumbing behind them",
-        "b": "Dashboards · Automation",
-        "color": "#7c8cff",
-        "img": "/resources/club-premier/MundoPremier_SS1.jpg"
-      },
-      {
-        "h": "Interactive work and games",
-        "a": "Activations, gamification and branded play",
-        "b": "Web · Mobile · AR",
-        "color": "#f1b74a",
-        "img": "/resources/jokeland/Jokeland_Cover.jpg"
-      },
-      {
-        "h": "Strategy and consulting",
-        "a": "Product direction, and a second opinion on the technical call",
-        "b": "Consulting · Support",
-        "color": "#ff6b4a",
-        "img": "/resources/club-premier/TransfiereYViaja_1.jpg"
-      }
-    ]
+    "title": "Real work.",
+    "accent": "work.",
+    "kicker": "Six projects in people's hands"
   },
   "clients": {
     "enabled": true,
-    "title": "Trusted by",
-    "gradA": "#0e1015",
-    "gradB": "#08090c",
-    "angle": 160,
-    "opacity": 1,
+    "title": "Brands that have trusted JeeTP",
     "logos": [
       {
         "name": "Club Premier",
@@ -961,18 +950,71 @@
         "name": "Etomin",
         "img": "/resources/our-clients/etomin.svg"
       }
-    ],
-    "whiteLogos": true,
-    "colorOnHover": true
+    ]
+  },
+  "products": {
+    "enabled": true,
+    "title": "Our own products.",
+    "accent": "products.",
+    "intro": "We test at home what we later bring to our clients.",
+    "items": [
+      {
+        "name": "Synthex",
+        "logo": "/resources/logos/synthex-mark.svg",
+        "title": "Make AI recommend your brand.",
+        "body": "Measure how your brand appears in the answers of AI assistants and what to do to improve.",
+        "url": "https://synthex.com.mx",
+        "linkLabel": "Discover Synthex ↗"
+      },
+      {
+        "name": "Synthex Commerce",
+        "logo": "/resources/logos/synthex-mark.svg",
+        "title": "Your online store, smarter.",
+        "body": "Search that understands your customers and recommendations that sell.",
+        "url": "https://commerce.synthex.com.mx",
+        "linkLabel": "Discover Synthex Commerce ↗"
+      },
+      {
+        "name": "Pliks",
+        "logo": "/resources/logos/pliks-logo.png",
+        "title": "Your next company, taking shape.",
+        "body": "An AI executive team that researches your market, builds the plan and moves your business forward. You decide every step.",
+        "url": "https://trypliks.com",
+        "linkLabel": "Discover Pliks ↗"
+      }
+    ]
+  },
+  "process": {
+    "enabled": true,
+    "title": "How we work.",
+    "accent": "work.",
+    "steps": [
+      {
+        "num": "01",
+        "title": "Discover",
+        "body": "We understand your operation and where technology moves the result."
+      },
+      {
+        "num": "02",
+        "title": "Design",
+        "body": "You see real screens from the first weeks."
+      },
+      {
+        "num": "03",
+        "title": "Build",
+        "body": "Weekly deliveries with working software."
+      },
+      {
+        "num": "04",
+        "title": "Evolve",
+        "body": "We measure, operate and improve with you."
+      }
+    ]
   },
   "faq": {
     "enabled": true,
-    "label": "FAQ",
-    "title": "Questions we get asked first",
-    "gradA": "#08090c",
-    "gradB": "#08090c",
-    "angle": 160,
-    "opacity": 1,
+    "title": "Questions we get asked first.",
+    "accent": "asked first.",
     "items": [
       {
         "q": "What kinds of projects do you take on?",
@@ -996,11 +1038,21 @@
       }
     ]
   },
+  "closing": {
+    "kicker": "Got a challenge?",
+    "word": "Let's talk.",
+    "emailLabel": "Write to us",
+    "emailCopied": "Email copied",
+    "whatsappLabel": "WhatsApp",
+    "locationLabel": "Where we are",
+    "remoteLabel": "How we work",
+    "remoteValue": "Remote, in English and Spanish"
+  },
   "contact": {
     "email": "contact@jeetpstudio.com",
     "whatsapp": "+52 55 3647 9693",
     "phone": "+52 55 3647 9693",
-    "location": "Texas, United States",
+    "location": "Texas · Mexico City",
     "address": "Texas, United States",
     "mapQuery": "Lakeview Dr, Conroe, TX 77304"
   },
@@ -1008,11 +1060,13 @@
     "hero": {
       "eyebrow": "About",
       "title": "A development team that starts from your problem",
-      "gradA": "#3fa9f5",
-      "gradB": "#06182e",
-      "angle": 150,
-      "opacity": 1
+      "accent": "your problem"
     },
+    "gallery": [
+      "/resources/team/team-1.png",
+      "/resources/team/team-2.png",
+      "/resources/team/team-3.png"
+    ],
     "intro": {
       "heading": "Who we are",
       "body": "JeeTP Studios builds custom software. Web platforms, mobile apps, internal tools, integrations, and the interactive work some clients need on top. We are developers, designers and strategists acting as the technical team for companies that do not have one, or that need a bigger one for a while.\nThere are no account layers between you and the people writing the code. Cost stays down, timelines stay honest, and we can size a team to a single project instead of a retainer."
@@ -1024,26 +1078,13 @@
     "beliefs": {
       "heading": "What we believe",
       "body": "Software should fit the business, not the other way round. Most of the bad systems we get called in to replace were built to a template someone had lying around.\nWhen a project needs something we have never done, we learn it and build it."
-    },
-    "news": {
-      "enabled": false,
-      "title": "In the press",
-      "logos": []
-    },
-    "gallery": [
-      "/resources/team/team-1.png",
-      "/resources/team/team-2.png",
-      "/resources/team/team-3.png"
-    ]
+    }
   },
   "servicesPage": {
     "hero": {
       "eyebrow": "What we do",
       "title": "Software built around your problem, not a template",
-      "gradA": "#3fa9f5",
-      "gradB": "#06182e",
-      "angle": 150,
-      "opacity": 1
+      "accent": "your problem"
     },
     "groups": [
       {
@@ -1130,25 +1171,19 @@
           "img": "/resources/kings-league/KLAFantasy_SS1.jpg"
         }
       ]
-    },
-    "clientsTitle": "Trusted by",
-    "news": {
-      "enabled": false
     }
   },
   "cases": {
     "label": "Work",
-    "title": "Every project, start to finish"
+    "title": "Every project, start to finish",
+    "accent": "start to finish"
   },
   "contactPage": {
     "hero": {
       "eyebrow": "Contact",
       "title": "Tell us what you are trying to build",
-      "sub": "A new project, a second opinion on one you already started, or just a question about how we work.",
-      "gradA": "#3fa9f5",
-      "gradB": "#06182e",
-      "angle": 150,
-      "opacity": 1
+      "accent": "build",
+      "sub": "A new project, a second opinion on one you already started, or just a question about how we work."
     },
     "regions": [
       {
@@ -1176,131 +1211,981 @@
       "contact": "Contact"
     },
     "buttons": {
-      "contact": "Start a project",
+      "contact": "Let's talk",
       "work": "See the work",
-      "services": "All services",
-      "viewCase": "View case study",
       "allWork": "All work"
     },
+    "language": {
+      "label": "Language",
+      "switchTo": "Switch language"
+    },
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    },
     "footer": {
-      "navTitle": "Navigation",
-      "servicesTitle": "Services",
-      "socialTitle": "Follow",
       "social": [
         {
           "label": "LinkedIn",
-          "url": "#"
+          "url": "https://www.linkedin.com/company/jeetpstudios/"
         },
         {
           "label": "Instagram",
-          "url": "#"
+          "url": "https://www.instagram.com/jeetpstudios/"
         },
         {
           "label": "X",
-          "url": "#"
+          "url": "https://x.com/JeeTPStudios"
         }
       ],
-      "ctaText": "Tell us the problem. We build what solves it.",
-      "ctaButton": "Start a project",
-      "copyright": "© {year} {name}. All rights reserved.",
-      "madeIn": "Built in-house by JeeTP Studios"
+      "copyright": "© {year} {name}"
     },
-    "servicesPageTitle": "What we do",
     "faqBox": {
       "title": "Still have a question?",
       "body": "Send it over. We answer within one business day, and we will tell you straight if we are not the right team for it.",
-      "button": "Start a project"
+      "button": "Let's talk"
     },
     "caseStudy": {
       "back": "Back to work",
       "specCategory": "Type",
       "specDuration": "Duration",
       "specMeta": "Year and place",
-      "upNext": "Next case study"
+      "upNext": "Next case study",
+      "problemsTitle": "What was in the way",
+      "openImage": "Open image",
+      "playVideo": "Play video",
+      "close": "Close",
+      "video": "Video"
+    },
+    "casesIndex": {
+      "filterLabel": "Filter by discipline",
+      "emptyTitle": "Nothing filed under that discipline yet.",
+      "emptyBody": "It is on the roadmap. In the meantime, the full archive is a click away."
     },
     "contactForm": {
-      "getInTouch": "Get in touch",
       "sendWhatsapp": "Send on WhatsApp",
       "service": "What do you need",
+      "serviceNone": "Choose one",
       "name": "Your name",
       "phone": "Phone",
       "email": "Email",
       "company": "Company",
       "message": "About the project",
-      "send": "Send by email"
+      "messageHint": "What you want to build, and roughly when.",
+      "optional": "Optional",
+      "send": "Send by email",
+      "addressLabel": "Address",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone and WhatsApp",
+      "regionsLabel": "Where you are",
+      "errorName": "We need a name to reply to.",
+      "errorEmailMissing": "Add an email so we can get back to you.",
+      "errorEmailInvalid": "That email address does not look complete.",
+      "errorMessage": "A sentence or two about the project is enough.",
+      "doneTitle": "Your message is on its way.",
+      "doneWhatsapp": "We opened WhatsApp with everything filled in. Hit send there and we will reply within one business day.",
+      "doneEmail": "We opened your mail client with everything filled in. Send it and we will reply within one business day.",
+      "writeAnother": "Write another",
+      "mailSubject": "New project enquiry",
+      "mailSubjectFrom": "New project enquiry from {company}",
+      "notSpecified": "Not specified",
+      "bodyService": "Service",
+      "bodyName": "Name",
+      "bodyCompany": "Company",
+      "bodyEmail": "Email",
+      "bodyPhone": "Phone",
+      "bodyProject": "Project"
+    },
+    "loading": "Loading",
+    "error": {
+      "title": "Something went wrong",
+      "back": "Back to home"
     }
   },
-  "carousel": {
-    "speedSec": 42
-  },
   "order": [
+    "manifesto",
+    "about",
+    "solutions",
+    "work",
     "clients",
-    "highlighted",
-    "stats",
-    "services",
+    "products",
     "process",
     "faq"
   ],
-  "stats": {
-    "enabled": true,
-    "label": "In numbers",
-    "title": "What four years of building adds up to",
-    "gradA": "#0e1015",
-    "gradB": "#08090c",
-    "angle": 160,
-    "opacity": 1,
-    "items": [
-      {
-        "value": 12,
-        "suffix": "+",
-        "label": "Projects shipped"
+  "i18n": {
+    "es": {
+      "hero": {
+        "lines": [
+          "Tecnología",
+          "que mueve",
+          "negocios."
+        ],
+        "accent": "mueve",
+        "sub": "Software a la medida, inteligencia artificial y experiencias digitales para empresas que quieren crecer.",
+        "scrollLabel": "Desliza"
       },
-      {
-        "value": 8,
-        "suffix": "",
-        "label": "Industries served"
+      "manifesto": {
+        "statements": [
+          "Tu negocio no necesita más tecnología.",
+          "Necesita la tecnología correcta.",
+          "La diseñamos, la construimos y la hacemos crecer contigo.",
+          "Datos, inteligencia y experiencia en una sola solución."
+        ]
       },
-      {
-        "value": 4,
-        "suffix": "",
-        "label": "Years building brands"
+      "stack": {
+        "labels": [
+          "Experiencia",
+          "Inteligencia",
+          "Datos y sistemas"
+        ]
       },
-      {
-        "value": 120,
-        "suffix": "K+",
-        "label": "End users reached"
+      "aboutBlock": {
+        "kicker": "Quiénes somos",
+        "statement": "Somos el socio tecnológico de marcas y empresas en México y Estados Unidos. Nacimos creando videojuegos, y de ahí viene nuestra regla: la tecnología sólo sirve si la gente quiere usarla."
+      },
+      "stats": {
+        "items": [
+          {
+            "label": "Proyectos lanzados"
+          },
+          {
+            "label": "Industrias atendidas"
+          },
+          {
+            "label": "Años construyendo marcas"
+          },
+          {
+            "label": "Usuarios finales alcanzados"
+          }
+        ]
+      },
+      "solutions": {
+        "label": "Soluciones",
+        "items": [
+          {
+            "title": "Software a la medida.",
+            "body": "Plataformas y sistemas construidos alrededor de cómo funciona tu negocio.",
+            "chips": [
+              "Plataformas web",
+              "Sistemas internos",
+              "Integraciones",
+              "Modernización"
+            ]
+          },
+          {
+            "title": "Inteligencia artificial.",
+            "body": "IA conectada a tus procesos, con personas aprobando lo importante.",
+            "chips": [
+              "Agentes de IA",
+              "Asistentes",
+              "Búsqueda inteligente",
+              "Visibilidad en IA"
+            ]
+          },
+          {
+            "title": "Datos y automatización.",
+            "body": "Tu información en un solo lugar y procesos que dejan de ser manuales.",
+            "chips": [
+              "Tableros",
+              "Reportes",
+              "Automatización",
+              "Back office"
+            ]
+          },
+          {
+            "title": "Apps y producto digital.",
+            "body": "Productos que la gente entiende, usa y recomienda.",
+            "chips": [
+              "iOS y Android",
+              "Sitios web",
+              "E-commerce",
+              "UX y UI"
+            ]
+          },
+          {
+            "title": "Experiencias de marca.",
+            "body": "Nuestro origen: juegos y activaciones que hacen volver a tus clientes.",
+            "chips": [
+              "Gamificación",
+              "Lealtad",
+              "Activaciones",
+              "Realidad aumentada"
+            ]
+          },
+          {
+            "title": "Consultoría.",
+            "body": "Definimos qué construir, en qué orden y con qué retorno.",
+            "chips": [
+              "Diagnóstico",
+              "Hoja de ruta",
+              "Arquitectura"
+            ]
+          }
+        ]
+      },
+      "projects": {
+        "club-premier": {
+          "tagline": "Fantasy oficial de Kings League Américas",
+          "category": "Plataforma móvil",
+          "duration": "12 meses",
+          "location": "Latinoamérica y España",
+          "tags": [
+            "App",
+            "Juegos",
+            "Fantasy",
+            "Fútbol"
+          ],
+          "desc": "Desarrollo de la plataforma Fantasy de Kings League Américas, con el objetivo de modernizar la experiencia de juego y construir lealtad en los usuarios.",
+          "sections": {
+            "overview-1": {
+              "label": "Resumen",
+              "title": "Todo sobre KLA Fantasy",
+              "body": "Una plataforma fantasy moderna para la Kings League Américas: los usuarios arman sus equipos ideales con cartas de jugadores, compiten todos los días y ganan boletos que pueden canjear por premios como camisetas firmadas, experiencias exclusivas, viajes y mercancía oficial, todo dentro de una plataforma intuitiva y dinámica, pensada para que todos tengan oportunidad de ganar."
+            },
+            "gallery-5": {
+              "title": "Interfaz y juego"
+            },
+            "challenge-2": {
+              "title": "Reto / Planteamiento del problema",
+              "intro": "Kings League Américas necesitaba una experiencia fantasy que elevara la participación de los fans y construyera lealtad en los usuarios durante toda la temporada.",
+              "approachTitle": "Solución",
+              "approach": [
+                "Mecánicas de juego claras y rápidas.",
+                "Integración completa con los datos de la liga y la tabla en vivo.",
+                "Diseño pensado primero para móvil."
+              ]
+            },
+            "process-3": {
+              "title": "Proceso del proyecto",
+              "steps": [
+                [
+                  "",
+                  "Definir objetivos"
+                ],
+                [
+                  "",
+                  "Diseño de mecánicas"
+                ],
+                [
+                  "",
+                  "Desarrollo"
+                ],
+                [
+                  "",
+                  "QA y lanzamiento"
+                ]
+              ]
+            },
+            "methodology-4": {
+              "title": "Metodología",
+              "items": [
+                {
+                  "heading": "Impacto",
+                  "body": "Mayor participación y permanencia de los fans durante toda la temporada."
+                }
+              ]
+            },
+            "conclusion-6": {
+              "title": "Conclusión",
+              "body": "Entregamos una experiencia de juego que dio vida a la liga y conectó a los fans con la marca."
+            },
+            "cta-7": {
+              "text": "¿Quieres algo así para tu marca?",
+              "buttonLabel": "Trabaja con nosotros"
+            }
+          }
+        },
+        "retail-experience": {
+          "tagline": "Lealtad para Club Premier y Santander",
+          "category": "Experiencia interactiva",
+          "duration": "3 meses",
+          "location": "México",
+          "tags": [
+            "Web",
+            "Juegos"
+          ],
+          "desc": "Una experiencia interactiva para los socios de Aeroméxico Rewards (antes Club Premier), creada con el programa Toma Todo de Santander para premiar la lealtad.",
+          "sections": {
+            "overview-f": {
+              "label": "Resumen",
+              "title": "Todo sobre Mundo Premier",
+              "body": "Desarrollamos dos dinámicas para los socios de Aeroméxico Rewards (antes Club Premier), enfocadas en construir lealtad y en permitirles canjear puntos por premios como viajes con todos los gastos pagados. Mundo Premier se realizó en colaboración con Santander como parte del programa Toma Todo."
+            },
+            "gallery-mpyho3qe-2": {
+              "title": "Galería"
+            },
+            "challenge-g": {
+              "title": "Reto / Planteamiento del problema",
+              "intro": "Club Premier buscaba un proveedor estratégico y confiable, capaz de desarrollar experiencias interactivas para sus campañas publicitarias en un plazo de desarrollo corto y sin errores en producción, ya que cualquier error podía derivar en problemas legales por la naturaleza de las campañas.",
+              "problems": [
+                "Diseño y desarrollo rápidos",
+                "Pruebas de extremo a extremo confiables",
+                "Soporte 24/7",
+                "Reportes",
+                "Cumplimiento de la normativa legal sobre juegos y sorteos para fines de auditoría",
+                "Seguridad y confianza"
+              ],
+              "approachTitle": "Solución",
+              "approach": [
+                "Desde el primer día ofrecimos una solución integral en la que el calendario de desarrollo se ajustó a la fecha de lanzamiento que el cliente quería. En este caso, dos meses para el lanzamiento público, sin margen de error durante el lanzamiento.",
+                "Con comunicación constante con el cliente durante todo el desarrollo, pruebas extensas en un entorno de preparación y pruebas de estrés para soportar un alto volumen de tráfico, logramos nuestro objetivo."
+              ]
+            },
+            "process-h": {
+              "title": "Proceso del proyecto",
+              "steps": [
+                [
+                  "",
+                  "Levantamiento de requerimientos"
+                ],
+                [
+                  "",
+                  "Lluvia de ideas"
+                ],
+                [
+                  "",
+                  "Diseño de juego"
+                ],
+                [
+                  "",
+                  "Desarrollo"
+                ],
+                [
+                  "",
+                  "Pruebas de aceptación de usuario"
+                ],
+                [
+                  "",
+                  "Lanzamiento"
+                ],
+                [
+                  "",
+                  "Análisis y reportes"
+                ]
+              ]
+            },
+            "methodology-i": {
+              "title": "Impacto",
+              "items": [
+                {
+                  "heading": "Desarrollo",
+                  "body": "Desarrollo de la versión final y probada en un periodo de dos meses"
+                },
+                {
+                  "heading": "Más de 60,000 usuarios",
+                  "body": "Una experiencia disfrutada por más de 60,000 usuarios (socios de Club Premier, ahora Aeroméxico Rewards)"
+                },
+                {
+                  "heading": "Sin errores",
+                  "body": "No hubo errores en producción que pudieran afectar el puntaje de los usuarios. Esto fue muy importante, ya que había grandes premios en juego, como viajes y camionetas."
+                },
+                {
+                  "heading": "Reporte exitoso",
+                  "body": "Se entregaron reportes semanales para verificar la autenticidad de las partidas de cada usuario, incluida la revisión de puntajes altos en relación con la duración de la partida y el número de partidas canjeadas."
+                }
+              ]
+            },
+            "conclusion-k": {
+              "title": "Conclusión",
+              "body": "Una experiencia que convirtió los puntos de lealtad en la oportunidad de ganar grandes premios y fortaleció aún más la lealtad de los socios."
+            },
+            "cta-l": {
+              "text": "¿Te gustaría algo así para tu marca?",
+              "buttonLabel": "Trabaja con nosotros"
+            }
+          }
+        },
+        "proyecto-mpxmt44l": {
+          "tagline": "Modernización digital para una marca industrial",
+          "category": "Sitio web",
+          "duration": "1 mes",
+          "location": "México",
+          "tags": [
+            "Web"
+          ],
+          "desc": "Rediseño del sitio web de la empresa de elevadores Hosting Wells para modernizarlo y mejorar la experiencia de usuario.",
+          "sections": {
+            "overview-mpxmt44l-1": {
+              "label": "Resumen",
+              "title": "Todo sobre Hosting Wells",
+              "body": "Hosting Wells es una empresa especializada en la instalación de elevadores con tecnología alemana. Desarrollamos a la medida su sitio web oficial: una plataforma moderna, profesional y adaptable que comunica con claridad sus ventajas competitivas, servicios, garantías y experiencia en el sector."
+            },
+            "gallery-hostingwells-1": {
+              "title": "El sitio"
+            },
+            "challenge-mpxmt44l-2": {
+              "title": "Reto / Planteamiento del problema",
+              "intro": "Hosting Wells necesitaba una presencia web a la altura de la calidad de su ingeniería: sus ventajas, garantías y trayectoria no se reflejaban en línea.",
+              "problems": [
+                "La presencia anterior no reflejaba la calidad y la experiencia de la empresa",
+                "Los servicios y las garantías no se comunicaban con claridad",
+                "El sitio no se adaptaba a distintas pantallas ni era fácil de actualizar"
+              ],
+              "approachTitle": "Solución",
+              "approach": [
+                "Una plataforma moderna, profesional y totalmente adaptable",
+                "Una estructura clara para servicios, garantías y experiencia en la industria",
+                "Un enfoque en eficiencia, calidad y atención especializada"
+              ]
+            },
+            "process-mpxmt44l-3": {
+              "title": "Proceso del proyecto",
+              "steps": [
+                [
+                  "",
+                  "Investigación"
+                ],
+                [
+                  "",
+                  "Diseño"
+                ],
+                [
+                  "",
+                  "Desarrollo"
+                ],
+                [
+                  "",
+                  "Lanzamiento"
+                ]
+              ]
+            },
+            "methodology-mpxmt44l-4": {
+              "title": "Metodología",
+              "items": [
+                {
+                  "heading": "Posicionamiento",
+                  "body": "El nuevo sitio presenta a Hosting Wells como un socio especializado y confiable: la tecnología alemana, las garantías claras y la atención especializada al frente."
+                }
+              ]
+            },
+            "conclusion-mpxmt44l-5": {
+              "title": "Conclusión",
+              "body": "Un sitio limpio y profesional que por fin comunica las ventajas competitivas de Hosting Wells. Un segundo rediseño, más ambicioso (v2), ya está en desarrollo."
+            },
+            "cta-mpxmt44l-6": {
+              "text": "¿Quieres algo así para tu marca?",
+              "buttonLabel": "Trabaja con nosotros"
+            }
+          }
+        },
+        "proyecto-mpxnmppg": {
+          "tagline": "Activación de marca con recompensas",
+          "category": "Experiencia digital",
+          "duration": "1 mes",
+          "location": "México",
+          "tags": [
+            "App",
+            "Juegos"
+          ],
+          "desc": "Una feria de minijuegos en línea que posicionó a la marca Pepito con nuevas audiencias: juegas, ganas boletos y canjeas recompensas de la marca.",
+          "sections": {
+            "overview-mpxnmpph-d": {
+              "label": "Resumen",
+              "title": "Todo sobre Club Pepito",
+              "body": "Club Pepito fue un proyecto interactivo diseñado para posicionar a la marca Pepito entre nuevas audiencias mediante una feria de minijuegos en línea. Los usuarios ganaban boletos al jugar y podían canjearlos por productos físicos de la marca y otras recompensas."
+            },
+            "gallery-clubpepito-1": {
+              "title": "Minijuegos"
+            },
+            "challenge-mpxnmpph-e": {
+              "title": "Reto / Planteamiento del problema",
+              "intro": "Pepito necesitaba posicionar la marca con nuevas audiencias y convertir la exposición pasiva en participación activa.",
+              "problems": [
+                "La publicidad tradicional no generaba participación en las nuevas audiencias",
+                "La marca necesitaba una razón para que los usuarios regresaran"
+              ],
+              "approachTitle": "Solución",
+              "approach": [
+                "Una feria de minijuegos en línea (Corre Pepito, Aguas con la Lava y más)",
+                "Un sistema de boletos: juegas, ganas boletos y los canjeas por productos físicos de la marca",
+                "Un tráiler y una campaña en redes sociales para llevar tráfico a la feria"
+              ]
+            },
+            "process-mpxnmpph-f": {
+              "title": "Proceso del proyecto",
+              "steps": [
+                [
+                  "",
+                  "Investigación"
+                ],
+                [
+                  "",
+                  "Diseño"
+                ],
+                [
+                  "",
+                  "Desarrollo"
+                ],
+                [
+                  "",
+                  "Lanzamiento"
+                ]
+              ]
+            },
+            "methodology-mpxnmpph-g": {
+              "title": "Metodología",
+              "items": [
+                {
+                  "heading": "Ciclo de lealtad",
+                  "body": "Jugar, ganar boletos, canjear recompensas: la feria convirtió la exposición de marca en un ciclo repetible que hizo que los usuarios volvieran."
+                }
+              ]
+            },
+            "conclusion-mpxnmpph-h": {
+              "title": "Conclusión",
+              "body": "Club Pepito convirtió el posicionamiento de marca en juego: los usuarios participaron en los minijuegos y canjearon boletos por recompensas físicas de la marca, lo que generó visitas repetidas."
+            },
+            "cta-mpxnmpph-i": {
+              "text": "¿Quieres algo así para tu marca?",
+              "buttonLabel": "Trabaja con nosotros"
+            }
+          }
+        },
+        "proyecto-mpxngzng": {
+          "tagline": "Expandiendo el universo de una marca",
+          "category": "Juego móvil",
+          "duration": "1 mes",
+          "location": "México",
+          "tags": [
+            "App",
+            "Juegos"
+          ],
+          "desc": "Un juego móvil que expande el universo de caricaturas de Pepito y permite descubrir las historias de los personajes mediante el juego interactivo.",
+          "sections": {
+            "overview-mpxngzng-7": {
+              "label": "Resumen",
+              "title": "Todo sobre Jokeland",
+              "body": "Jokeland es un juego móvil creado para conectar con nuevas audiencias y expandir el universo de caricaturas de Pepito. Los usuarios conocen la historia de los personajes de forma interactiva, y el juego funciona como secuela directa de la serie animada desarrollada para redes sociales."
+            },
+            "gallery-jokeland-1": {
+              "title": "Arte y pantallas"
+            },
+            "challenge-mpxngzng-8": {
+              "title": "Reto / Planteamiento del problema",
+              "intro": "La marca Pepito quería llegar a nuevas audiencias y extender su universo de caricaturas más allá de la serie animada en redes sociales.",
+              "problems": [
+                "La audiencia se limitaba a los seguidores de la serie en redes sociales",
+                "Los fans no tenían forma de profundizar en las historias de los personajes"
+              ],
+              "approachTitle": "Solución",
+              "approach": [
+                "Un juego móvil que funciona como secuela directa de la serie animada",
+                "Narrativa interactiva para que los jugadores conozcan la historia de cada personaje",
+                "Mecánicas casuales pensadas para audiencias amplias"
+              ]
+            },
+            "process-mpxngzng-9": {
+              "title": "Proceso del proyecto",
+              "steps": [
+                [
+                  "",
+                  "Investigación"
+                ],
+                [
+                  "",
+                  "Diseño"
+                ],
+                [
+                  "",
+                  "Desarrollo"
+                ],
+                [
+                  "",
+                  "Lanzamiento"
+                ]
+              ]
+            },
+            "methodology-mpxngzng-a": {
+              "title": "Metodología",
+              "items": [
+                {
+                  "heading": "Participación",
+                  "body": "Los jugadores descubren las historias de los personajes mientras juegan, se identifican con ellos y mantienen vivo el universo entre episodios de la serie."
+                }
+              ]
+            },
+            "conclusion-mpxngzng-b": {
+              "title": "Conclusión",
+              "body": "Jokeland extendió el universo de Pepito a un formato interactivo y conectó a la marca con nuevas audiencias como secuela directa de la serie animada."
+            },
+            "cta-mpxngzng-c": {
+              "text": "¿Quieres algo así para tu marca?",
+              "buttonLabel": "Trabaja con nosotros"
+            }
+          }
+        },
+        "kings-league": {
+          "tagline": "Identidad para un torneo nacional",
+          "category": "Marca",
+          "duration": "1 mes",
+          "location": "México",
+          "tags": [
+            "Diseño",
+            "Marca"
+          ],
+          "desc": "Diseño de la mascota oficial de la Copa Récord México para uso comercial y escalable en proyectos deportivos.",
+          "sections": {
+            "overview-8": {
+              "label": "Resumen",
+              "title": "Todo sobre Copa Record",
+              "body": "La Copa Récord es un torneo nacional de fútbol de Récord México que promueve el deporte y corona al mejor equipo del país. Diseñamos su mascota oficial, creada para representar la energía, la pasión y el espíritu competitivo del evento, y conectar tanto con jugadores como con aficionados."
+            },
+            "gallery-c": {
+              "title": "Mascota y prototipo"
+            },
+            "challenge-9": {
+              "title": "Reto / Planteamiento del problema",
+              "intro": "Récord necesitaba una pieza de identidad que conectara con jugadores y aficionados de todo el país, funcionara en materiales comerciales y creciera hacia futuros proyectos deportivos.",
+              "approachTitle": "Solución",
+              "approach": [
+                "Una mascota que encarna la energía, la pasión y el espíritu competitivo del torneo",
+                "Un diseño versátil, listo para uso comercial y escalable en proyectos deportivos",
+                "Un prototipo de mapa interactivo para planear canchas, publicidad y áreas clave del evento"
+              ]
+            },
+            "process-a": {
+              "title": "Proceso del proyecto",
+              "steps": [
+                [
+                  "",
+                  "Brief e investigación"
+                ],
+                [
+                  "",
+                  "Conceptos y bocetos"
+                ],
+                [
+                  "",
+                  "Refinamiento"
+                ],
+                [
+                  "",
+                  "Arte final y entrega"
+                ]
+              ]
+            },
+            "methodology-b": {
+              "title": "Metodología",
+              "items": [
+                {
+                  "heading": "Impacto",
+                  "body": "La mascota se convirtió en la cara del torneo en todos sus materiales, y el prototipo de mapa interactivo, presentado al Club Deportivo Pachuca, ayudó a planear canchas, estimar publicidad y proponer ideas para áreas clave como la zona de comida."
+                }
+              ]
+            },
+            "conclusion-d": {
+              "title": "Conclusión",
+              "body": "Una mascota lista para uso comercial y escalable a más proyectos deportivos, además de un mapa interactivo que facilitó la planeación integral del evento."
+            },
+            "cta-e": {
+              "text": "¿Quieres algo así para tu marca?",
+              "buttonLabel": "Trabaja con nosotros"
+            }
+          }
+        }
+      },
+      "work": {
+        "title": "Trabajo real.",
+        "accent": "real.",
+        "kicker": "Seis proyectos en manos de la gente"
+      },
+      "clients": {
+        "title": "Marcas que han confiado en JeeTP"
+      },
+      "products": {
+        "title": "Productos propios.",
+        "accent": "propios.",
+        "intro": "Probamos en casa lo que después llevamos a nuestros clientes.",
+        "items": [
+          {
+            "title": "Que la IA recomiende tu marca.",
+            "body": "Mide cómo aparece tu marca en las respuestas de los asistentes de IA y qué hacer para mejorar.",
+            "linkLabel": "Conocer Synthex ↗"
+          },
+          {
+            "title": "Tu tienda en línea, más inteligente.",
+            "body": "Búsqueda que entiende a tus clientes y recomendaciones que venden.",
+            "linkLabel": "Conocer Synthex Commerce ↗"
+          },
+          {
+            "title": "Tu próxima empresa, tomando forma.",
+            "body": "Un equipo ejecutivo de IA que investiga tu mercado, arma el plan y mueve tu negocio hacia adelante. Tú decides cada paso.",
+            "linkLabel": "Conocer Pliks ↗"
+          }
+        ]
+      },
+      "process": {
+        "title": "Cómo trabajamos.",
+        "accent": "trabajamos.",
+        "steps": [
+          {
+            "title": "Diagnóstico",
+            "body": "Entendemos tu operación y dónde la tecnología mueve el resultado."
+          },
+          {
+            "title": "Diseño",
+            "body": "Ves pantallas reales desde las primeras semanas."
+          },
+          {
+            "title": "Construcción",
+            "body": "Entregas semanales con software funcionando."
+          },
+          {
+            "title": "Evolución",
+            "body": "Medimos, operamos y mejoramos contigo."
+          }
+        ]
+      },
+      "faq": {
+        "title": "Preguntas que nos hacen primero.",
+        "accent": "nos hacen primero.",
+        "items": [
+          {
+            "q": "¿Qué tipo de proyectos toman?",
+            "a": "Cualquier cosa que termine en software funcionando. Plataformas web, apps móviles, herramientas internas, integraciones, e-commerce y, de vez en cuando, un juego o una activación de marca. Si se puede construir, entra en el alcance."
+          },
+          {
+            "q": "¿Trabajan con plantillas?",
+            "a": "No. Definimos cada proyecto alrededor del problema que tenemos enfrente, por eso dos clientes de la misma industria rara vez terminan con el mismo sistema.\nSi una herramienta ya hecha te sirve mejor, te lo diremos en lugar de cobrarte la diferencia."
+          },
+          {
+            "q": "¿Qué tan pequeño o grande puede ser un proyecto?",
+            "a": "Desde un desarrollo de un mes hasta una plataforma que operamos por años. Ajustamos el equipo al proyecto y no al revés, así que un trabajo pequeño no se queda con las sobras de un equipo chico."
+          },
+          {
+            "q": "¿Trabajan con agencias?",
+            "a": "Seguido. Somos el equipo de desarrollo que muchas agencias necesitan sin tener que contratarlo, ya sea detrás de cámaras o de frente al cliente."
+          },
+          {
+            "q": "¿Cómo empieza un proyecto?",
+            "a": "Una llamada corta sobre lo que necesitas que pase. Regresamos con alcance, plazos y costo, y cuando estés de acuerdo empezamos a construir."
+          }
+        ]
+      },
+      "closing": {
+        "kicker": "¿Tienes un reto?",
+        "word": "Hablemos.",
+        "emailLabel": "Escríbenos",
+        "emailCopied": "Correo copiado",
+        "whatsappLabel": "WhatsApp",
+        "locationLabel": "Dónde estamos",
+        "remoteLabel": "Trabajamos",
+        "remoteValue": "Remoto, en español e inglés"
+      },
+      "contact": {
+        "location": "Texas · Ciudad de México",
+        "address": "Texas, Estados Unidos"
+      },
+      "about": {
+        "hero": {
+          "eyebrow": "Nosotros",
+          "title": "Un equipo de desarrollo que parte de tu problema",
+          "accent": "tu problema"
+        },
+        "intro": {
+          "heading": "Quiénes somos",
+          "body": "JeeTP Studios construye software a la medida. Plataformas web, apps móviles, herramientas internas, integraciones y el trabajo interactivo que algunos clientes necesitan además. Somos desarrolladores, diseñadores y estrategas que actúan como el equipo técnico de empresas que no tienen uno, o que necesitan uno más grande por un tiempo.\nNo hay capas de cuentas entre tú y las personas que escriben el código. El costo se mantiene bajo, los plazos son honestos y podemos dimensionar un equipo para un solo proyecto en lugar de una iguala."
+        },
+        "overview": {
+          "heading": "Lo que hemos construido",
+          "body": "Plataformas de lealtad, productos deportivos, sitios web de empresas de elevadores, tableros internos, activaciones comerciales. Industrias distintas, el mismo trabajo: descubrir lo que el negocio realmente necesita y construir eso.\nTodo proyecto empieza con una conversación sobre el problema. A partir de ahí definimos alcance, plazos y costo, y luego lo construimos."
+        },
+        "beliefs": {
+          "heading": "En qué creemos",
+          "body": "El software debe adaptarse al negocio, no al revés. La mayoría de los sistemas malos que nos llaman a reemplazar se construyeron sobre una plantilla que alguien tenía a la mano.\nCuando un proyecto necesita algo que nunca hemos hecho, lo aprendemos y lo construimos."
+        }
+      },
+      "servicesPage": {
+        "hero": {
+          "eyebrow": "Lo que hacemos",
+          "title": "Software hecho a la medida de tu problema, no una plantilla",
+          "accent": "tu problema"
+        },
+        "groups": [
+          {
+            "title": "Software a la medida",
+            "links": [
+              "Plataformas web",
+              "Herramientas internas",
+              "Integraciones a la medida",
+              "Desarrollo de APIs",
+              "Reconstrucción de sistemas heredados",
+              "Arquitectura técnica"
+            ]
+          },
+          {
+            "title": "Apps móviles y web",
+            "links": [
+              "Apps iOS y Android",
+              "Aplicaciones web progresivas",
+              "Desarrollos multiplataforma",
+              "Publicación en tiendas de apps",
+              "Sitios web y páginas de aterrizaje",
+              "E-commerce"
+            ]
+          },
+          {
+            "title": "Datos y automatización",
+            "links": [
+              "Tableros para clientes",
+              "Reportes internos",
+              "Automatización de procesos",
+              "Integraciones con terceros",
+              "Back offices a la medida"
+            ]
+          },
+          {
+            "title": "Trabajo interactivo y juegos",
+            "links": [
+              "Advergaming",
+              "Gamificación",
+              "Juegos de lealtad",
+              "Experiencias de realidad aumentada",
+              "Activaciones digitales",
+              "Instalaciones interactivas"
+            ]
+          },
+          {
+            "title": "Estrategia y soporte",
+            "links": [
+              "Estrategia de producto",
+              "Consultoría técnica",
+              "Mantenimiento y soporte",
+              "Ampliación de equipo"
+            ]
+          }
+        ],
+        "who": {
+          "heading": "Con quién trabajamos",
+          "body": "Startups, agencias, corporativos. Presupuestos distintos, el mismo estándar en lo que entregamos.",
+          "cards": [
+            {
+              "title": "Startups"
+            },
+            {
+              "title": "Agencias"
+            },
+            {
+              "title": "Empresas"
+            },
+            {
+              "title": "Retail y comercio"
+            },
+            {
+              "title": "Deportes y entretenimiento"
+            }
+          ]
+        }
+      },
+      "cases": {
+        "label": "Trabajo",
+        "title": "Cada proyecto, de principio a fin",
+        "accent": "de principio a fin"
+      },
+      "contactPage": {
+        "hero": {
+          "eyebrow": "Contacto",
+          "title": "Cuéntanos qué quieres construir",
+          "accent": "construir",
+          "sub": "Un proyecto nuevo, una segunda opinión sobre uno que ya empezaste, o sólo una pregunta sobre cómo trabajamos."
+        },
+        "regions": [
+          {
+            "name": "Estados Unidos"
+          },
+          {
+            "name": "México"
+          },
+          {
+            "name": "Remoto, en todo el mundo"
+          }
+        ],
+        "interestedTitle": "Empieza un proyecto con nosotros",
+        "getInTouch": "Mientras más nos cuentes desde el inicio, más útil será nuestra primera respuesta."
+      },
+      "ui": {
+        "nav": {
+          "home": "Inicio",
+          "about": "Nosotros",
+          "services": "Servicios",
+          "cases": "Trabajo",
+          "contact": "Contacto"
+        },
+        "buttons": {
+          "contact": "Hablemos",
+          "work": "Ver el trabajo",
+          "allWork": "Todo el trabajo"
+        },
+        "language": {
+          "label": "Idioma",
+          "switchTo": "Cambiar idioma"
+        },
+        "menu": {
+          "open": "Abrir menú",
+          "close": "Cerrar menú"
+        },
+        "faqBox": {
+          "title": "¿Aún tienes una pregunta?",
+          "body": "Envíanosla. Respondemos en un día hábil y te diremos con franqueza si no somos el equipo indicado.",
+          "button": "Hablemos"
+        },
+        "caseStudy": {
+          "back": "Volver al trabajo",
+          "specCategory": "Tipo",
+          "specDuration": "Duración",
+          "specMeta": "Año y lugar",
+          "upNext": "Siguiente caso",
+          "problemsTitle": "Lo que estaba en el camino",
+          "openImage": "Abrir imagen",
+          "playVideo": "Reproducir video",
+          "close": "Cerrar",
+          "video": "Video"
+        },
+        "casesIndex": {
+          "filterLabel": "Filtrar por disciplina",
+          "emptyTitle": "Todavía no hay nada en esa disciplina.",
+          "emptyBody": "Está en el plan. Mientras tanto, el archivo completo está a un clic."
+        },
+        "contactForm": {
+          "sendWhatsapp": "Enviar por WhatsApp",
+          "service": "Qué necesitas",
+          "serviceNone": "Elige una opción",
+          "name": "Tu nombre",
+          "phone": "Teléfono",
+          "email": "Correo",
+          "company": "Empresa",
+          "message": "Sobre el proyecto",
+          "messageHint": "Qué quieres construir y, más o menos, para cuándo.",
+          "optional": "Opcional",
+          "send": "Enviar por correo",
+          "addressLabel": "Dirección",
+          "emailLabel": "Correo",
+          "phoneLabel": "Teléfono y WhatsApp",
+          "regionsLabel": "Dónde estás",
+          "errorName": "Necesitamos un nombre para responderte.",
+          "errorEmailMissing": "Agrega un correo para poder responderte.",
+          "errorEmailInvalid": "Ese correo no parece estar completo.",
+          "errorMessage": "Con una o dos frases sobre el proyecto basta.",
+          "doneTitle": "Tu mensaje va en camino.",
+          "doneWhatsapp": "Abrimos WhatsApp con todo listo. Envíalo ahí y te responderemos en un día hábil.",
+          "doneEmail": "Abrimos tu aplicación de correo con todo listo. Envíalo y te responderemos en un día hábil.",
+          "writeAnother": "Escribir otro",
+          "mailSubject": "Nueva solicitud de proyecto",
+          "mailSubjectFrom": "Nueva solicitud de proyecto de {company}",
+          "notSpecified": "Sin especificar",
+          "bodyService": "Servicio",
+          "bodyName": "Nombre",
+          "bodyCompany": "Empresa",
+          "bodyEmail": "Correo",
+          "bodyPhone": "Teléfono",
+          "bodyProject": "Proyecto"
+        },
+        "loading": "Cargando",
+        "error": {
+          "title": "Algo salió mal",
+          "back": "Volver al inicio"
+        }
       }
-    ]
-  },
-  "process": {
-    "enabled": true,
-    "label": "How we work",
-    "title": "From first call to launch",
-    "gradA": "#08090c",
-    "gradB": "#0e1015",
-    "angle": 160,
-    "opacity": 1,
-    "steps": [
-      {
-        "num": "01",
-        "title": "Discover",
-        "body": "One short call to understand the problem, the people who will use it, and the constraints. You leave with scope, timeline and cost, not a proposal deck."
-      },
-      {
-        "num": "02",
-        "title": "Design",
-        "body": "Architecture, UX and visual direction. You react to real screens in the first weeks, not at the end of the project."
-      },
-      {
-        "num": "03",
-        "title": "Build",
-        "body": "Weekly iterations with working software from the first one. You always know exactly where the project stands."
-      },
-      {
-        "num": "04",
-        "title": "Launch and grow",
-        "body": "QA, release and the months after it. We stay on to measure what happened and keep improving the product."
-      }
-    ]
+    }
   }
 }

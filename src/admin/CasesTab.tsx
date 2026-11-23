@@ -1,16 +1,9 @@
 import { useRef, useState } from "react";
 import { useContent } from "@/content/ContentContext";
+import { overlayMove, overlayRemoveAt } from "@/content/i18n";
 import type { CaseSection, CaseSectionType, Project } from "@/types/content";
-import {
-  ColorField,
-  GradientField,
-  ImageField,
-  ListField,
-  OpacityField,
-  RangeField,
-  SelectField,
-  TextField,
-} from "./fields";
+import { ImageField, ListField, TextField } from "./fields";
+import { useEditLang } from "./editLang";
 import SectionEditor from "./SectionEditor";
 import {
   SECTION_LABELS,
@@ -18,7 +11,7 @@ import {
   createSection,
 } from "@/sections/sectionMeta";
 
-/** Crea un proyecto nuevo con un set de secciones por defecto. */
+/** A new project with the usual set of sections. */
 function newProject(): Project {
   const id = "project-" + Date.now().toString(36);
   const sections: CaseSection[] = [
@@ -32,25 +25,13 @@ function newProject(): Project {
   return {
     id,
     name: "New project",
-    ghost: "NEW",
-    mono: "NP",
-    img: "",
-    bg: { type: "none", url: "" },
-    pattern: "none",
-    patternOpacity: 0.25,
-    detailVariant: "standard",
-    tags: ["Tag"],
-    desc: "Project description.",
-    gradA: "#7c5cff",
-    gradB: "#06182e",
-    angle: 140,
-    opacity: 1,
-    accent: "#7c5cff",
+    tagline: "One short line about it",
     category: "Website",
     duration: "1 month",
-    year: "2025",
+    year: "2026",
     location: "Mexico",
-    heroMode: "auto",
+    tags: ["Tag"],
+    desc: "Project description.",
     heroImage: "",
     sections,
   };
@@ -59,6 +40,7 @@ function newProject(): Project {
 /* ---------- Manager de secciones con drag-and-drop ---------- */
 function SectionManager({ pi, project }: { pi: number; project: Project }) {
   const { update } = useContent();
+  const es = useEditLang() === "es";
   const dragId = useRef<string | null>(null);
   const [addType, setAddType] = useState<CaseSectionType>("gallery");
   const sections = project.sections || [];
@@ -71,6 +53,8 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
       const fromIdx = arr.findIndex((s) => s.id === from);
       const overIdx = arr.findIndex((s) => s.id === overId);
       if (fromIdx === -1 || overIdx === -1) return;
+      // Sections are keyed by id in the overlay, so their translations follow.
+      overlayMove(d, `projects.${pi}.sections`, fromIdx, overIdx);
       const [moved] = arr.splice(fromIdx, 1);
       arr.splice(overIdx, 0, moved);
     });
@@ -79,8 +63,8 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
   return (
     <div>
       <div className="ad-grouplabel">
-        LANDING SECTIONS — drag <span aria-hidden>⠿</span> para
-        reorder, use the switch to show/hide
+        SECTIONS: drag <span aria-hidden>⠿</span> to reorder, use the switch
+        to show or hide
       </div>
 
       {sections.map((s, si) => (
@@ -96,8 +80,8 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
               <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span
                   className="grip"
-                  draggable
-                  style={{ cursor: "grab" }}
+                  draggable={!es}
+                  style={{ cursor: es ? "default" : "grab" }}
                   onDragStart={() => (dragId.current = s.id)}
                   onDragEnd={() => (dragId.current = null)}
                   title="Drag"
@@ -130,21 +114,25 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
             </summary>
             <div className="accbody">
               <SectionEditor base={`projects.${pi}.sections.${si}`} section={s} />
-              <button
-                className="ad-btn warn"
-                onClick={() =>
-                  update((d) => {
-                    d.projects[pi].sections.splice(si, 1);
-                  })
-                }
-              >
-                Remove section
-              </button>
+              {!es && (
+                <button
+                  className="ad-btn warn"
+                  onClick={() =>
+                    update((d) => {
+                      overlayRemoveAt(d, `projects.${pi}.sections`, si);
+                      d.projects[pi].sections.splice(si, 1);
+                    })
+                  }
+                >
+                  Remove section
+                </button>
+              )}
             </div>
           </details>
         </div>
       ))}
 
+      {!es && (
       <div className="row" style={{ marginTop: 10 }}>
         <select
           className="selfld"
@@ -168,13 +156,15 @@ function SectionManager({ pi, project }: { pi: number; project: Project }) {
           + Add section
         </button>
       </div>
+      )}
     </div>
   );
 }
 
-/* ---------- Tab: alta y edición de proyectos ---------- */
+/* ---------- Tab: add and edit projects ---------- */
 export default function ProjectsTab() {
   const { content, update } = useContent();
+  const es = useEditLang() === "es";
   const dragPid = useRef<string | null>(null);
 
   const reorderProjects = (overId: string) => {
@@ -185,6 +175,7 @@ export default function ProjectsTab() {
       const fromIdx = arr.findIndex((p) => p.id === from);
       const overIdx = arr.findIndex((p) => p.id === overId);
       if (fromIdx === -1 || overIdx === -1) return;
+      overlayMove(d, "projects", fromIdx, overIdx);
       const [moved] = arr.splice(fromIdx, 1);
       arr.splice(overIdx, 0, moved);
     });
@@ -194,14 +185,13 @@ export default function ProjectsTab() {
     <>
       <h2>Case Studies · Projects</h2>
       <div className="desc">
-        Add and edit projects. Each project edits its PREVIEW
-        (home/cards) and its LANDING by sections (reorder and show/hide
-        each component). The listing page settings (label and title)
-        are in Pages → Case Studies.
+        Each project feeds the home work list, the case index and its own page, built from
+        sections you can reorder and show or hide. The order here is the order on the site. The
+        header of the index page is in Pages, Case Studies.
       </div>
 
       <div className="ad-grouplabel first">
-        PROJECTS — drag <span aria-hidden>⠿</span> to reorder
+        PROJECTS{es ? "" : <> — drag <span aria-hidden>⠿</span> to reorder</>}
       </div>
 
       {content.projects.map((p, i) => (
@@ -217,8 +207,8 @@ export default function ProjectsTab() {
               <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span
                   className="grip"
-                  draggable
-                  style={{ cursor: "grab" }}
+                  draggable={!es}
+                  style={{ cursor: es ? "default" : "grab" }}
                   onDragStart={() => (dragPid.current = p.id)}
                   onDragEnd={() => (dragPid.current = null)}
                   title="Drag project"
@@ -229,169 +219,71 @@ export default function ProjectsTab() {
               </span>
             </summary>
             <div className="accbody">
-            <div className="ad-grouplabel first">
-              PREVIEW (home panel · cards · case)
-            </div>
-            <TextField label="Name" path={`projects.${i}.name`} />
-            <div className="row">
+              <div className="ad-grouplabel first">LIST AND CARD</div>
+              <TextField label="Name" path={`projects.${i}.name`} />
               <TextField
-                label="Ghost text (behind)"
-                path={`projects.${i}.ghost`}
+                label="Tagline"
+                path={`projects.${i}.tagline`}
+                hint="One short line shown beside the name in the home work list."
               />
-              <TextField label="Monogram" path={`projects.${i}.mono`} />
-            </div>
-            <ImageField
-              label="Center image (PNG without text)"
-              path={`projects.${i}.img`}
-            />
-            <ListField
-              label="Tags (comma separated)"
-              path={`projects.${i}.tags`}
-              mode="commas"
-              hint="Also used as the Case Studies filters"
-            />
-            <TextField
-              label="Description (panel)"
-              path={`projects.${i}.desc`}
-              area
-            />
-            <GradientField prefix={`projects.${i}`} />
-            <OpacityField prefix={`projects.${i}`} />
-            <ColorField label="Accent color" path={`projects.${i}.accent`} />
-
-            <div className="ad-grouplabel">
-              CARD PATTERN (between color and image)
-            </div>
-            <SelectField
-              label="Pattern"
-              path={`projects.${i}.pattern`}
-              options={[
-                ["none", "None"],
-                ["dots", "Dots"],
-                ["grid", "Grid"],
-                ["lines", "Diagonal lines"],
-                ["cross", "Crosshatch"],
-                ["rings", "Rings"],
-                ["waves", "Waves"],
-              ]}
-            />
-            <RangeField
-              label="Pattern opacity"
-              path={`projects.${i}.patternOpacity`}
-              min={0}
-              max={1}
-              step={0.05}
-              fallback={0.25}
-              format={(v) => `${Math.round(v * 100)}%`}
-            />
-
-            <div className="ad-grouplabel">
-              PANEL BACKGROUND (home) — image or video under the color layer
-            </div>
-            <SelectField
-              label="Background type"
-              path={`projects.${i}.bg.type`}
-              options={[
-                ["none", "None (gradient only)"],
-                ["image", "Image"],
-                ["video", "Video (.mp4)"],
-              ]}
-            />
-            {p.bg?.type === "video" ? (
-              <>
-                <TextField
-                  label="Video URL (.mp4)"
-                  path={`projects.${i}.bg.url`}
-                  hint="Paste the direct .mp4 URL (S3 or another host). Lower the opacity above so it shows under the color."
-                />
-                <ImageField
-                  label="Poster (while the video loads)"
-                  path={`projects.${i}.bg.poster`}
-                />
-              </>
-            ) : p.bg?.type === "image" ? (
-              <ImageField
-                label="Background image"
-                path={`projects.${i}.bg.url`}
-                hint="Lower the opacity above so the image shows under the color layer."
+              <TextField
+                label="Type"
+                path={`projects.${i}.category`}
+                hint="Short, e.g. Mobile game. Shown in the work list and on the case page."
               />
-            ) : (
-              <div className="hint">
-                No background: the panel uses only the color gradient.
-              </div>
-            )}
-
-            <div className="ad-grouplabel">LANDING META (header)</div>
-            <div className="row">
-              <TextField label="Category" path={`projects.${i}.category`} />
-              <TextField label="Duration" path={`projects.${i}.duration`} />
-            </div>
-            <div className="row">
-              <TextField label="Year" path={`projects.${i}.year`} />
-              <TextField label="Place" path={`projects.${i}.location`} />
-            </div>
-
-            <div className="ad-grouplabel">LANDING STYLE (detail)</div>
-            <SelectField
-              label="Design variant"
-              path={`projects.${i}.detailVariant`}
-              options={[
-                ["standard", "Standard — balanced"],
-                ["editorial", "Editorial — large type, asymmetric"],
-                ["bold", "Bold — accent blocks, giant numbers"],
-              ]}
-            />
-
-            <div className="ad-grouplabel">MAIN LANDING BANNER</div>
-            <SelectField
-              label="Banner type"
-              path={`projects.${i}.heroMode`}
-              options={[
-                ["auto", "Variant 1 — Automatic (gradient + monogram/image)"],
-                ["custom", "Variant 2 — Custom image (uploaded)"],
-              ]}
-            />
-            {p.heroMode === "custom" ? (
+              <ListField
+                label="Tags (comma separated)"
+                path={`projects.${i}.tags`}
+                mode="commas"
+                hint="Also the filters of the case index."
+              />
+              <TextField label="Description" path={`projects.${i}.desc`} area />
               <ImageField
-                label="Banner image"
+                label="Cover image"
                 path={`projects.${i}.heroImage`}
-                hint="Recommended size: 2400 × 1200 px (2:1 ratio), JPG/PNG/WebP, < 600 KB. Cropped to cover the area."
+                hint="Shown in the work list, the case index and the top of the case page (16:9). JPG for screens; a PNG on transparency is letterboxed."
               />
-            ) : (
-              <div className="hint">
-                The automatic variant uses the gradient, the ghost text and the
-                center image / monogram from the PREVIEW above.
+
+              <div className="ad-grouplabel">CASE PAGE DETAILS</div>
+              <div className="row">
+                <TextField label="Duration" path={`projects.${i}.duration`} />
+                <TextField label="Place" path={`projects.${i}.location`} />
               </div>
-            )}
+              <TextField label="Year" path={`projects.${i}.year`} shared />
 
-            <SectionManager pi={i} project={p} />
+              <SectionManager pi={i} project={p} />
 
-            <button
-              className="ad-btn warn"
-              style={{ marginTop: 18 }}
-              onClick={() =>
-                update((d) => {
-                  d.projects.splice(i, 1);
-                })
-              }
-            >
-              Remove project
-            </button>
-          </div>
+              {!es && (
+                <button
+                  className="ad-btn warn"
+                  style={{ marginTop: 18 }}
+                  onClick={() =>
+                    update((d) => {
+                      overlayRemoveAt(d, "projects", i);
+                      d.projects.splice(i, 1);
+                    })
+                  }
+                >
+                  Remove project
+                </button>
+              )}
+            </div>
           </details>
         </div>
       ))}
 
-      <button
-        className="miniadd"
-        onClick={() =>
-          update((d) => {
-            d.projects.push(newProject());
-          })
-        }
-      >
-        + Add project
-      </button>
+      {!es && (
+        <button
+          className="miniadd"
+          onClick={() =>
+            update((d) => {
+              d.projects.push(newProject());
+            })
+          }
+        >
+          + Add project
+        </button>
+      )}
     </>
   );
 }

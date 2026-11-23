@@ -1,5 +1,7 @@
 import { useContent } from "@/content/ContentContext";
-import { getByPath } from "./path";
+import { overlayRemoveAt } from "@/content/i18n";
+import { useEditLang } from "./editLang";
+import { getByPath } from "@/lib/path";
 import type { CaseSection } from "@/types/content";
 import {
   ImageField,
@@ -12,6 +14,7 @@ import {
 /** Editor de imágenes (array de URLs) con agregar/eliminar. */
 function ImageListEditor({ basePath }: { basePath: string }) {
   const { content, update } = useContent();
+  if (useEditLang() === "es") return null;
   const imgs = (getByPath(content, basePath) as string[]) || [];
   return (
     <div className="fld">
@@ -48,6 +51,13 @@ function ImageListEditor({ basePath }: { basePath: string }) {
 /** Editor de items de galería (imagen o video, URL o YouTube + póster). */
 function GalleryItemsEditor({ basePath }: { basePath: string }) {
   const { content, update } = useContent();
+  if (useEditLang() === "es") {
+    return (
+      <div className="hint">
+        Gallery media is shared between languages. Edit it in English.
+      </div>
+    );
+  }
   const items =
     (getByPath(content, basePath) as { type: string; url: string }[]) || [];
   return (
@@ -136,6 +146,7 @@ function GalleryItemsEditor({ basePath }: { basePath: string }) {
 /** Editor de items de metodología (heading + body). */
 function MethodologyItemsEditor({ basePath }: { basePath: string }) {
   const { content, update } = useContent();
+  const es = useEditLang() === "es";
   const items =
     (getByPath(content, basePath) as { heading: string; body: string }[]) || [];
   return (
@@ -147,33 +158,38 @@ function MethodologyItemsEditor({ basePath }: { basePath: string }) {
           <div className="accbody">
             <TextField label="Heading" path={`${basePath}.${i}.heading`} />
             <TextField label="Text" path={`${basePath}.${i}.body`} area />
-            <button
-              className="ad-btn warn"
-              onClick={() =>
-                update((d) => {
-                  (
-                    getByPath(d, basePath) as { heading: string; body: string }[]
-                  ).splice(i, 1);
-                })
-              }
-            >
-              Remove stage
-            </button>
+            {!es && (
+              <button
+                className="ad-btn warn"
+                onClick={() =>
+                  update((d) => {
+                    overlayRemoveAt(d, basePath, i);
+                    (
+                      getByPath(d, basePath) as { heading: string; body: string }[]
+                    ).splice(i, 1);
+                  })
+                }
+              >
+                Remove stage
+              </button>
+            )}
           </div>
         </details>
       ))}
-      <button
-        className="miniadd"
-        onClick={() =>
-          update((d) => {
-            (
-              getByPath(d, basePath) as { heading: string; body: string }[]
-            ).push({ heading: "New stage", body: "" });
-          })
-        }
-      >
-        + Add stage
-      </button>
+      {!es && (
+        <button
+          className="miniadd"
+          onClick={() =>
+            update((d) => {
+              (
+                getByPath(d, basePath) as { heading: string; body: string }[]
+              ).push({ heading: "New stage", body: "" });
+            })
+          }
+        >
+          + Add stage
+        </button>
+      )}
     </div>
   );
 }

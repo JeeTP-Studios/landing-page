@@ -1,35 +1,21 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "@phosphor-icons/react";
 import { useSite } from "@/content/ContentContext";
-import { Reveal } from "@/components/common/Reveal";
-import Faq from "@/components/common/Faq";
+import Faq from "@/components/ui/Faq";
+import Pill from "@/components/ui/Pill";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 export default function FaqBlock() {
-  const c = useSite();
-  const s = c.faq;
-  if (!s.enabled || !s.items?.length) return null;
-
+  const { faq, ui } = useSite();
+  if (!faq.items.length) return null;
   return (
-    <section className="sect faq-sect">
-      <div className="wrap faq-grid">
-        <div className="faq-head">
-          <Reveal>
-            <h2>{s.title}</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="faq-card notch">
-              <h3>{c.ui.faqBox.title}</h3>
-              <p>{c.ui.faqBox.body}</p>
-              <Link to="/contact" className="btn">
-                {c.ui.buttons.contact}
-                <ArrowRight size={16} weight="bold" />
-              </Link>
-            </div>
-          </Reveal>
+    <section className="faq-sect g">
+      <SectionHeading title={faq.title} accent={faq.accent} />
+      <Faq items={faq.items} />
+      <div className="faq-more">
+        <div>
+          <h3>{ui.faqBox.title}</h3>
+          <p>{ui.faqBox.body}</p>
         </div>
-        <Reveal delay={0.06}>
-          <Faq items={s.items} />
-        </Reveal>
+        <Pill to="/contact">{ui.faqBox.button}</Pill>
       </div>
     </section>
   );

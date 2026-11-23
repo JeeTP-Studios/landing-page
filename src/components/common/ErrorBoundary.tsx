@@ -1,4 +1,17 @@
 import { Component, type ReactNode } from "react";
+import { useSite } from "@/content/ContentContext";
+
+function Fallback() {
+  const { ui } = useSite();
+  return (
+    <div className="boot">
+      <div>{ui.error.title}</div>
+      <a href="/" className="boot-link">
+        {ui.error.back}
+      </a>
+    </div>
+  );
+}
 
 interface Props {
   children: ReactNode;
@@ -7,8 +20,8 @@ interface State {
   hasError: boolean;
 }
 
-/** Última red de seguridad: si una página truena, muestra un mensaje simple
- *  con link al home en vez de una pantalla en blanco. */
+/** Last safety net: if a page throws, show a plain message with a way home
+ *  instead of a blank screen. */
 export default class ErrorBoundary extends Component<Props, State> {
   state: State = { hasError: false };
 
@@ -21,19 +34,6 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    if (this.state.hasError) {
-      return (
-        <div className="boot" style={{ gap: 14 }}>
-          <div>SOMETHING WENT WRONG</div>
-          <a
-            href="/"
-            style={{ letterSpacing: "0.1em", borderBottom: "1px solid #fff" }}
-          >
-            BACK TO HOME
-          </a>
-        </div>
-      );
-    }
-    return this.props.children;
+    return this.state.hasError ? <Fallback /> : this.props.children;
   }
 }

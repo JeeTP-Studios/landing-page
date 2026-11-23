@@ -1,45 +1,152 @@
 /* ============================================================
-   JeeTP Studios — Modelo de contenido (tipos compartidos)
-   Este es el shape del JSON que vive en S3 y que edita el admin.
+   JeeTP Studios: content model (shared types).
+   This is the shape of the JSON the admin edits and the site reads.
+   English is the canonical document. Spanish lives in `i18n.es` as a
+   sparse overlay of translated strings (see src/content/i18n.ts).
    ============================================================ */
 
 export interface Brand {
   name: string;
-  tagline: string;
-  logoType: "text" | "image";
+  /** Header and footer mark. Empty means the name is set as text instead. */
   logoImg: string;
 }
 
-export interface BgMedia {
-  type: "none" | "image" | "video";
-  url: string;
+/** Opening block. The headline is `lines`, one per row; `accent` is the
+ *  substring rendered in the serif italic blue. */
+export interface Hero {
+  lines: string[];
+  accent: string;
+  sub: string;
+  scrollLabel: string;
 }
 
-/** Capa de degradado reutilizable en heros y bloques. */
-export interface GradientLayer {
-  gradA: string;
-  gradB: string;
-  angle: number;
-  opacity: number;
+/** Pinned statements that fade in word by word while the 3D pieces lock. */
+export interface ManifestoBlock {
+  enabled: boolean;
+  statements: string[];
 }
 
-export interface Hero extends GradientLayer {
-  eyebrow: string;
-  /** Fixed opening words of the headline, before the rotating phrase. */
-  lead?: string;
-  /** Supporting line under the headline. Keep it under 20 words. */
-  sub?: string;
-  /** Título base (compatibilidad / fallback). */
+/** Names of the three glass layers shown beside the assembled 3D stack. */
+export interface StackBlock {
+  labels: [string, string, string];
+}
+
+/** Metric of the about block (numeric value plus suffix, e.g. 120 + "K+"). */
+export interface StatItem {
+  value: number;
+  suffix: string;
+  label: string;
+}
+
+export interface StatsBlock {
+  enabled: boolean;
+  items: StatItem[];
+}
+
+export interface AboutBlock {
+  enabled: boolean;
+  kicker: string;
+  statement: string;
+}
+
+export interface SolutionItem {
   title: string;
-  /** Títulos que el hero escribe en bucle (efecto máquina de escribir).
-   *  Si está vacío, se usa `title`. */
-  titles?: string[];
-  /** Chips decorativos del hero (etiquetas en diagonal/overlap). */
-  chips?: string[];
-  href: string;
+  body: string;
+  chips: string[];
 }
 
-/* ---------- Case studies: secciones modulares ---------- */
+export interface SolutionsBlock {
+  enabled: boolean;
+  label: string;
+  items: SolutionItem[];
+}
+
+export interface WorkBlock {
+  enabled: boolean;
+  /** Full heading; `accent` is the substring set in serif italic blue. */
+  title: string;
+  accent: string;
+  kicker: string;
+}
+
+export interface LogoItem {
+  name: string;
+  img: string;
+}
+
+export interface ClientsBlock {
+  enabled: boolean;
+  /** Accessible name of the logo band. */
+  title: string;
+  logos: LogoItem[];
+}
+
+export interface ProductItem {
+  name: string;
+  /** SVG marks are shown with the name beside them; raster logos are
+   *  flat-white wordmarks and carry the name themselves. */
+  logo: string;
+  title: string;
+  body: string;
+  url: string;
+  linkLabel: string;
+}
+
+export interface ProductsBlock {
+  enabled: boolean;
+  title: string;
+  accent: string;
+  intro: string;
+  items: ProductItem[];
+}
+
+export interface ProcessStep {
+  num: string;
+  title: string;
+  body: string;
+}
+
+export interface ProcessBlock {
+  enabled: boolean;
+  title: string;
+  accent: string;
+  steps: ProcessStep[];
+}
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export interface FaqBlock {
+  enabled: boolean;
+  title: string;
+  accent: string;
+  items: FaqItem[];
+}
+
+/** Giant closing statement and the footer information columns. */
+export interface Closing {
+  kicker: string;
+  word: string;
+  emailLabel: string;
+  emailCopied: string;
+  whatsappLabel: string;
+  locationLabel: string;
+  remoteLabel: string;
+  remoteValue: string;
+}
+
+export interface Contact {
+  email: string;
+  whatsapp: string;
+  phone: string;
+  location: string;
+  address: string;
+  mapQuery: string;
+}
+
+/* ---------- Case studies: modular sections ---------- */
 
 export type CaseSectionType =
   | "overview"
@@ -51,10 +158,9 @@ export type CaseSectionType =
   | "cta";
 
 interface BaseSection {
-  /** id estable para drag-and-drop y React keys */
+  /** Stable id: React key, drag-and-drop and Spanish overlay address. */
   id: string;
   type: CaseSectionType;
-  /** mostrar/ocultar desde el admin */
   enabled: boolean;
 }
 
@@ -69,7 +175,7 @@ export interface OverviewSection extends BaseSection {
 export interface ProcessSection extends BaseSection {
   type: "process";
   title: string;
-  /** [numero, texto] */
+  /** [number, text] */
   steps: [string, string][];
 }
 
@@ -89,12 +195,10 @@ export interface MethodologySection extends BaseSection {
   items: { heading: string; body: string }[];
 }
 
-/** Item de galería: imagen, video directo (mp4) o video de YouTube.
- *  El tipo de video se autodetecta por la URL (YouTube vs archivo). */
+/** Gallery item: image, direct video (mp4) or YouTube video, told apart by URL. */
 export interface GalleryMedia {
   type: "image" | "video";
   url: string;
-  /** miniatura/cartel opcional para videos */
   poster?: string;
 }
 
@@ -127,158 +231,39 @@ export type CaseSection =
   | ConclusionSection
   | CtaSection;
 
-/* ---------- Proyecto / case study ---------- */
-
-/** Media de fondo de un proyecto en el hero del home (debajo de la capa de
- *  color). Permite imagen o video por proyecto. */
-export interface ProjectBg {
-  type: "none" | "image" | "video";
-  url: string;
-  /** cartel/poster opcional para el video */
-  poster?: string;
-}
-
-/** Patrones decorativos disponibles para la capa de patrón de las cards. */
-export type CardPattern =
-  | "none"
-  | "dots"
-  | "grid"
-  | "lines"
-  | "cross"
-  | "rings"
-  | "waves";
-
-export interface Project extends GradientLayer {
+export interface Project {
+  /** Stable id: route, React key and Spanish overlay address. */
   id: string;
   name: string;
-  ghost: string;
-  mono: string;
-  img: string;
-  /** Fondo propio del panel del home (imagen/video bajo la capa de color). */
-  bg?: ProjectBg;
-  /** Patrón decorativo de la card (entre el color y la imagen). */
-  pattern?: CardPattern;
-  /** Opacidad de la capa de patrón (0–1). */
-  patternOpacity?: number;
-  /** Variante visual de la landing de detalle (distribución/estilo). */
-  detailVariant?: "standard" | "editorial" | "bold";
-  tags: string[];
-  desc: string;
-  accent: string;
-  /** Meta de la landing (cabecera) */
+  /** One short line shown beside the name in the home work list. */
+  tagline: string;
+  /** Short type of project, e.g. "Mobile game". */
   category: string;
   duration: string;
   year: string;
   location: string;
-  /** Banner principal de la landing:
-   *  "auto"   = degradado + monograma/imagen del proyecto (como el preview)
-   *  "custom" = imagen subida a medida (heroImage) */
-  heroMode: "auto" | "custom";
+  /** Filters of the case index. */
+  tags: string[];
+  desc: string;
   heroImage: string;
-  /** Secciones modulares editables y reordenables del case study */
   sections: CaseSection[];
 }
 
-/* ---------- Bloques del home / páginas ---------- */
+/* ---------- Pages ---------- */
 
-export interface Highlighted extends GradientLayer {
-  enabled: boolean;
-  label: string;
+export interface PageHeroText {
+  eyebrow: string;
   title: string;
-}
-
-export interface ServiceCard {
-  h: string;
-  a: string;
-  b: string;
-  color: string;
-  /** Imagen/icono opcional (se muestra en el preview de servicios del home). */
-  img?: string;
-}
-
-export interface ServicesBlock extends GradientLayer {
-  enabled: boolean;
-  label: string;
-  title: string;
-  items: ServiceCard[];
-}
-
-export interface ClientsBlock extends GradientLayer {
-  enabled: boolean;
-  title: string;
-  /** Fuente única de clientes (nombre + logo). Se muestra como carrusel
-   *  en el home, en la página de servicios y en Nosotros. */
-  logos: LogoItem[];
-  /** Pinta los logos en blanco/gris uniforme (para mezclar logos a color,
-   *  blancos y negros). */
-  whiteLogos?: boolean;
-  /** Si está activo (con whiteLogos), al hacer hover el logo recupera su
-   *  color original (interacción de color invertida). */
-  colorOnHover?: boolean;
-}
-
-/** Métrica del stats band del home (valor numérico + sufijo, ej. 25 + "+"). */
-export interface StatItem {
-  value: number;
-  suffix: string;
-  label: string;
-}
-
-export interface StatsBlock extends GradientLayer {
-  enabled: boolean;
-  label: string;
-  title: string;
-  items: StatItem[];
-}
-
-/** Paso del bloque de proceso ("how we work") del home. */
-export interface ProcessStep {
-  num: string;
-  title: string;
-  body: string;
-}
-
-export interface ProcessBlock extends GradientLayer {
-  enabled: boolean;
-  label: string;
-  title: string;
-  steps: ProcessStep[];
-}
-
-export interface FaqItem {
-  q: string;
-  a: string;
-}
-
-export interface FaqBlock extends GradientLayer {
-  enabled: boolean;
-  label: string;
-  title: string;
-  items: FaqItem[];
-}
-
-export interface Contact {
-  email: string;
-  whatsapp: string;
-  phone: string;
-  location: string;
-  address: string;
-  mapQuery: string;
-}
-
-export interface LogoItem {
-  name: string;
-  img: string;
+  accent: string;
 }
 
 export interface AboutPage {
-  hero: GradientLayer & { eyebrow: string; title: string };
+  hero: PageHeroText;
   /** Studio photography shown as an uneven three-up band. */
   gallery?: string[];
   intro: { heading: string; body: string };
   overview: { heading: string; body: string };
   beliefs: { heading: string; body: string };
-  news: { enabled: boolean; title: string; logos: LogoItem[] };
 }
 
 export interface ServiceGroup {
@@ -293,26 +278,25 @@ export interface WhoCard {
 }
 
 export interface ServicesPage {
-  hero: GradientLayer & { eyebrow: string; title: string };
+  hero: PageHeroText;
   groups: ServiceGroup[];
   who: { enabled: boolean; heading: string; body: string; cards: WhoCard[] };
-  clientsTitle: string;
-  news: { enabled: boolean };
 }
 
 export interface CasesPage {
   label: string;
   title: string;
+  accent: string;
 }
 
 export interface ContactPage {
-  hero: GradientLayer & { eyebrow: string; title: string; sub: string };
+  hero: PageHeroText & { sub: string };
   regions: { name: string; flag: string }[];
   interestedTitle: string;
   getInTouch: string;
 }
 
-/* ---------- Textos de interfaz (labels/botones editables) ---------- */
+/* ---------- Interface strings ---------- */
 
 export interface SocialLink {
   label: string;
@@ -320,7 +304,6 @@ export interface SocialLink {
 }
 
 export interface UiStrings {
-  /** Etiquetas del menú de navegación */
   nav: {
     home: string;
     about: string;
@@ -328,92 +311,113 @@ export interface UiStrings {
     cases: string;
     contact: string;
   };
-  /**
-   * One label per intent, reused everywhere that intent appears. Two different
-   * words for the same action on one page is the fastest way to make a site
-   * feel assembled rather than designed.
-   */
+  /** One label per intent, reused everywhere that intent appears. */
   buttons: {
-    /** Contact intent: header, hero, FAQ card, footer, case study CTA. */
     contact: string;
-    /** Portfolio intent: hero, work rail, about. */
     work: string;
-    /** Services intent. */
-    services: string;
-    /** Opens a single case study. */
-    viewCase: string;
-    /** Clears the case-index filter. */
     allWork: string;
   };
-  /** Pie de página */
+  language: { label: string; switchTo: string };
+  menu: { open: string; close: string };
   footer: {
-    navTitle: string;
-    servicesTitle: string;
-    socialTitle: string;
     social: SocialLink[];
-    ctaText: string;
-    ctaButton: string;
-    copyright: string; // admite {year} y {name}
-    madeIn: string;
+    /** Accepts {year} and {name}. */
+    copyright: string;
   };
-  /** Título lateral de la página de servicios */
-  servicesPageTitle: string;
-  /** Caja de "más preguntas" del FAQ */
-  faqBox: {
-    title: string;
-    body: string;
-    button: string;
-  };
-  /** Labels de la landing de case study */
+  faqBox: { title: string; body: string; button: string };
   caseStudy: {
     back: string;
     specCategory: string;
     specDuration: string;
     specMeta: string;
     upNext: string;
+    problemsTitle: string;
+    openImage: string;
+    playVideo: string;
+    close: string;
+    video: string;
   };
-  /** Formulario de contacto */
+  casesIndex: {
+    filterLabel: string;
+    emptyTitle: string;
+    emptyBody: string;
+  };
   contactForm: {
-    getInTouch: string;
     sendWhatsapp: string;
     service: string;
+    serviceNone: string;
     name: string;
     phone: string;
     email: string;
     company: string;
     message: string;
+    messageHint: string;
+    optional: string;
     send: string;
+    addressLabel: string;
+    emailLabel: string;
+    phoneLabel: string;
+    regionsLabel: string;
+    errorName: string;
+    errorEmailMissing: string;
+    errorEmailInvalid: string;
+    errorMessage: string;
+    doneTitle: string;
+    doneWhatsapp: string;
+    doneEmail: string;
+    writeAnother: string;
+    mailSubject: string;
+    mailSubjectFrom: string;
+    notSpecified: string;
+    bodyService: string;
+    bodyName: string;
+    bodyCompany: string;
+    bodyEmail: string;
+    bodyPhone: string;
+    bodyProject: string;
   };
+  loading: string;
+  error: { title: string; back: string };
 }
 
-/** Llaves de las secciones reordenables del home. */
+/** Home sections that can be reordered. The hero and the footer are fixed. */
 export type HomeSectionKey =
-  | "highlighted"
-  | "stats"
-  | "services"
-  | "process"
+  | "manifesto"
+  | "about"
+  | "solutions"
+  | "work"
   | "clients"
+  | "products"
+  | "process"
   | "faq";
 
-/** Documento de contenido completo (= JSON de S3). */
+/** Sparse Spanish overlay: a deep-partial of translated strings, addressed by
+ *  the same paths as the document. Lists are index-addressed, except
+ *  `projects` and case `sections`, which are keyed by their stable `id`. */
+export type Overlay = Record<string, unknown>;
+
+/** Complete content document (= the published JSON). */
 export interface SiteContent {
   brand: Brand;
-  bg: BgMedia;
   hero: Hero;
-  projects: Project[];
-  highlighted: Highlighted;
+  manifesto: ManifestoBlock;
+  stack: StackBlock;
+  aboutBlock: AboutBlock;
   stats: StatsBlock;
-  services: ServicesBlock;
-  process: ProcessBlock;
+  solutions: SolutionsBlock;
+  projects: Project[];
+  work: WorkBlock;
   clients: ClientsBlock;
+  products: ProductsBlock;
+  process: ProcessBlock;
   faq: FaqBlock;
+  closing: Closing;
   contact: Contact;
   about: AboutPage;
   servicesPage: ServicesPage;
   cases: CasesPage;
   contactPage: ContactPage;
   ui: UiStrings;
-  /** Ajustes globales de carruseles (p. ej. el de logos de clientes en About) */
-  carousel: { speedSec: number };
   order: HomeSectionKey[];
+  i18n: { es: Overlay };
 }

@@ -1,255 +1,40 @@
-import type { CaseSection, Project, SiteContent } from "@/types/content";
+import type { SiteContent } from "@/types/content";
+import { PROJECTS } from "./projects";
+import { ES_OVERLAY } from "./es";
 
-let _sid = 0;
-const sid = (t: string) => `${t}-${(++_sid).toString(36)}`;
-
-/** Construye el set de secciones por defecto de un case study.
- *  Replica el contenido legacy y agrega las secciones nuevas (challenge,
- *  methodology, gallery) para landings más completas estilo case study. */
-function defaultSections(opts: {
-  name: string;
-  overview: string;
-  goal: string;
-  solution: string[];
-  impact: string;
-  conclusion: string;
-  steps: [string, string][];
-}): CaseSection[] {
-  return [
-    {
-      id: sid("overview"),
-      type: "overview",
-      enabled: true,
-      label: "Overview",
-      title: `All about ${opts.name}`,
-      body: opts.overview,
-      image: "",
-    },
-    {
-      id: sid("challenge"),
-      type: "challenge",
-      enabled: true,
-      title: "Challenge / Problem statement",
-      intro: opts.goal,
-      problems: [],
-      approachTitle: "Solution",
-      approach: opts.solution,
-      images: [],
-    },
-    {
-      id: sid("process"),
-      type: "process",
-      enabled: true,
-      title: "Project process",
-      steps: opts.steps,
-    },
-    {
-      id: sid("methodology"),
-      type: "methodology",
-      enabled: true,
-      title: "Metodología",
-      items: [
-        {
-          heading: "Impacto",
-          body: opts.impact,
-        },
-      ],
-    },
-    {
-      id: sid("gallery"),
-      type: "gallery",
-      enabled: false,
-      title: "UI Design",
-      layout: "grid",
-      items: [],
-    },
-    {
-      id: sid("conclusion"),
-      type: "conclusion",
-      enabled: true,
-      title: "Conclusion",
-      body: opts.conclusion,
-      image: "",
-    },
-    {
-      id: sid("cta"),
-      type: "cta",
-      enabled: true,
-      text: "Quieres algo asi para tu marca?",
-      buttonLabel: "Trabaja con nosotros",
-    },
-  ];
-}
-
-const projects: Project[] = [
-  {
-    id: "club-premier",
-    name: "Club Premier",
-    ghost: "CLUB",
-    mono: "CP",
-    img: "",
-    tags: ["Gaming", "Lealtad"],
-    desc: "Dos juegos interactivos para campanas con socios: canjea puntos por viajes y eleva el engagement del programa de lealtad.",
-    gradA: "#2ea3d8",
-    gradB: "#06182e",
-    angle: 140,
-    opacity: 1,
-    accent: "#2ea3d8",
-    category: "Website & App",
-    duration: "2 meses",
-    year: "2025",
-    location: "Mexico",
-    heroMode: "auto",
-    heroImage: "",
-    sections: defaultSections({
-      name: "Club Premier",
-      overview:
-        "Un programa de lealtad que convierte puntos en experiencias: juegos de campana para canjear y enganchar a los socios.",
-      goal: "Club Premier nos busco para crear experiencias de juego que elevaran el canje de puntos y el engagement de su programa con socios.",
-      solution: [
-        "Mecanica de juego clara y rapida.",
-        "Integracion con el catalogo de canje.",
-        "Diseno mobile-first.",
-      ],
-      impact:
-        "Aumento del engagement y del canje de puntos durante las campanas con socios.",
-      conclusion:
-        "Entregamos experiencias de juego que dieron vida al programa de lealtad y conectaron a los socios con la marca.",
-      steps: [
-        ["01", "Definir objetivos"],
-        ["02", "Diseno de mecanica"],
-        ["03", "Desarrollo"],
-        ["04", "QA & lanzamiento"],
-      ],
-    }),
-  },
-  {
-    id: "kings-league",
-    name: "Kings League",
-    ghost: "KINGS",
-    mono: "KL",
-    img: "",
-    tags: ["Plataforma", "Sports", "Fantasy"],
-    desc: "Plataforma de fantasy sports que conecta a los fans con la liga: drafts, puntajes en vivo y competencia entre usuarios.",
-    gradA: "#ff3b3b",
-    gradB: "#2a0508",
-    angle: 140,
-    opacity: 1,
-    accent: "#ff3b3b",
-    category: "Plataforma",
-    duration: "4 meses",
-    year: "2025",
-    location: "Americas",
-    heroMode: "auto",
-    heroImage: "",
-    sections: defaultSections({
-      name: "Kings League",
-      overview:
-        "Plataforma de fantasy sports para conectar a los fans con la liga con drafts y competencia en vivo.",
-      goal: "Construir una plataforma de fantasy que mantenga a los fans activos durante toda la temporada.",
-      solution: [
-        "Drafts y armado de equipos.",
-        "Puntajes en vivo.",
-        "Competencia entre usuarios y ligas privadas.",
-      ],
-      impact: "Mayor tiempo de permanencia y comunidad activa de fans.",
-      conclusion:
-        "Una plataforma que convirtio a los espectadores en participantes activos de la liga.",
-      steps: [
-        ["01", "Research"],
-        ["02", "Wireframing"],
-        ["03", "Desarrollo"],
-        ["04", "Testing"],
-      ],
-    }),
-  },
-  {
-    id: "retail-experience",
-    name: "Retail Experience",
-    ghost: "RETAIL",
-    mono: "RX",
-    img: "",
-    tags: ["Web", "Activacion"],
-    desc: "Experiencia web interactiva para activaciones en punto de venta, con premio inmediato y captura de leads.",
-    gradA: "#c44bff",
-    gradB: "#1a0633",
-    angle: 140,
-    opacity: 1,
-    accent: "#c44bff",
-    category: "Website",
-    duration: "1 mes",
-    year: "2025",
-    location: "Mexico",
-    heroMode: "auto",
-    heroImage: "",
-    sections: defaultSections({
-      name: "Retail Experience",
-      overview:
-        "Experiencia web para activaciones en punto de venta con premio inmediato y captura de leads.",
-      goal: "Crear una activacion digital que generara leads y engagement en el punto de venta.",
-      solution: [
-        "Mecanica de premio inmediato.",
-        "Captura de datos integrada.",
-        "Diseno responsivo para uso en sitio.",
-      ],
-      impact: "Captura efectiva de leads y mayor interaccion en activaciones.",
-      conclusion:
-        "Una experiencia que convirtio el punto de venta en un canal digital de captacion.",
-      steps: [
-        ["01", "Brief"],
-        ["02", "Diseno"],
-        ["03", "Desarrollo"],
-        ["04", "Lanzamiento"],
-      ],
-    }),
-  },
-];
-
+/** English is the canonical document: structure, media, colours and order live
+ *  here. Spanish is the sparse overlay in `i18n.es`. */
 export const DEFAULTS: SiteContent = {
   brand: {
-    name: "JEETP STUDIOS",
-    tagline: "SOFTWARE DEVELOPMENT",
-    logoType: "text",
-    logoImg: "",
+    name: "JeeTP Studios",
+    logoImg: "/resources/logos/logo-white.png",
   },
-  bg: { type: "none", url: "" },
   hero: {
-    eyebrow: "Software development agency",
-    lead: "We build",
-    title: "We build custom software",
-    titles: [
-      "custom software",
-      "web platforms",
-      "mobile apps",
-      "internal tools",
-      "what you need",
-    ],
-    sub: "You bring the problem. We design the software that solves it, build it, and stay on after launch.",
-    chips: [],
-    gradA: "#3fa9f5",
-    gradB: "#0b1220",
-    angle: 140,
-    opacity: 1,
-    href: "/case-studies",
+    lines: ["Technology", "that moves", "business."],
+    accent: "moves",
+    sub: "Custom software, artificial intelligence and digital experiences for companies that want to grow.",
+    scrollLabel: "Scroll",
   },
-  projects,
-  highlighted: {
+  manifesto: {
     enabled: true,
-    label: "Case studies",
-    title: "Selected work",
-    gradA: "#0e1015",
-    gradB: "#08090c",
-    angle: 160,
-    opacity: 1,
+    statements: [
+      "Your business doesn't need more technology.",
+      "It needs the right technology.",
+      "We design it, build it and grow it with you.",
+      "Data, intelligence and experience in one solution.",
+    ],
+  },
+  stack: {
+    labels: ["Experience", "Intelligence", "Data & systems"],
+  },
+  aboutBlock: {
+    enabled: true,
+    kicker: "Who we are",
+    statement:
+      "We are the technology partner for brands and companies in Mexico and the United States. We started out making video games, and that gave us our rule: technology only works if people want to use it.",
   },
   stats: {
     enabled: true,
-    label: "The factory in numbers",
-    title: "Results you can measure",
-    gradA: "#0e0636",
-    gradB: "#0b042a",
-    angle: 160,
-    opacity: 1,
     items: [
       { value: 12, suffix: "+", label: "Projects shipped" },
       { value: 8, suffix: "", label: "Industries served" },
@@ -257,92 +42,52 @@ export const DEFAULTS: SiteContent = {
       { value: 120, suffix: "K+", label: "End users reached" },
     ],
   },
-  services: {
+  solutions: {
     enabled: true,
-    label: "Services",
-    title: "No two projects here look the same",
-    gradA: "#08090c",
-    gradB: "#08090c",
-    angle: 160,
-    opacity: 1,
+    label: "Solutions",
     items: [
       {
-        h: "Custom software",
-        a: "Systems built around how your business actually works",
-        b: "Architecture · Integrations",
-        color: "#3fa9f5",
-        img: "/resources/hosting-wells/HostingWellsV2_2.jpg",
+        title: "Custom software.",
+        body: "Platforms and systems built around how your business works.",
+        chips: ["Web platforms", "Internal systems", "Integrations", "Modernization"],
       },
       {
-        h: "Web and mobile apps",
-        a: "iOS, Android and the browser",
-        b: "iOS · Android · Web",
-        color: "#2a9787",
-        img: "/resources/kings-league/KLAFantasy_SS1.jpg",
+        title: "Artificial intelligence.",
+        body: "AI connected to your processes, with people approving what matters.",
+        chips: ["AI agents", "Assistants", "Smart search", "AI visibility"],
       },
       {
-        h: "Platforms and internal tools",
-        a: "Dashboards, automation and the plumbing behind them",
-        b: "Dashboards · Automation",
-        color: "#7c8cff",
-        img: "/resources/club-premier/MundoPremier_SS1.jpg",
+        title: "Data and automation.",
+        body: "Your information in one place and processes that stop being manual.",
+        chips: ["Dashboards", "Reports", "Automation", "Back office"],
       },
       {
-        h: "Interactive work and games",
-        a: "Activations, gamification and branded play",
-        b: "Web · Mobile · AR",
-        color: "#f1b74a",
-        img: "/resources/jokeland/Jokeland_Cover.jpg",
+        title: "Apps and digital products.",
+        body: "Products people understand, use and recommend.",
+        chips: ["iOS and Android", "Websites", "E-commerce", "UX and UI"],
       },
       {
-        h: "Strategy and consulting",
-        a: "Product direction, and a second opinion on the technical call",
-        b: "Consulting · Support",
-        color: "#ff6b4a",
-        img: "/resources/club-premier/TransfiereYViaja_1.jpg",
+        title: "Brand experiences.",
+        body: "Where we began: games and activations that bring your customers back.",
+        chips: ["Gamification", "Loyalty", "Activations", "Augmented reality"],
+      },
+      {
+        title: "Consulting.",
+        body: "We define what to build, in what order and with what return.",
+        chips: ["Diagnosis", "Roadmap", "Architecture"],
       },
     ],
   },
-  process: {
+  projects: PROJECTS,
+  work: {
     enabled: true,
-    label: "How we work",
-    title: "From first call to launch",
-    gradA: "#0b042a",
-    gradB: "#0e0636",
-    angle: 160,
-    opacity: 1,
-    steps: [
-      {
-        num: "01",
-        title: "Discover",
-        body: "A short call to understand your goals, users and constraints. We define scope, timeline and cost, with no fluff.",
-      },
-      {
-        num: "02",
-        title: "Design",
-        body: "Concept, UX and visual direction. You see and react to real screens early, not at the end.",
-      },
-      {
-        num: "03",
-        title: "Build",
-        body: "Weekly iterations with working software from week one. You always know where the project stands.",
-      },
-      {
-        num: "04",
-        title: "Launch & grow",
-        body: "QA, launch and post-launch support. We stay to measure, learn and keep improving the product.",
-      },
-    ],
+    title: "Real work.",
+    accent: "work.",
+    kicker: "Six projects in people's hands",
   },
   clients: {
     enabled: true,
-    title: "Trusted by",
-    gradA: "#0e1015",
-    gradB: "#08090c",
-    angle: 160,
-    opacity: 1,
-    whiteLogos: true,
-    colorOnHover: true,
+    title: "Brands that have trusted JeeTP",
     logos: [
       { name: "Club Premier", img: "/resources/our-clients/clubpremier.png" },
       { name: "Kings League", img: "/resources/our-clients/kla.webp" },
@@ -352,14 +97,69 @@ export const DEFAULTS: SiteContent = {
       { name: "Etomin", img: "/resources/our-clients/etomin.svg" },
     ],
   },
+  products: {
+    enabled: true,
+    title: "Our own products.",
+    accent: "products.",
+    intro: "We test at home what we later bring to our clients.",
+    items: [
+      {
+        name: "Synthex",
+        logo: "/resources/logos/synthex-mark.svg",
+        title: "Make AI recommend your brand.",
+        body: "Measure how your brand appears in the answers of AI assistants and what to do to improve.",
+        url: "https://synthex.com.mx",
+        linkLabel: "Discover Synthex ↗",
+      },
+      {
+        name: "Synthex Commerce",
+        logo: "/resources/logos/synthex-mark.svg",
+        title: "Your online store, smarter.",
+        body: "Search that understands your customers and recommendations that sell.",
+        url: "https://commerce.synthex.com.mx",
+        linkLabel: "Discover Synthex Commerce ↗",
+      },
+      {
+        name: "Pliks",
+        logo: "/resources/logos/pliks-logo.png",
+        title: "Your next company, taking shape.",
+        body: "An AI executive team that researches your market, builds the plan and moves your business forward. You decide every step.",
+        url: "https://trypliks.com",
+        linkLabel: "Discover Pliks ↗",
+      },
+    ],
+  },
+  process: {
+    enabled: true,
+    title: "How we work.",
+    accent: "work.",
+    steps: [
+      {
+        num: "01",
+        title: "Discover",
+        body: "We understand your operation and where technology moves the result.",
+      },
+      {
+        num: "02",
+        title: "Design",
+        body: "You see real screens from the first weeks.",
+      },
+      {
+        num: "03",
+        title: "Build",
+        body: "Weekly deliveries with working software.",
+      },
+      {
+        num: "04",
+        title: "Evolve",
+        body: "We measure, operate and improve with you.",
+      },
+    ],
+  },
   faq: {
     enabled: true,
-    label: "FAQ",
-    title: "Questions we get asked first",
-    gradA: "#08090c",
-    gradB: "#08090c",
-    angle: 160,
-    opacity: 1,
+    title: "Questions we get asked first.",
+    accent: "asked first.",
     items: [
       {
         q: "What kinds of projects do you take on?",
@@ -383,11 +183,21 @@ export const DEFAULTS: SiteContent = {
       },
     ],
   },
+  closing: {
+    kicker: "Got a challenge?",
+    word: "Let's talk.",
+    emailLabel: "Write to us",
+    emailCopied: "Email copied",
+    whatsappLabel: "WhatsApp",
+    locationLabel: "Where we are",
+    remoteLabel: "How we work",
+    remoteValue: "Remote, in English and Spanish",
+  },
   contact: {
     email: "contact@jeetpstudio.com",
     whatsapp: "+52 55 3647 9693",
     phone: "+52 55 3647 9693",
-    location: "Texas, United States",
+    location: "Texas · Mexico City",
     address: "Texas, United States",
     mapQuery: "Lakeview Dr, Conroe, TX 77304",
   },
@@ -395,10 +205,7 @@ export const DEFAULTS: SiteContent = {
     hero: {
       eyebrow: "About",
       title: "A development team that starts from your problem",
-      gradA: "#3fa9f5",
-      gradB: "#06182e",
-      angle: 150,
-      opacity: 1,
+      accent: "your problem",
     },
     gallery: [
       "/resources/team/team-1.png",
@@ -417,20 +224,12 @@ export const DEFAULTS: SiteContent = {
       heading: "What we believe",
       body: "Software should fit the business, not the other way round. Most of the bad systems we get called in to replace were built to a template someone had lying around.\nWhen a project needs something we have never done, we learn it and build it.",
     },
-    news: {
-      enabled: false,
-      title: "In the press",
-      logos: [],
-    },
   },
   servicesPage: {
     hero: {
       eyebrow: "What we do",
       title: "Software built around your problem, not a template",
-      gradA: "#3fa9f5",
-      gradB: "#06182e",
-      angle: 150,
-      opacity: 1,
+      accent: "your problem",
     },
     groups: [
       {
@@ -503,22 +302,18 @@ export const DEFAULTS: SiteContent = {
         { title: "Sports and entertainment", img: "/resources/kings-league/KLAFantasy_SS1.jpg" },
       ],
     },
-    clientsTitle: "Trusted by",
-    news: { enabled: false },
   },
   cases: {
     label: "Work",
     title: "Every project, start to finish",
+    accent: "start to finish",
   },
   contactPage: {
     hero: {
       eyebrow: "Contact",
       title: "Tell us what you are trying to build",
+      accent: "build",
       sub: "A new project, a second opinion on one you already started, or just a question about how we work.",
-      gradA: "#3fa9f5",
-      gradB: "#06182e",
-      angle: 150,
-      opacity: 1,
     },
     regions: [
       { name: "United States", flag: "🇺🇸" },
@@ -537,31 +332,24 @@ export const DEFAULTS: SiteContent = {
       contact: "Contact",
     },
     buttons: {
-      contact: "Start a project",
+      contact: "Let's talk",
       work: "See the work",
-      services: "All services",
-      viewCase: "View case study",
       allWork: "All work",
     },
+    language: { label: "Language", switchTo: "Switch language" },
+    menu: { open: "Open menu", close: "Close menu" },
     footer: {
-      navTitle: "Navigation",
-      servicesTitle: "Services",
-      socialTitle: "Follow",
       social: [
-        { label: "LinkedIn", url: "#" },
-        { label: "Instagram", url: "#" },
-        { label: "X", url: "#" },
+        { label: "LinkedIn", url: "https://www.linkedin.com/company/jeetpstudios/" },
+        { label: "Instagram", url: "https://www.instagram.com/jeetpstudios/" },
+        { label: "X", url: "https://x.com/JeeTPStudios" },
       ],
-      ctaText: "Tell us the problem. We build what solves it.",
-      ctaButton: "Start a project",
-      copyright: "© {year} {name}. All rights reserved.",
-      madeIn: "Built in-house by JeeTP Studios",
+      copyright: "© {year} {name}",
     },
-    servicesPageTitle: "What we do",
     faqBox: {
       title: "Still have a question?",
       body: "Send it over. We answer within one business day, and we will tell you straight if we are not the right team for it.",
-      button: "Start a project",
+      button: "Let's talk",
     },
     caseStudy: {
       back: "Back to work",
@@ -569,19 +357,66 @@ export const DEFAULTS: SiteContent = {
       specDuration: "Duration",
       specMeta: "Year and place",
       upNext: "Next case study",
+      problemsTitle: "What was in the way",
+      openImage: "Open image",
+      playVideo: "Play video",
+      close: "Close",
+      video: "Video",
+    },
+    casesIndex: {
+      filterLabel: "Filter by discipline",
+      emptyTitle: "Nothing filed under that discipline yet.",
+      emptyBody:
+        "It is on the roadmap. In the meantime, the full archive is a click away.",
     },
     contactForm: {
-      getInTouch: "Get in touch",
       sendWhatsapp: "Send on WhatsApp",
       service: "What do you need",
+      serviceNone: "Choose one",
       name: "Your name",
       phone: "Phone",
       email: "Email",
       company: "Company",
       message: "About the project",
+      messageHint: "What you want to build, and roughly when.",
+      optional: "Optional",
       send: "Send by email",
+      addressLabel: "Address",
+      emailLabel: "Email",
+      phoneLabel: "Phone and WhatsApp",
+      regionsLabel: "Where you are",
+      errorName: "We need a name to reply to.",
+      errorEmailMissing: "Add an email so we can get back to you.",
+      errorEmailInvalid: "That email address does not look complete.",
+      errorMessage: "A sentence or two about the project is enough.",
+      doneTitle: "Your message is on its way.",
+      doneWhatsapp:
+        "We opened WhatsApp with everything filled in. Hit send there and we will reply within one business day.",
+      doneEmail:
+        "We opened your mail client with everything filled in. Send it and we will reply within one business day.",
+      writeAnother: "Write another",
+      mailSubject: "New project enquiry",
+      mailSubjectFrom: "New project enquiry from {company}",
+      notSpecified: "Not specified",
+      bodyService: "Service",
+      bodyName: "Name",
+      bodyCompany: "Company",
+      bodyEmail: "Email",
+      bodyPhone: "Phone",
+      bodyProject: "Project",
     },
+    loading: "Loading",
+    error: { title: "Something went wrong", back: "Back to home" },
   },
-  carousel: { speedSec: 42 },
-  order: ["clients", "highlighted", "stats", "services", "process", "faq"],
+  order: [
+    "manifesto",
+    "about",
+    "solutions",
+    "work",
+    "clients",
+    "products",
+    "process",
+    "faq",
+  ],
+  i18n: { es: ES_OVERLAY },
 };

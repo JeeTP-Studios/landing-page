@@ -1,274 +1,31 @@
-import { useContent } from "@/content/ContentContext";
-import type { HomeSectionKey } from "@/types/content";
-import {
-  Accordion,
-  ColorField,
-  GradientField,
-  ImageField,
-  ListField,
-  OpacityField,
-  SelectField,
-  SwitchField,
-  TextField,
-} from "./fields";
+import { Accordion, ImageField, ListField, SwitchField, TextField } from "./fields";
 import ObjectListEditor from "./ObjectListEditor";
-import SortableList from "./SortableList";
 
 /* ============ GLOBAL ============ */
 export function GlobalTab() {
   return (
     <>
       <h2>Global</h2>
-      <div className="desc">
-        Brand, logo, global background and contact info. Applied across the site.
-      </div>
+      <div className="desc">Brand and contact info. Applied across the site.</div>
       <Accordion summary="Brand & logo" open>
-        <TextField label="Name" path="brand.name" />
-        <TextField label="Tagline" path="brand.tagline" />
-        <SelectField
-          label="Logo type"
-          path="brand.logoType"
-          options={[
-            ["text", "Text"],
-            ["image", "Image"],
-          ]}
-        />
+        <TextField label="Name" path="brand.name" shared />
         <ImageField
-          label="Logo image (PNG)"
+          label="Logo image (PNG, white on transparent)"
           path="brand.logoImg"
-          hint="If you choose 'Image', it's used in header and footer."
-        />
-      </Accordion>
-      <Accordion summary="Global background (home only)">
-        <SelectField
-          label="Background type"
-          path="bg.type"
-          options={[
-            ["none", "None"],
-            ["image", "Image"],
-            ["video", "Video"],
-          ]}
-        />
-        <ImageField
-          label="Image / poster"
-          path="bg.url"
-          hint="Image or URL. For video, paste the .mp4 URL."
+          hint="Shown in the header. Leave empty to set the name as text."
         />
       </Accordion>
       <Accordion summary="Contact info">
-        <TextField label="Email" path="contact.email" />
-        <TextField label="WhatsApp" path="contact.whatsapp" />
-        <TextField label="Phone" path="contact.phone" />
+        <TextField label="Email" path="contact.email" shared />
+        <TextField label="WhatsApp" path="contact.whatsapp" shared />
+        <TextField label="Phone" path="contact.phone" shared />
         <TextField label="Location (footer)" path="contact.location" />
         <TextField label="Address (contact page)" path="contact.address" />
         <TextField
           label="Map location"
           path="contact.mapQuery"
+          shared
           hint="e.g. Mexico City or an address."
-        />
-      </Accordion>
-    </>
-  );
-}
-
-/* ============ HOME ============ */
-const ORDER_NAMES: Record<HomeSectionKey, string> = {
-  highlighted: "Featured projects",
-  stats: "Stats band",
-  services: "Service cards",
-  process: "Process strip",
-  clients: "Clients",
-  faq: "FAQ",
-};
-
-export function HomeTab() {
-  const { content, update } = useContent();
-  return (
-    <>
-      <h2>Home</h2>
-      <div className="desc">Hero and home page sections.</div>
-
-      <Accordion summary="Hero" open>
-        <TextField label="Eyebrow" path="hero.eyebrow" />
-        <ListField
-          label="Titles (one per line)"
-          path="hero.titles"
-          mode="lines"
-          hint="Typed in a loop with a typewriter effect. With just one, it stays fixed. The order is the typing order."
-        />
-        <ListField
-          label="Decorative chips (one per line)"
-          path="hero.chips"
-          mode="lines"
-          hint="Tags that float diagonally/overlapping in the hero. Leave empty to hide them."
-        />
-        <GradientField prefix="hero" />
-        <OpacityField prefix="hero" />
-        <TextField
-          label="Learn more links to"
-          path="hero.href"
-          hint="e.g. /case-studies or https://..."
-        />
-      </Accordion>
-
-      <Accordion summary="Featured projects">
-        <SwitchField label="Show section" path="highlighted.enabled" />
-        <TextField label="Label" path="highlighted.label" />
-        <TextField label="Title" path="highlighted.title" />
-        <GradientField prefix="highlighted" />
-        <OpacityField prefix="highlighted" />
-        <div className="hint">
-          The cards use the projects from the Case Studies menu.
-        </div>
-      </Accordion>
-
-      <Accordion summary="Stats band">
-        <SwitchField label="Show section" path="stats.enabled" />
-        <TextField label="Label" path="stats.label" />
-        <TextField label="Title" path="stats.title" />
-        <GradientField prefix="stats" />
-        <OpacityField prefix="stats" />
-        <ObjectListEditor
-          path="stats.items"
-          factory={() => ({ value: 10, suffix: "+", label: "New metric" })}
-          labeler={(it) => (it as { label: string }).label}
-          addLabel="+ Add metric"
-          renderItem={(i) => (
-            <>
-              <div className="row">
-                <TextField
-                  label="Value (number)"
-                  path={`stats.items.${i}.value`}
-                  number
-                />
-                <TextField
-                  label="Suffix"
-                  path={`stats.items.${i}.suffix`}
-                  hint="e.g. +, %, K+"
-                />
-              </div>
-              <TextField label="Label" path={`stats.items.${i}.label`} />
-            </>
-          )}
-        />
-      </Accordion>
-
-      <Accordion summary="Service cards">
-        <SwitchField label="Show section" path="services.enabled" />
-        <TextField label="Label" path="services.label" />
-        <TextField label="Title" path="services.title" />
-        <GradientField prefix="services" />
-        <OpacityField prefix="services" />
-        <ObjectListEditor
-          path="services.items"
-          factory={() => ({
-            h: "New service",
-            a: "Line 1",
-            b: "Line 2",
-            color: "#7c5cff",
-          })}
-          labeler={(it) => (it as { h: string }).h}
-          addLabel="+ Add card"
-          renderItem={(i) => (
-            <>
-              <TextField label="Title" path={`services.items.${i}.h`} />
-              <div className="row">
-                <TextField label="Line 1" path={`services.items.${i}.a`} />
-                <TextField label="Line 2" path={`services.items.${i}.b`} />
-              </div>
-              <ColorField label="Color" path={`services.items.${i}.color`} />
-              <ImageField
-                label="Image / icon (home preview)"
-                path={`services.items.${i}.img`}
-                hint="Shown on the left in the services preview. Without an image, the number is shown."
-              />
-            </>
-          )}
-        />
-      </Accordion>
-
-      <Accordion summary="Process strip">
-        <SwitchField label="Show section" path="process.enabled" />
-        <TextField label="Label" path="process.label" />
-        <TextField label="Title" path="process.title" />
-        <GradientField prefix="process" />
-        <OpacityField prefix="process" />
-        <ObjectListEditor
-          path="process.steps"
-          factory={() => ({
-            num: "05",
-            title: "New step",
-            body: "Describe this step.",
-          })}
-          labeler={(it) => (it as { title: string }).title}
-          addLabel="+ Add step"
-          renderItem={(i) => (
-            <>
-              <div className="row">
-                <TextField label="Number" path={`process.steps.${i}.num`} />
-                <TextField label="Title" path={`process.steps.${i}.title`} />
-              </div>
-              <TextField label="Body" path={`process.steps.${i}.body`} area />
-            </>
-          )}
-        />
-      </Accordion>
-
-      <div className="hint" style={{ margin: "0 0 12px" }}>
-        Clients content is edited in the <b>Clients</b> section of the menu.
-      </div>
-
-      <Accordion summary="FAQ">
-        <SwitchField label="Show section" path="faq.enabled" />
-        <TextField label="Label" path="faq.label" />
-        <TextField label="Title" path="faq.title" />
-        <GradientField prefix="faq" />
-        <OpacityField prefix="faq" />
-        <ObjectListEditor
-          path="faq.items"
-          factory={() => ({ q: "New question", a: "Answer" })}
-          labeler={(_, i) => `Question ${i + 1}`}
-          addLabel="+ Add question"
-          renderItem={(i) => (
-            <>
-              <TextField label="Question" path={`faq.items.${i}.q`} />
-              <TextField label="Answer" path={`faq.items.${i}.a`} area />
-            </>
-          )}
-        />
-      </Accordion>
-
-      <Accordion summary="Section order">
-        <div className="desc">Drag to reorder. The switch shows/hides.</div>
-        <SortableList
-          ids={content.order}
-          onReorder={(ids) =>
-            update((d) => {
-              d.order = ids as HomeSectionKey[];
-            })
-          }
-          renderItem={(id) => {
-            const k = id as HomeSectionKey;
-            const enabled = content[k].enabled;
-            return (
-              <>
-                <span className="grip">⠿</span>
-                <span className="nm">{ORDER_NAMES[k]}</span>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={enabled}
-                    onChange={(e) =>
-                      update((d) => {
-                        d[k].enabled = e.target.checked;
-                      })
-                    }
-                  />
-                  <span className="sl" />
-                </label>
-              </>
-            );
-          }}
         />
       </Accordion>
     </>
@@ -284,22 +41,17 @@ export function AboutTab() {
       <Accordion summary="Hero" open>
         <TextField label="Eyebrow" path="about.hero.eyebrow" />
         <TextField label="Title" path="about.hero.title" area />
-        <GradientField prefix="about.hero" />
-        <OpacityField prefix="about.hero" />
+        <TextField
+          label="Accent"
+          path="about.hero.accent"
+          hint="The part of the title set in blue serif italic. It must appear in the title."
+        />
       </Accordion>
       <Accordion summary="Who we are">
         <TextField label="Heading" path="about.intro.heading" />
-        <TextField
-          label="Text (double line break = new paragraph)"
-          path="about.intro.body"
-          area
-        />
-        <div className="hint" style={{ marginTop: 8 }}>
-          The client logo carousel below is edited in the
-          sección <b>Clients</b> section of the menu.
-        </div>
+        <TextField label="Text (one line break = new paragraph)" path="about.intro.body" area />
       </Accordion>
-      <Accordion summary="Overview">
+      <Accordion summary="What we have built">
         <TextField label="Heading" path="about.overview.heading" />
         <TextField label="Text" path="about.overview.body" area />
       </Accordion>
@@ -307,19 +59,13 @@ export function AboutTab() {
         <TextField label="Heading" path="about.beliefs.heading" />
         <TextField label="Text" path="about.beliefs.body" area />
       </Accordion>
-      <Accordion summary="In the media">
-        <SwitchField label="Show section" path="about.news.enabled" />
-        <TextField label="Title" path="about.news.title" />
+      <Accordion summary="Studio photos">
         <ObjectListEditor
-          path="about.news.logos"
-          factory={() => ({ name: "New", img: "" })}
-          labeler={(l) => (l as { name: string }).name || "Outlet"}
-          renderItem={(i) => (
-            <>
-              <TextField label="Name" path={`about.news.logos.${i}.name`} />
-              <ImageField label="Image" path={`about.news.logos.${i}.img`} />
-            </>
-          )}
+          path="about.gallery"
+          factory={() => ""}
+          labeler={(_, i) => `Photo ${i + 1}`}
+          addLabel="+ Add photo"
+          renderItem={(i) => <ImageField label="Image" path={`about.gallery.${i}`} />}
         />
       </Accordion>
     </>
@@ -331,12 +77,13 @@ export function ServicesTab() {
   return (
     <>
       <h2>Services</h2>
-      <div className="desc">Services page.</div>
+      <div className="desc">
+        Services page. The solutions listed at the top are edited in Home, Solutions.
+      </div>
       <Accordion summary="Hero" open>
         <TextField label="Eyebrow" path="servicesPage.hero.eyebrow" />
         <TextField label="Title" path="servicesPage.hero.title" area />
-        <GradientField prefix="servicesPage.hero" />
-        <OpacityField prefix="servicesPage.hero" />
+        <TextField label="Accent" path="servicesPage.hero.accent" />
       </Accordion>
       <Accordion summary="Service groups">
         <ObjectListEditor
@@ -370,84 +117,48 @@ export function ServicesTab() {
           renderItem={(i) => (
             <>
               <TextField label="Title" path={`servicesPage.who.cards.${i}.title`} />
-              <ImageField
-                label="Image (optional)"
-                path={`servicesPage.who.cards.${i}.img`}
-              />
+              <ImageField label="Image" path={`servicesPage.who.cards.${i}.img`} />
             </>
           )}
-        />
-      </Accordion>
-      <Accordion summary="Clients & media">
-        <TextField label="Clients title" path="servicesPage.clientsTitle" />
-        <div className="hint" style={{ marginBottom: 14 }}>
-          The clients list is edited in Home; media in About Us.
-        </div>
-        <SwitchField
-          label="Show 'In the media'"
-          path="servicesPage.news.enabled"
         />
       </Accordion>
     </>
   );
 }
 
-/* ============ CASE STUDIES (página de listado) ============ */
+/* ============ CASE STUDIES (index page) ============ */
 export function CasesPageTab() {
   return (
     <>
       <h2>Case Studies · Page</h2>
       <div className="desc">
-        Settings for the case listing page. Adding and editing projects
-        is in the Case Studies section of the menu.
+        Header of the case index page. Adding and editing projects is in the Projects tab.
       </div>
       <Accordion summary="Page header" open>
         <TextField label="Label" path="cases.label" />
         <TextField label="Title" path="cases.title" />
+        <TextField label="Accent" path="cases.accent" />
       </Accordion>
     </>
   );
 }
 
-/* ============ CLIENTES ============ */
+/* ============ CLIENTS ============ */
 export function ClientsTab() {
   return (
     <>
       <h2>Clients</h2>
       <div className="desc">
-        A single place to manage your clients: the home grid and the logo
-        carousel on the About page.
+        One list of client logos, shown as the moving band on the home, About and Services pages.
+        Logos are painted white automatically.
       </div>
-
-      <Accordion summary="Clients list (logo carousel)" open>
-        <div className="hint" style={{ marginBottom: 14 }}>
-          This single list is shown as a logo carousel on the home, the
-          Services page and About.
-        </div>
-        <div className="fld">
-          <label>Carousel speed</label>
-          <div className="rangewrap">
-            <CarouselSpeedInput />
-          </div>
-          <div className="hint">
-            Seconds per full loop. Lower = faster. (Pauses on hover.) All
-            logos are shown at a uniform size.
-          </div>
-        </div>
-        <SwitchField
-          label="Paint logos white (uniform)"
-          path="clients.whiteLogos"
+      <Accordion summary="Clients list" open>
+        <SwitchField label="Show band on the home" path="clients.enabled" />
+        <TextField
+          label="Accessible name of the band"
+          path="clients.title"
+          hint="Read by screen readers; not shown on screen."
         />
-        <SwitchField
-          label="Restore color on hover"
-          path="clients.colorOnHover"
-        />
-        <div className="hint" style={{ marginBottom: 14 }}>
-          "Paint white" unifies color, white or black logos to a white
-          leaning gray. With "hover" on, the logo restores its color on
-          hover. The light zoom on hover is always on.
-        </div>
-        <div className="ad-grouplabel">Clients</div>
         <ObjectListEditor
           path="clients.logos"
           factory={() => ({ name: "New client", img: "" })}
@@ -455,62 +166,28 @@ export function ClientsTab() {
           addLabel="+ Add client"
           renderItem={(i) => (
             <>
-              <TextField label="Name" path={`clients.logos.${i}.name`} />
+              <TextField label="Name" path={`clients.logos.${i}.name`} shared />
               <ImageField
                 label="Logo"
                 path={`clients.logos.${i}.img`}
-                hint="Transparent PNG/SVG recommended. If there's no logo, the name is shown."
+                hint="Transparent PNG or SVG. Without a logo the name is shown."
               />
             </>
           )}
         />
       </Accordion>
-
-      <Accordion summary="Clients block on the site (style)">
-        <SwitchField label="Show section on the home" path="clients.enabled" />
-        <div className="hint" style={{ marginBottom: 14 }}>
-          Order and visibility within the home are set in Pages →
-          Home → Section order.
-        </div>
-        <TextField label="Section title" path="clients.title" />
-        <GradientField prefix="clients" />
-        <OpacityField prefix="clients" />
-      </Accordion>
     </>
   );
 }
 
-/** Slider numérico para la velocidad del carrusel. */
-function CarouselSpeedInput() {
-  const { content, update } = useContent();
-  const v = content.carousel.speedSec;
-  return (
-    <>
-      <input
-        type="range"
-        min={6}
-        max={80}
-        step={1}
-        value={v}
-        onChange={(e) =>
-          update((d) => {
-            d.carousel.speedSec = Number(e.target.value);
-          })
-        }
-      />
-      <span className="val">{v}s</span>
-    </>
-  );
-}
-
-/* ============ TEXTOS UI ============ */
+/* ============ SITE TEXTS ============ */
 export function TextsTab() {
   return (
     <>
       <h2>Site texts</h2>
       <div className="desc">
-        Labels, buttons and repeated texts across the site (navigation,
-        footer, forms and case study labels).
+        Labels, buttons and repeated texts across the site: navigation, footer, forms and case
+        study labels.
       </div>
 
       <Accordion summary="Navigation menu" open>
@@ -520,99 +197,142 @@ export function TextsTab() {
         </div>
         <div className="row">
           <TextField label="Services" path="ui.nav.services" />
-          <TextField label="Case Studies" path="ui.nav.cases" />
+          <TextField label="Work" path="ui.nav.cases" />
         </div>
         <TextField label="Contact" path="ui.nav.contact" />
+        <div className="row">
+          <TextField label="Language switch label" path="ui.language.label" />
+          <TextField label="Language switch action" path="ui.language.switchTo" />
+        </div>
+        <div className="row">
+          <TextField label="Open menu (accessible)" path="ui.menu.open" />
+          <TextField label="Close menu (accessible)" path="ui.menu.close" />
+        </div>
       </Accordion>
 
       <Accordion summary="Repeated buttons">
-        <TextField
-          label="'All cases' (home featured)"
-          path="ui.buttons.allCases"
-        />
-        <TextField
-          label="'View services' (home services)"
-          path="ui.buttons.viewServices"
-        />
-        <TextField
-          label="'View cases' (clients block)"
-          path="ui.buttons.viewCases"
-        />
-        <TextField
-          label="Hero hover ('VIEW CASE')"
-          path="ui.buttons.floatLearn"
-        />
-        <TextField
-          label="'See our cases' (About page)"
-          path="ui.buttons.aboutCases"
-        />
+        <TextField label="Contact (header, FAQ, case)" path="ui.buttons.contact" />
+        <TextField label="See the work" path="ui.buttons.work" />
+        <TextField label="All work (case filter)" path="ui.buttons.allWork" />
       </Accordion>
 
       <Accordion summary="Footer">
-        <div className="row">
-          <TextField label="'Navigation' title" path="ui.footer.navTitle" />
-          <TextField label="'Services' title" path="ui.footer.servicesTitle" />
-        </div>
-        <TextField label="Social title" path="ui.footer.socialTitle" />
-        <div className="ad-grouplabel">Social networks (label + URL)</div>
-        <ObjectListEditor
-          path="ui.footer.social"
-          factory={() => ({ label: "Red", url: "#" })}
-          labeler={(s) => (s as { label: string }).label || "Red"}
-          renderItem={(i) => (
-            <div className="row">
-              <TextField label="Name" path={`ui.footer.social.${i}.label`} />
-              <TextField label="URL" path={`ui.footer.social.${i}.url`} />
-            </div>
-          )}
-        />
-        <div className="ad-grouplabel">CTA band & legal</div>
-        <TextField label="CTA text" path="ui.footer.ctaText" />
-        <TextField label="CTA button" path="ui.footer.ctaButton" />
         <TextField
           label="Copyright"
           path="ui.footer.copyright"
           hint="Use {name} for the brand name and {year} for the year."
         />
-        <TextField label="Final note (right)" path="ui.footer.madeIn" />
+        <div className="ad-grouplabel">Social networks (label + URL)</div>
+        <ObjectListEditor
+          path="ui.footer.social"
+          factory={() => ({ label: "Network", url: "#" })}
+          labeler={(s) => (s as { label: string }).label || "Network"}
+          renderItem={(i) => (
+            <div className="row">
+              <TextField label="Name" path={`ui.footer.social.${i}.label`} />
+              <TextField label="URL" path={`ui.footer.social.${i}.url`} shared />
+            </div>
+          )}
+        />
+        <div className="hint">The giant closing text and the columns are edited in Home, Closing.</div>
       </Accordion>
 
-      <Accordion summary="Other blocks">
-        <TextField
-          label="Side title (Services page)"
-          path="ui.servicesPageTitle"
-        />
-        <div className="ad-grouplabel">'More questions' box (FAQ)</div>
+      <Accordion summary="FAQ 'more questions' box">
         <TextField label="Title" path="ui.faqBox.title" />
         <TextField label="Text" path="ui.faqBox.body" area />
         <TextField label="Button" path="ui.faqBox.button" />
       </Accordion>
 
-      <Accordion summary="Case Study labels">
-        <TextField label="Back button" path="ui.caseStudy.back" />
+      <Accordion summary="Case study labels">
+        <TextField label="Back link" path="ui.caseStudy.back" />
         <div className="row">
-          <TextField label="Spec category" path="ui.caseStudy.specCategory" />
-          <TextField label="Spec duration" path="ui.caseStudy.specDuration" />
+          <TextField label="Spec: type" path="ui.caseStudy.specCategory" />
+          <TextField label="Spec: duration" path="ui.caseStudy.specDuration" />
         </div>
         <div className="row">
-          <TextField label="Spec year · place" path="ui.caseStudy.specMeta" />
-          <TextField label="'Up next'" path="ui.caseStudy.upNext" />
+          <TextField label="Spec: year and place" path="ui.caseStudy.specMeta" />
+          <TextField label="Next case" path="ui.caseStudy.upNext" />
+        </div>
+        <TextField label="Challenge: 'what was in the way'" path="ui.caseStudy.problemsTitle" />
+        <div className="row">
+          <TextField label="Open image (accessible)" path="ui.caseStudy.openImage" />
+          <TextField label="Play video (accessible)" path="ui.caseStudy.playVideo" />
+        </div>
+        <div className="row">
+          <TextField label="Close (accessible)" path="ui.caseStudy.close" />
+          <TextField label="Video placeholder" path="ui.caseStudy.video" />
         </div>
       </Accordion>
 
+      <Accordion summary="Case index">
+        <TextField label="Filter group (accessible)" path="ui.casesIndex.filterLabel" />
+        <TextField label="Empty state title" path="ui.casesIndex.emptyTitle" />
+        <TextField label="Empty state text" path="ui.casesIndex.emptyBody" area />
+      </Accordion>
+
       <Accordion summary="Contact form">
-        <TextField label="'Get in touch' title" path="ui.contactForm.getInTouch" />
-        <TextField label="Service placeholder" path="ui.contactForm.service" />
+        <TextField label="Service label" path="ui.contactForm.service" />
+        <TextField label="Service: no choice" path="ui.contactForm.serviceNone" />
         <div className="row">
-          <TextField label="Name placeholder" path="ui.contactForm.name" />
-          <TextField label="Phone placeholder" path="ui.contactForm.phone" />
+          <TextField label="Name" path="ui.contactForm.name" />
+          <TextField label="Company" path="ui.contactForm.company" />
         </div>
         <div className="row">
-          <TextField label="Email placeholder" path="ui.contactForm.email" />
-          <TextField label="Company placeholder" path="ui.contactForm.company" />
+          <TextField label="Email" path="ui.contactForm.email" />
+          <TextField label="Phone" path="ui.contactForm.phone" />
         </div>
-        <TextField label="Message placeholder" path="ui.contactForm.message" />
-        <TextField label="Send button" path="ui.contactForm.send" />
+        <TextField label="Message" path="ui.contactForm.message" />
+        <TextField label="Message hint" path="ui.contactForm.messageHint" />
+        <TextField label="'Optional'" path="ui.contactForm.optional" />
+        <div className="row">
+          <TextField label="WhatsApp button" path="ui.contactForm.sendWhatsapp" />
+          <TextField label="Email button" path="ui.contactForm.send" />
+        </div>
+        <div className="ad-grouplabel">Errors</div>
+        <TextField label="Missing name" path="ui.contactForm.errorName" />
+        <TextField label="Missing email" path="ui.contactForm.errorEmailMissing" />
+        <TextField label="Invalid email" path="ui.contactForm.errorEmailInvalid" />
+        <TextField label="Short message" path="ui.contactForm.errorMessage" />
+        <div className="ad-grouplabel">After sending</div>
+        <TextField label="Title" path="ui.contactForm.doneTitle" />
+        <TextField label="WhatsApp text" path="ui.contactForm.doneWhatsapp" area />
+        <TextField label="Email text" path="ui.contactForm.doneEmail" area />
+        <TextField label="Write another" path="ui.contactForm.writeAnother" />
+        <div className="ad-grouplabel">Message we receive</div>
+        <TextField label="Subject" path="ui.contactForm.mailSubject" />
+        <TextField
+          label="Subject with company"
+          path="ui.contactForm.mailSubjectFrom"
+          hint="Use {company} for the company name."
+        />
+        <TextField label="Not specified" path="ui.contactForm.notSpecified" />
+        <div className="row">
+          <TextField label="Service" path="ui.contactForm.bodyService" />
+          <TextField label="Name" path="ui.contactForm.bodyName" />
+        </div>
+        <div className="row">
+          <TextField label="Company" path="ui.contactForm.bodyCompany" />
+          <TextField label="Email" path="ui.contactForm.bodyEmail" />
+        </div>
+        <div className="row">
+          <TextField label="Phone" path="ui.contactForm.bodyPhone" />
+          <TextField label="Project" path="ui.contactForm.bodyProject" />
+        </div>
+      </Accordion>
+
+      <Accordion summary="Loading and error screens">
+        <TextField label="Loading" path="ui.loading" />
+        <TextField label="Error title" path="ui.error.title" />
+        <TextField label="Error: back link" path="ui.error.back" />
+      </Accordion>
+
+      <Accordion summary="Contact addresses">
+        <div className="row">
+          <TextField label="Address label" path="ui.contactForm.addressLabel" />
+          <TextField label="Email label" path="ui.contactForm.emailLabel" />
+        </div>
+        <TextField label="Phone label" path="ui.contactForm.phoneLabel" />
+        <TextField label="Regions (accessible)" path="ui.contactForm.regionsLabel" />
       </Accordion>
     </>
   );
@@ -629,9 +349,8 @@ export function ContactTab() {
       <Accordion summary="Hero" open>
         <TextField label="Eyebrow" path="contactPage.hero.eyebrow" />
         <TextField label="Title" path="contactPage.hero.title" />
+        <TextField label="Accent" path="contactPage.hero.accent" />
         <TextField label="Subtitle" path="contactPage.hero.sub" area />
-        <GradientField prefix="contactPage.hero" />
-        <OpacityField prefix="contactPage.hero" />
       </Accordion>
       <Accordion summary="Regions (toggle)">
         <ObjectListEditor
@@ -641,18 +360,16 @@ export function ContactTab() {
           renderItem={(i) => (
             <div className="row">
               <TextField label="Name" path={`contactPage.regions.${i}.name`} />
-              <TextField
-                label="Flag / emoji"
-                path={`contactPage.regions.${i}.flag`}
-              />
+              <TextField label="Flag / emoji" path={`contactPage.regions.${i}.flag`} shared />
             </div>
           )}
         />
       </Accordion>
       <Accordion summary="Form texts">
         <TextField label="Title (left)" path="contactPage.interestedTitle" />
-        <TextField label="'Get in touch' subtext" path="contactPage.getInTouch" />
+        <TextField label="Subtext" path="contactPage.getInTouch" />
       </Accordion>
     </>
   );
 }
+

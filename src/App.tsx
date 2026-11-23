@@ -1,10 +1,11 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useContent } from "@/content/ContentContext";
 import { LayoutProvider } from "@/components/layout/LayoutContext";
 import Header from "@/components/layout/Header";
 import Menu from "@/components/layout/Menu";
 import Home from "@/pages/Home";
+import Stage from "@/components/stage/Stage";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 
 /* Home ships in the first chunk because it is the landing surface. Everything
@@ -38,14 +39,19 @@ function AdminGate() {
 }
 
 export default function App() {
-  const { loading } = useContent();
-  const location = useLocation();
-  const isAdmin = location.pathname.startsWith("/admin");
+  const { site, loading } = useContent();
+  const { pathname } = useLocation();
+  const isAdmin = pathname.startsWith("/admin");
+
+  // A new page starts at the top, without the smooth scroll of anchors.
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+  }, [pathname]);
 
   if (loading) {
     return (
-      <div className="boot">
-        <div className="boot-word">Loading</div>
+      <div className="boot" role="status">
+        <div className="boot-word">{site.ui.loading}</div>
         <div className="boot-bar" />
       </div>
     );
@@ -55,28 +61,27 @@ export default function App() {
     <LayoutProvider>
       {!isAdmin && (
         <>
+          <Stage />
           <Header />
           <Menu />
         </>
       )}
-      <main id="app">
-        <div className="route-fade" key={location.pathname}>
-          <ErrorBoundary>
-            <Suspense fallback={<div className="route-pending" />}>
-              <Routes location={location}>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/case-studies" element={<Cases />} />
-                <Route path="/case-studies/:id" element={<CaseStudy />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/admin" element={<AdminGate />} />
-                <Route path="*" element={<Home />} />
-              </Routes>
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-      </main>
+      <div id="app">
+        <ErrorBoundary>
+          <Suspense fallback={<div className="route-pending" />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/case-studies" element={<Cases />} />
+              <Route path="/case-studies/:id" element={<CaseStudy />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin" element={<AdminGate />} />
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </LayoutProvider>
   );
 }

@@ -1,44 +1,44 @@
-import { useEffect } from "react";
+import type { ReactNode } from "react";
 import { useSite } from "@/content/ContentContext";
+import { isHomeSectionEnabled } from "@/lib/home";
 import type { HomeSectionKey } from "@/types/content";
 import Footer from "@/components/layout/Footer";
-import ClientsBlock from "@/components/common/ClientsBlock";
 import Hero from "./Hero";
-import WorkRail from "./WorkRail";
-import StatsBand from "./StatsBand";
-import ServicesPreview from "./ServicesPreview";
-import ProcessStrip from "./ProcessStrip";
+import Manifesto from "./Manifesto";
+import AboutBlock from "./AboutBlock";
+import Solutions from "./Solutions";
+import WorkList from "./WorkList";
+import Clients from "@/components/ui/Clients";
+import Products from "./Products";
+import Process from "./Process";
 import FaqBlock from "./FaqBlock";
 
-/** Section order is CMS-controlled; the hero and footer are fixed anchors. */
-const RENDERERS: Record<HomeSectionKey, () => JSX.Element | null> = {
-  highlighted: () => <WorkRail />,
-  stats: () => <StatsBand />,
-  services: () => <ServicesPreview />,
-  process: () => <ProcessStrip />,
-  clients: () => <ClientsWrapper />,
+const SECTIONS: Record<HomeSectionKey, () => ReactNode> = {
+  manifesto: () => <Manifesto />,
+  about: () => <AboutBlock />,
+  solutions: () => <Solutions />,
+  work: () => <WorkList />,
+  clients: () => <Clients />,
+  products: () => <Products />,
+  process: () => <Process />,
   faq: () => <FaqBlock />,
 };
 
-function ClientsWrapper() {
-  const c = useSite();
-  if (!c.clients.enabled) return null;
-  return <ClientsBlock title={c.clients.title} />;
-}
-
+/** Section order is CMS-controlled; the hero and the footer are fixed anchors. */
 export default function Home() {
   const c = useSite();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <>
-      <Hero />
-      {c.order.map((k) => (
-        <div key={k}>{RENDERERS[k]?.() ?? null}</div>
-      ))}
+      <main className="home">
+        <Hero />
+        {c.order
+          .filter((k) => isHomeSectionEnabled(c, k))
+          .map((k) => (
+            <div key={k} className={`home-${k}`}>
+              {SECTIONS[k]()}
+            </div>
+          ))}
+      </main>
       <Footer />
     </>
   );

@@ -1,9 +1,10 @@
 import { DEFAULTS } from "@/data/defaults";
-import type { SiteContent } from "@/types/content";
+import type { HomeSectionKey, Overlay, SiteContent } from "@/types/content";
+import { pruneStaleOverlay } from "./i18n";
 
 export const STORAGE_KEY = "jeetp_cfg";
 
-/** URL del JSON remoto (S3 / bucket). Configurable por env. */
+/** URL of the published JSON (S3 / bucket). Configurable by env. */
 export const CONTENT_URL: string =
   (import.meta.env.VITE_CONTENT_URL as string | undefined) || "/content.json";
 
@@ -11,106 +12,207 @@ export function clone<T>(o: T): T {
   return JSON.parse(JSON.stringify(o));
 }
 
+type Raw = Record<string, any>;
+
+const HOME_KEYS: HomeSectionKey[] = [
+  "manifesto",
+  "about",
+  "solutions",
+  "work",
+  "clients",
+  "products",
+  "process",
+  "faq",
+];
+
+/** Home section keys of the previous design and where they went. */
+const OLD_ORDER_KEYS: Record<string, HomeSectionKey | undefined> = {
+  highlighted: "work",
+  stats: "about",
+  services: "solutions",
+};
+
+/** Fields a project still has; anything else came from the previous design. */
+const PROJECT_FIELDS = [
+  "id",
+  "name",
+  "tagline",
+  "category",
+  "duration",
+  "year",
+  "location",
+  "tags",
+  "desc",
+  "heroImage",
+  "sections",
+] as const;
+
 /**
- * Migra contenidos en formato viejo al actual:
- * unifica los clientes en `clients.logos` desde `clients.items` (texto) o
- * desde `about.intro.logos` cuando existan.
+ * Brings a document written by an older admin to the current shape. It runs on
+ * each raw layer (published JSON, local override, imported file) BEFORE the
+ * layer is merged over the defaults, so it can tell what the layer actually
+ * said. It never throws: a field it does not understand is left for the merge
+ * to ignore.
+ *
+ * Old documents carry no `i18n`; that absence is what marks them as legacy.
  */
-export function migrate(content: SiteContent): SiteContent {
-  const c = content as unknown as Record<string, any>;
-  c.clients = c.clients || {};
-  const hasLogos =
-    Array.isArray(c.clients.logos) && c.clients.logos.length > 0;
-  if (!hasLogos) {
-    const oldAbout = c.about?.intro?.logos;
-    const oldItems = c.clients?.items;
-    if (Array.isArray(oldAbout) && oldAbout.length) {
-      c.clients.logos = oldAbout;
-    } else if (Array.isArray(oldItems) && oldItems.length) {
-      c.clients.logos = oldItems.map((n: unknown) => ({
-        name: String(n),
-        img: "",
-      }));
+export function migrateContent(input: unknown): Raw {
+  const c: Raw = input && typeof input === "object" ? clone(input as Raw) : {};
+  const legacy = !c.i18n;
+
+  // services.items (cards) became solutions.items (title, body, chips).
+  if (!c.solutions && Array.isArray(c.services?.items)) {
+    c.solutions = {
+      items: c.services.items.map((s: Raw) => ({
+        title: String(s.h ?? ""),
+        body: String(s.a ?? ""),
+        chips: String(s.b ?? "")
+          .split(/[·|,]/)
+          .map((x) => x.trim())
+          .filter(Boolean),
+      })),
+    };
+  }
+  delete c.services;
+
+  if (legacy) {
+    // The previous hero (typewriter titles, chips) has no equivalent.
+    delete c.hero;
+    // The previous order arranged another layout; the new default order is
+    // the one the 3D choreography is built for.
+    delete c.order;
+    // An empty logo would hide the mark the defaults ship.
+    if (c.brand && !c.brand.logoImg) delete c.brand.logoImg;
+  }
+
+  // A social link whose url is "#" or empty is a placeholder: treat it as
+  // missing so the shipped default (same label) is used instead.
+  const social = c.ui?.footer?.social;
+  if (Array.isArray(social)) {
+    const isReal = (s: Raw) =>
+      !!s && typeof s.url === "string" && s.url.trim() !== "" && s.url.trim() !== "#";
+    if (social.every(isReal)) {
+      // all real: keep as is
+    } else if (!social.some(isReal)) {
+      delete c.ui.footer.social;
     } else {
-      c.clients.logos = c.clients.logos || [];
+      c.ui.footer.social = social.map((s: Raw) => {
+        if (isReal(s)) return s;
+        const d = DEFAULTS.ui.footer.social.find((x) => x.label === s?.label);
+        return d ? { ...d } : s;
+      });
     }
   }
-  // limpia campos obsoletos
-  if (c.clients) delete c.clients.items;
-  if (c.about?.intro) delete c.about.intro.logos;
 
-  // hero: si no hay lista de títulos, derívala del título único.
-  if (c.hero) {
-    if (!Array.isArray(c.hero.titles) || c.hero.titles.length === 0) {
-      c.hero.titles = c.hero.title ? [c.hero.title] : [];
-    }
-    if (!Array.isArray(c.hero.chips)) c.hero.chips = [];
-  }
-
-  // proyectos: asegura el objeto bg (fondo por proyecto, imagen/video) y patrón.
+  // Projects: drop the previous card and banner fields, add the new ones.
   if (Array.isArray(c.projects)) {
-    for (const p of c.projects) {
-      if (!p.bg || typeof p.bg !== "object") p.bg = { type: "none", url: "" };
-      if (typeof p.pattern !== "string") p.pattern = "none";
-      if (typeof p.patternOpacity !== "number") p.patternOpacity = 0.25;
-      if (typeof p.detailVariant !== "string") p.detailVariant = "standard";
-    }
-  }
-
-  // galerías: images[] (strings) -> items[{type,url}]
-  if (Array.isArray(c.projects)) {
-    for (const p of c.projects) {
-      if (!Array.isArray(p?.sections)) continue;
-      for (const s of p.sections) {
-        if (s?.type !== "gallery") continue;
-        if (!Array.isArray(s.items)) {
+    c.projects = c.projects.map((p: Raw) => {
+      const out: Raw = {};
+      for (const k of PROJECT_FIELDS) if (k in p) out[k] = p[k];
+      if (typeof out.tagline !== "string") out.tagline = "";
+      if (!Array.isArray(out.tags)) out.tags = [];
+      if (typeof out.heroImage !== "string") out.heroImage = "";
+      out.sections = (Array.isArray(out.sections) ? out.sections : []).map((s: Raw) => {
+        // Oldest galleries stored plain URLs in `images`.
+        if (s?.type === "gallery" && !Array.isArray(s.items)) {
           s.items = Array.isArray(s.images)
-            ? s.images
-                .filter(Boolean)
-                .map((u: string) => ({ type: "image", url: u }))
+            ? s.images.filter(Boolean).map((u: string) => ({ type: "image", url: u }))
             : [];
         }
-        delete s.images;
+        if (s?.type === "gallery") delete s.images;
+        return s;
+      });
+      return out;
+    });
+  }
+
+  // Home order of a current document: map old keys, drop unknown ones, then
+  // slot in what is missing after the nearest earlier section so the manifesto
+  // stays right after the hero, which the 3D stage depends on.
+  if (Array.isArray(c.order)) {
+    const seen = new Set<HomeSectionKey>();
+    const order: HomeSectionKey[] = [];
+    for (const raw of c.order as string[]) {
+      const k = HOME_KEYS.includes(raw as HomeSectionKey)
+        ? (raw as HomeSectionKey)
+        : OLD_ORDER_KEYS[raw];
+      if (k && !seen.has(k)) {
+        seen.add(k);
+        order.push(k);
       }
     }
+    HOME_KEYS.forEach((k, i) => {
+      if (seen.has(k)) return;
+      let at = 0;
+      for (let j = i - 1; j >= 0; j--) {
+        const p = order.indexOf(HOME_KEYS[j]);
+        if (p !== -1) {
+          at = p + 1;
+          break;
+        }
+      }
+      order.splice(at, 0, k);
+      seen.add(k);
+    });
+    c.order = order;
   }
-  // orden del home: inserta las secciones nuevas (stats, process) en JSONs
-  // viejos que no las incluyen. stats va tras highlighted; process tras services.
-  if (Array.isArray(c.order)) {
-    const order = c.order as string[];
-    const insertAfter = (key: string, after: string) => {
-      if (order.includes(key)) return;
-      const i = order.indexOf(after);
-      order.splice(i === -1 ? order.length : i + 1, 0, key);
-    };
-    insertAfter("stats", "highlighted");
-    insertAfter("process", "services");
-  }
-  return content;
+  return c;
 }
 
-/** Merge profundo. Los arrays se reemplazan completos (no se fusionan). */
+/** Merges `ov` over `base`. Only keys the base knows are kept (so stray
+ *  fields of old documents vanish); lists are replaced whole. */
 export function deepMerge<T>(base: T, ov: unknown): T {
   if (Array.isArray(base)) {
     return (Array.isArray(ov) ? ov : base) as T;
   }
   if (base && typeof base === "object") {
-    const out: Record<string, unknown> = { ...(base as object) } as Record<
-      string,
-      unknown
-    >;
+    const out: Record<string, unknown> = { ...(base as object) } as Record<string, unknown>;
     const o = (ov as Record<string, unknown>) || {};
     for (const k in base as object) {
-      if (o && k in o) {
+      if (o && typeof o === "object" && k in o) {
         out[k] = deepMerge((base as Record<string, unknown>)[k], o[k]);
       }
     }
     return out as T;
   }
-  return (ov === undefined ? base : (ov as T)) as T;
+  return (ov === undefined || ov === null ? base : (ov as T)) as T;
 }
 
-/** Override local guardado en el navegador (ediciones del admin sin publicar). */
+/** Open merge for the overlay, whose keys are not known to the defaults
+ *  (project ids, section ids). Objects merge, everything else is replaced. */
+function mergeOpen(base: unknown, ov: unknown): unknown {
+  if (ov === undefined) return base;
+  if (
+    base && ov && typeof base === "object" && typeof ov === "object" &&
+    !Array.isArray(base) && !Array.isArray(ov)
+  ) {
+    const out: Record<string, unknown> = { ...(base as object) };
+    for (const k of Object.keys(ov as object)) {
+      out[k] = mergeOpen((base as Record<string, unknown>)[k], (ov as Record<string, unknown>)[k]);
+    }
+    return out;
+  }
+  return ov;
+}
+
+/** Puts one raw layer over the current content. */
+function applyLayer(content: SiteContent, layer: unknown): { next: SiteContent; legacy: boolean } {
+  const raw = migrateContent(layer);
+  const legacy = !raw.i18n;
+  const { i18n, ...rest } = raw;
+  const next = deepMerge(content, rest);
+  const es = i18n && typeof i18n === "object" ? (i18n as Raw).es : undefined;
+  next.i18n = { es: mergeOpen(content.i18n.es, es) as Overlay };
+  // Projects of a legacy layer have no tagline: take the one that shipped.
+  next.projects = next.projects.map((p) =>
+    p.tagline
+      ? p
+      : { ...p, tagline: DEFAULTS.projects.find((d) => d.id === p.id)?.tagline ?? "" }
+  );
+  return { next, legacy };
+}
+
+/** Local override saved by the admin (edits not yet published). */
 export function readLocalOverride(): Partial<SiteContent> | null {
   try {
     const s = localStorage.getItem(STORAGE_KEY);
@@ -124,7 +226,7 @@ export function writeLocalOverride(content: SiteContent): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
   } catch {
-    /* almacenamiento no disponible */
+    /* storage unavailable */
   }
 }
 
@@ -136,7 +238,7 @@ export function clearLocalOverride(): void {
   }
 }
 
-/** Trae el JSON remoto del bucket. Si falla, regresa null y se usan defaults. */
+/** Fetches the published JSON. On failure returns null and defaults are used. */
 export async function fetchRemoteContent(): Promise<Partial<SiteContent> | null> {
   try {
     const res = await fetch(CONTENT_URL, { cache: "no-cache" });
@@ -148,29 +250,41 @@ export async function fetchRemoteContent(): Promise<Partial<SiteContent> | null>
 }
 
 /**
- * Resuelve el contenido efectivo:
- *   DEFAULTS  ←  JSON remoto (S3)  ←  override local (admin sin publicar)
- * Cada capa se fusiona sobre la anterior; los arrays se reemplazan.
+ * Builds the document from layers: defaults, then the published JSON, then the
+ * admin's local override. Each layer is migrated, then merged. When the layer
+ * on top is a legacy one (no `i18n`), translations that no longer match its
+ * English are dropped.
  */
+function build(layers: unknown[]): SiteContent {
+  let content = clone(DEFAULTS);
+  let topIsLegacy = false;
+  for (const layer of layers) {
+    const r = applyLayer(content, layer);
+    content = r.next;
+    topIsLegacy = r.legacy;
+  }
+  if (topIsLegacy) pruneStaleOverlay(content, DEFAULTS);
+  return content;
+}
+
 export async function resolveContent(): Promise<{
   content: SiteContent;
   hasLocalOverride: boolean;
   remoteLoaded: boolean;
 }> {
-  let content = clone(DEFAULTS);
-
   const remote = await fetchRemoteContent();
-  const remoteLoaded = !!remote;
-  if (remote) content = deepMerge(content, remote);
-
   const local = readLocalOverride();
-  const hasLocalOverride = !!local;
-  if (local) content = deepMerge(content, local);
-
-  return { content: migrate(content), hasLocalOverride, remoteLoaded };
+  const layers: unknown[] = [];
+  if (remote) layers.push(remote);
+  if (local) layers.push(local);
+  return {
+    content: build(layers),
+    hasLocalOverride: !!local,
+    remoteLoaded: !!remote,
+  };
 }
 
-/** Descarga el contenido actual como archivo JSON (para subir al bucket). */
+/** Downloads the current content as a JSON file (to upload to the bucket). */
 export function downloadContent(content: SiteContent, filename = "content.json"): void {
   const blob = new Blob([JSON.stringify(content, null, 2)], {
     type: "application/json",
@@ -182,8 +296,7 @@ export function downloadContent(content: SiteContent, filename = "content.json")
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
-/** Lee un archivo JSON importado y lo fusiona sobre los defaults. */
+/** Reads an imported JSON file over the defaults. */
 export function parseImportedContent(text: string): SiteContent {
-  const parsed = JSON.parse(text) as Partial<SiteContent>;
-  return migrate(deepMerge(clone(DEFAULTS), parsed));
+  return build([JSON.parse(text)]);
 }

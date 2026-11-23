@@ -8,6 +8,8 @@ import {
   type ReactNode,
 } from "react";
 import { DEFAULTS } from "@/data/defaults";
+import { localize } from "./i18n";
+import { useLanguage } from "./LanguageContext";
 import type { SiteContent } from "@/types/content";
 import {
   clearLocalOverride,
@@ -19,7 +21,10 @@ import {
 } from "./contentSource";
 
 interface ContentContextValue {
+  /** The English base document with the Spanish overlay inside. What the admin edits. */
   content: SiteContent;
+  /** The document a visitor reads: `content` in the active language. */
+  site: SiteContent;
   loading: boolean;
   hasLocalOverride: boolean;
   remoteLoaded: boolean;
@@ -42,6 +47,7 @@ interface ContentContextValue {
 const ContentContext = createContext<ContentContextValue | null>(null);
 
 export function ContentProvider({ children }: { children: ReactNode }) {
+  const { lang } = useLanguage();
   const [content, setContentState] = useState<SiteContent>(() => clone(DEFAULTS));
   const [loading, setLoading] = useState(true);
   const [hasLocalOverride, setHasLocalOverride] = useState(false);
@@ -110,9 +116,12 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     setContentState(next);
   }, []);
 
+  const site = useMemo(() => localize(content, lang), [content, lang]);
+
   const value = useMemo<ContentContextValue>(
     () => ({
       content,
+      site,
       loading,
       hasLocalOverride,
       remoteLoaded,
@@ -126,6 +135,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }),
     [
       content,
+      site,
       loading,
       hasLocalOverride,
       remoteLoaded,
@@ -146,11 +156,11 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
 export function useContent(): ContentContextValue {
   const ctx = useContext(ContentContext);
-  if (!ctx) throw new Error("useContent debe usarse dentro de <ContentProvider>");
+  if (!ctx) throw new Error("useContent must be used inside <ContentProvider>");
   return ctx;
 }
 
-/** Atajo para leer sólo el documento de contenido. */
+/** The document in the active language. Every public component reads this. */
 export function useSite(): SiteContent {
-  return useContent().content;
+  return useContent().site;
 }

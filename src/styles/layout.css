@@ -1,331 +1,341 @@
 /* ============================================================
-   Shell — header, navigation, mobile menu, footer
+   Stage, header, menu, footer
    ============================================================ */
 
-/* ---------------- Header ---------------- */
-
-.site-header {
+/* ---------- the 3D stage ---------- */
+.stage-gl {
   position: fixed;
-  top: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.stage-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    60vmax 60vmax at var(--gx, 70%) var(--gy, 45%),
+    rgba(18, 71, 230, 0.5),
+    transparent 62%
+  );
+  transition: opacity 0.6s;
+}
+.stage-tags span {
+  position: fixed;
   left: 0;
-  right: 0;
-  z-index: var(--z-header);
-  height: var(--header-h);
+  top: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
-  transition: background 0.35s var(--ease), border-color 0.35s var(--ease),
-    backdrop-filter 0.35s var(--ease);
-  border-bottom: 1px solid transparent;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+.stage-tags span::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--blue);
 }
 
-/* Frosted panel, white-tinted rather than a black overlay. This is a web
-   glassmorphism approximation, not Apple's Liquid Glass material. */
-.site-header.is-stuck {
-  background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.07),
-      rgba(255, 255, 255, 0.028)
-    ),
-    rgba(10, 12, 16, 0.42);
-  backdrop-filter: blur(22px) saturate(165%);
-  -webkit-backdrop-filter: blur(22px) saturate(165%);
-  border-bottom-color: var(--line);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11);
+/* ---------- header ---------- */
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  padding-top: env(safe-area-inset-top, 0px);
+  transition: transform 0.5s var(--ease);
 }
-
-@media (prefers-reduced-transparency: reduce) {
-  .site-header.is-stuck {
-    background: #0d1015;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+.nav.away {
+  transform: translateY(-110%);
 }
-
-.site-header .wrap {
+.nav-in {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
+  height: 76px;
 }
-
 .logo {
   display: inline-flex;
   align-items: center;
-  flex: none;
 }
 .logo img {
-  height: 30px;
+  height: 38px;
   width: auto;
-  object-fit: contain;
 }
-.logo-text {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 17px;
-  letter-spacing: -0.02em;
-  line-height: 1;
+.logo b {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: 20px;
 }
-.logo-text small {
-  display: block;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.24em;
-  color: var(--ink-3);
-  margin-top: 4px;
+.nav-links {
+  display: flex;
+  gap: clamp(18px, 2.4vw, 36px);
+  font-size: 15px;
 }
-
-/* Desktop nav: one line, always. */
-.nav-desk {
+.nav-links a {
+  position: relative;
+  color: var(--dim);
+  transition: color 0.25s;
+}
+.nav-links a:hover,
+.nav-links a.is-active {
+  color: var(--white);
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 1px;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease);
+}
+.nav-links a:hover::after,
+.nav-links a.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.nav-end {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: clamp(12px, 1.6vw, 24px);
 }
-.nav-desk a {
-  position: relative;
-  font-size: 14px;
+.nav .pill {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 14.5px;
+}
+
+/* EN | ES */
+.lang {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13.5px;
   font-weight: 500;
-  color: var(--ink-2);
-  padding: 6px 0;
-  transition: color 0.25s var(--ease);
+  letter-spacing: 0.04em;
 }
-.nav-desk a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 1px;
-  width: 100%;
-  background: var(--brand);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s var(--ease);
+.lang button {
+  padding: 6px 4px;
+  color: var(--dim);
+  transition: color 0.25s;
 }
-.nav-desk a:hover,
-.nav-desk a.is-active {
-  color: var(--ink);
+.lang button:hover,
+.lang button.is-on {
+  color: var(--white);
 }
-.nav-desk a:hover::after,
-.nav-desk a.is-active::after {
-  transform: scaleX(1);
+.lang-sep {
+  color: var(--mute);
+  padding: 0 2px;
 }
 
-.header-cta {
-  padding: 11px 20px;
-  font-size: 13px;
-}
-
-.nav-toggle {
+.burger {
   display: none;
-  width: 42px;
-  height: 42px;
-  background: none;
-  border: 1px solid var(--control);
-  cursor: pointer;
   position: relative;
-  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
 }
-.nav-toggle span,
-.nav-toggle span::before,
-.nav-toggle span::after {
-  position: absolute;
-  left: 50%;
-  width: 17px;
-  height: 1.5px;
-  background: var(--ink);
-  transform: translateX(-50%);
-  transition: transform 0.3s var(--ease), opacity 0.2s var(--ease);
-}
-.nav-toggle span {
-  top: 50%;
-  margin-top: -0.75px;
-}
-.nav-toggle span::before,
-.nav-toggle span::after {
+.burger span,
+.burger::before,
+.burger::after {
   content: "";
-  left: 0;
-  transform: none;
+  position: absolute;
+  left: 13px;
+  width: 16px;
+  height: 1.5px;
+  background: var(--white);
+  transition: transform 0.4s var(--ease), opacity 0.2s;
 }
-.nav-toggle span::before {
-  top: -6px;
+.burger::before {
+  top: 17px;
 }
-.nav-toggle span::after {
-  top: 6px;
+.burger span {
+  top: 21px;
 }
-.nav-toggle.is-open span {
-  background: transparent;
+.burger::after {
+  top: 25px;
 }
-.nav-toggle.is-open span::before {
-  transform: translateY(6px) rotate(45deg);
+.burger.is-open::before {
+  transform: translateY(4px) rotate(45deg);
 }
-.nav-toggle.is-open span::after {
-  transform: translateY(-6px) rotate(-45deg);
+.burger.is-open::after {
+  transform: translateY(-4px) rotate(-45deg);
+}
+.burger.is-open span {
+  opacity: 0;
 }
 
-@media (max-width: 940px) {
-  .nav-desk,
-  .header-cta {
+@media (max-width: 820px) {
+  .nav-links,
+  .lang-desk {
     display: none;
   }
-  .nav-toggle {
+  .burger {
     display: block;
+  }
+  .nav-in {
+    height: 64px;
+  }
+  .logo img {
+    height: 32px;
   }
 }
 
-/* ---------------- Mobile menu ---------------- */
-
+/* ---------- mobile menu ---------- */
 .menu {
   position: fixed;
   inset: 0;
-  z-index: var(--z-menu);
-  background: var(--bg);
+  z-index: 45;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 0 var(--gutter);
+  justify-content: space-between;
+  gap: 32px;
+  padding: 104px max(var(--gut), env(safe-area-inset-right, 0px)) 32px
+    max(var(--gut), env(safe-area-inset-left, 0px));
+  background: var(--black);
   opacity: 0;
-  pointer-events: none;
-  transform: translateY(-1.5%);
-  transition: opacity 0.35s var(--ease), transform 0.45s var(--ease);
+  visibility: hidden;
+  transition: opacity 0.4s, visibility 0s 0.4s;
 }
 .menu.is-open {
   opacity: 1;
-  pointer-events: auto;
-  transform: none;
+  visibility: visible;
+  transition: opacity 0.4s;
 }
-.menu a {
-  display: block;
-  font-family: var(--display);
+.menu nav {
+  display: grid;
+  gap: 6px;
+}
+.menu nav a {
   font-weight: 600;
-  font-size: clamp(34px, 9vw, 54px);
-  letter-spacing: -0.03em;
-  line-height: 1.16;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--line);
+  font-size: clamp(40px, 12vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.45s var(--ease), transform 0.5s var(--ease),
-    color 0.25s var(--ease);
-  transition-delay: calc(var(--i) * 45ms);
+  transform: translateY(24px);
+  transition: opacity 0.5s, transform 0.6s var(--ease);
 }
-.menu.is-open a {
+.menu.is-open nav a {
   opacity: 1;
   transform: none;
-}
-.menu a:hover {
-  color: var(--brand);
+  transition-delay: calc(var(--i) * 50ms + 120ms);
 }
 .menu-foot {
-  margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 26px;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--dim);
+  font-size: 15px;
 }
-.menu-foot a {
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 500;
-  border: 0;
-  padding: 0;
-  color: var(--ink-2);
-  opacity: 1;
-  transform: none;
+.menu-foot .lang {
+  font-size: 15px;
 }
 
-/* ---------------- Footer ---------------- */
-
-.site-footer {
-  border-top: 1px solid var(--line);
-  padding-top: clamp(64px, 8vw, 108px);
-  background: linear-gradient(to bottom, var(--bg), var(--bg-1));
+/* ---------- footer: the giant closing statement ---------- */
+.foot {
   position: relative;
-  z-index: var(--z-base);
+  z-index: 2;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 140px;
+  padding-bottom: 26px;
+  background: linear-gradient(transparent, rgba(18, 71, 230, 0.42));
 }
-
-/* Full-bleed closing statement. */
-.foot-cta {
+.foot-kick {
+  margin-bottom: 14px;
+}
+.talk {
+  display: block;
+  font-weight: 700;
+  font-size: clamp(54px, 16vw, 300px);
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+  width: max-content;
+  max-width: 100%;
+  transition: color 0.4s, letter-spacing 0.7s var(--ease);
+}
+.talk:hover {
+  color: var(--blue);
+  letter-spacing: -0.045em;
+}
+.ft {
   display: grid;
-  gap: 32px;
-  padding-bottom: clamp(64px, 8vw, 104px);
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 26px;
+  margin-top: clamp(34px, 5vw, 70px);
 }
-.foot-cta h2 {
-  font-size: clamp(38px, 8.2vw, 118px);
-  line-height: 0.92;
-  max-width: 16ch;
-}
-.foot-cta .btn {
-  justify-self: start;
-}
-
-.foot-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 44px 32px;
-  padding: clamp(48px, 6vw, 76px) 0;
-}
-.foot-brand .logo {
-  margin-bottom: 26px;
-}
-.foot-line {
+.ft small {
   display: block;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-top: 18px;
+  font-size: 13.5px;
+  color: var(--dim);
+  margin-bottom: 6px;
 }
-.foot-val {
-  display: block;
-  font-size: 15px;
-  color: var(--ink);
-  margin-top: 4px;
+.ft p,
+.ft button {
+  font-size: 16px;
+  user-select: text;
+  text-align: left;
+  overflow-wrap: anywhere;
 }
-a.foot-val:hover {
-  color: var(--brand);
+.ft button {
+  border-bottom: 1px solid var(--dim);
+  padding-bottom: 1px;
+  transition: border-color 0.3s;
 }
-.foot-col h5 {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-bottom: 18px;
+#foot-email {
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
-.foot-col a {
-  display: block;
-  font-size: 15px;
-  color: var(--ink-2);
-  padding: 5px 0;
-  transition: color 0.22s var(--ease), transform 0.22s var(--ease);
+.ft button:hover {
+  border-color: var(--white);
 }
-.foot-col a:hover {
-  color: var(--ink);
-  transform: translateX(3px);
-}
-
-.foot-bot {
+.fb {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 12px;
-  padding: 26px 0 34px;
-  border-top: 1px solid var(--line);
-  font-size: 13px;
-  color: var(--ink-3);
+  gap: 8px 24px;
+  margin-top: 38px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(244, 247, 251, 0.2);
+  font-size: 14px;
+  color: var(--dim);
 }
-
-@media (max-width: 900px) {
-  .foot-grid {
-    grid-template-columns: 1fr 1fr;
+.fb nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+}
+.fb a:hover {
+  color: var(--white);
+}
+@media (max-width: 760px) {
+  .ft {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .foot-brand {
+  /* Email cell takes the full row so the address stays on one line. */
+  .ft > div:first-child {
     grid-column: 1 / -1;
   }
-}
-@media (max-width: 520px) {
-  .foot-grid {
-    grid-template-columns: 1fr;
+  #foot-email {
+    font-size: 15px;
   }
 }

@@ -1,13 +1,10 @@
-import { useEffect, type CSSProperties } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
-import { motion, useReducedMotion } from "motion/react";
 import { useSite } from "@/content/ContentContext";
 import { posterFit, projectPoster } from "@/lib/project";
 import CaseSectionView from "@/sections/CaseSections";
+import { Reveal } from "@/components/ui/Reveal";
 import Footer from "@/components/layout/Footer";
-
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function CaseStudy() {
   const { id } = useParams();
@@ -15,11 +12,6 @@ export default function CaseStudy() {
   const navigate = useNavigate();
   const idx = c.projects.findIndex((x) => x.id === id);
   const p = c.projects[idx];
-  const reduce = useReducedMotion();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
 
   useEffect(() => {
     if (!p && id !== undefined && c.projects.length) navigate("/case-studies");
@@ -30,57 +22,33 @@ export default function CaseStudy() {
   const next = c.projects[(idx + 1) % c.projects.length];
   const sections = (p.sections || []).filter((s) => s.enabled);
   const L = c.ui.caseStudy;
-  const hero =
-    p.heroMode === "custom" && p.heroImage ? p.heroImage : projectPoster(p);
-
-  const enter = (delay: number) =>
-    reduce
-      ? {}
-      : {
-          initial: { opacity: 0, y: 24 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.7, delay, ease: EASE },
-        };
+  const hero = projectPoster(p);
 
   return (
     <>
-      <article
-        className={`case v-${p.detailVariant || "standard"}`}
-        style={{ "--accent": p.accent } as CSSProperties}
-      >
-        <div className="wrap">
-          <Link className="case-back link" to="/case-studies">
-            <ArrowLeft size={15} weight="bold" />
-            {L.back}
+      <article className="page case">
+        <div className="g">
+          <Link className="ulink case-back" to="/case-studies">
+            ← {L.back}
           </Link>
 
-          <motion.header className="case-top" {...enter(0.04)}>
+          <header className="case-top">
             <div className="case-tags">
               {(p.tags || []).map((t) => (
-                <span className="tag" key={t}>
+                <span className="chip" key={t}>
                   {t}
                 </span>
               ))}
             </div>
-            <h1>{p.name}</h1>
+            <Reveal as="h1">{p.name}</Reveal>
             <p className="lede">{p.desc}</p>
-          </motion.header>
+          </header>
 
-          <motion.div
-            className="case-hero notch"
-            data-fit={posterFit(hero)}
-            {...enter(0.14)}
-          >
-            <span
-              className="case-hero-wash"
-              style={{
-                background: `linear-gradient(150deg, ${p.gradA}55, transparent 60%)`,
-              }}
-            />
+          <Reveal className="case-hero" data-fit={posterFit(hero)}>
             {hero ? <img src={hero} alt={p.name} /> : null}
-          </motion.div>
+          </Reveal>
 
-          <motion.dl className="case-specs" {...enter(0.2)}>
+          <dl className="case-specs">
             <div>
               <dt>{L.specCategory}</dt>
               <dd>{p.category}</dd>
@@ -92,10 +60,10 @@ export default function CaseStudy() {
             <div>
               <dt>{L.specMeta}</dt>
               <dd>
-                {p.year} / {p.location}
+                {p.year} · {p.location}
               </dd>
             </div>
-          </motion.dl>
+          </dl>
 
           <div className="case-sections">
             {sections.map((s) => (
@@ -103,12 +71,12 @@ export default function CaseStudy() {
             ))}
           </div>
 
-          <Link className="up-next notch" to={`/case-studies/${next.id}`}>
-            <div>
-              <span className="up-next-label">{L.upNext}</span>
-              <h3>{next.name}</h3>
-            </div>
-            <ArrowRight size={26} weight="bold" />
+          <Link className="up-next" to={`/case-studies/${next.id}`}>
+            <span>
+              <small>{L.upNext}</small>
+              <b>{next.name}</b>
+            </span>
+            <i aria-hidden="true">→</i>
           </Link>
         </div>
       </article>

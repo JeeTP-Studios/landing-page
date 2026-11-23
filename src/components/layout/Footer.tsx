@@ -1,84 +1,82 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "@phosphor-icons/react";
 import { useSite } from "@/content/ContentContext";
-import { useReveal } from "@/hooks/useReveal";
+import { fill } from "@/lib/text";
+import { Reveal } from "@/components/ui/Reveal";
+import { stageRef } from "@/components/stage/stageStore";
 import { NAV_KEYS } from "./LayoutContext";
-import Logo from "./Logo";
 
+/** Giant closing statement. The 3D stack returns behind it on every page. */
 export default function Footer() {
   const c = useSite();
-  const ui = c.ui;
-  useReveal([]);
-  const copyright = ui.footer.copyright
-    .replace(/\{name\}/g, c.brand.name)
-    .replace(/\{year\}/g, String(new Date().getFullYear()));
+  const { closing, contact, ui } = c;
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(contact.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      // Clipboard blocked: leave the address selected so it can be copied by hand.
+      const sel = window.getSelection();
+      const node = document.getElementById("foot-email");
+      if (sel && node) {
+        const r = document.createRange();
+        r.selectNodeContents(node);
+        sel.removeAllRanges();
+        sel.addRange(r);
+      }
+    }
+  };
 
   return (
-    <footer className="site-footer">
-      <div className="wrap">
-        <div className="foot-cta reveal">
-          <h2>{ui.footer.ctaText}</h2>
-          <Link to="/contact" className="btn">
-            {ui.buttons.contact}
-            <ArrowRight size={16} weight="bold" />
-          </Link>
+    <footer className="foot g" ref={stageRef("footer")}>
+      <p className="kick foot-kick">{closing.kicker}</p>
+      <Reveal as={Link} to="/contact" className="talk">
+        {closing.word}
+      </Reveal>
+      <div className="ft">
+        <div>
+          <small>{closing.emailLabel}</small>
+          <button type="button" id="foot-email" onClick={copyEmail}>
+            {copied ? closing.emailCopied : contact.email}
+          </button>
         </div>
-
-        <div className="foot-grid">
-          <div className="foot-brand">
-            <Logo />
-            <span className="foot-line">Email</span>
-            <a className="foot-val" href={`mailto:${c.contact.email}`}>
-              {c.contact.email}
+        <div>
+          <small>{closing.whatsappLabel}</small>
+          <p>{contact.whatsapp}</p>
+        </div>
+        <div>
+          <small>{closing.locationLabel}</small>
+          <p>{contact.location}</p>
+        </div>
+        <div>
+          <small>{closing.remoteLabel}</small>
+          <p>{closing.remoteValue}</p>
+        </div>
+      </div>
+      <div className="fb">
+        <span>
+          {fill(ui.footer.copyright, {
+            name: c.brand.name,
+            year: String(new Date().getFullYear()),
+          })}
+        </span>
+        <nav aria-label="Footer">
+          {NAV_KEYS.map(([to, key]) => (
+            <Link key={to} to={to}>
+              {ui.nav[key]}
+            </Link>
+          ))}
+          {ui.footer.social
+            .filter((s) => s.url && s.url.trim() !== "" && s.url !== "#")
+            .map((s) => (
+            <a key={s.label} href={s.url} target="_blank" rel="noopener">
+              {s.label}
             </a>
-            <span className="foot-line">WhatsApp</span>
-            <a
-              className="foot-val"
-              href={`https://wa.me/${(c.contact.whatsapp || "").replace(
-                /\D/g,
-                ""
-              )}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {c.contact.whatsapp}
-            </a>
-            <span className="foot-line">Based in</span>
-            <span className="foot-val">{c.contact.location}</span>
-          </div>
-
-          <div className="foot-col">
-            <h5>{ui.footer.navTitle}</h5>
-            {NAV_KEYS.map(([to, key]) => (
-              <Link key={to} to={to}>
-                {ui.nav[key]}
-              </Link>
-            ))}
-          </div>
-
-          <div className="foot-col">
-            <h5>{ui.footer.servicesTitle}</h5>
-            {c.servicesPage.groups.map((g) => (
-              <Link key={g.title} to="/services">
-                {g.title}
-              </Link>
-            ))}
-          </div>
-
-          <div className="foot-col">
-            <h5>{ui.footer.socialTitle}</h5>
-            {ui.footer.social.map((s) => (
-              <a key={s.label} href={s.url} target="_blank" rel="noreferrer">
-                {s.label}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div className="foot-bot">
-          <span>{copyright}</span>
-          <span>{ui.footer.madeIn}</span>
-        </div>
+          ))}
+        </nav>
       </div>
     </footer>
   );

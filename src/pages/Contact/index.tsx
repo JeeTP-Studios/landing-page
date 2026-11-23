@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
-import { ArrowRight, WhatsappLogo } from "@phosphor-icons/react";
+import { useState } from "react";
+import { WhatsappLogo } from "@phosphor-icons/react";
 import { useSite } from "@/content/ContentContext";
-import PageHero from "@/components/common/PageHero";
-import { Reveal } from "@/components/common/Reveal";
+import { fill } from "@/lib/text";
+import PageHero from "@/components/ui/PageHero";
+import { Reveal } from "@/components/ui/Reveal";
+import Pill from "@/components/ui/Pill";
 import Footer from "@/components/layout/Footer";
 
 type Field = "service" | "name" | "phone" | "email" | "company" | "message";
@@ -26,10 +28,6 @@ export default function Contact() {
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState<"whatsapp" | "email" | null>(null);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
     c.contact.mapQuery || c.contact.location
   )}&output=embed`;
@@ -41,28 +39,32 @@ export default function Contact() {
 
   const validate = (): boolean => {
     const next: Errors = {};
-    if (!form.name.trim()) next.name = "We need a name to reply to.";
+    if (!form.name.trim()) next.name = F.errorName;
     if (!form.email.trim()) {
-      next.email = "Add an email so we can get back to you.";
+      next.email = F.errorEmailMissing;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim())) {
-      next.email = "That email address does not look complete.";
+      next.email = F.errorEmailInvalid;
     }
     if (form.message.trim().length < 12) {
-      next.message = "A sentence or two about the project is enough.";
+      next.message = F.errorMessage;
     }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
+  // The select holds the position of the group, so a language switch does not orphan it.
+  const service =
+    form.service === "" ? "" : c.servicesPage.groups[Number(form.service)]?.title ?? "";
+
   const body = () =>
     [
-      `Service: ${form.service || "Not specified"}`,
-      `Name: ${form.name}`,
-      `Company: ${form.company || "-"}`,
-      `Email: ${form.email}`,
-      `Phone: ${form.phone || "-"}`,
+      `${F.bodyService}: ${service || F.notSpecified}`,
+      `${F.bodyName}: ${form.name}`,
+      `${F.bodyCompany}: ${form.company || "-"}`,
+      `${F.bodyEmail}: ${form.email}`,
+      `${F.bodyPhone}: ${form.phone || "-"}`,
       "",
-      "Project:",
+      `${F.bodyProject}:`,
       form.message,
     ].join("\n");
 
@@ -81,7 +83,9 @@ export default function Contact() {
   const sendEmail = () => {
     if (!validate()) return;
     const subject = encodeURIComponent(
-      `New project enquiry${form.company ? ` from ${form.company}` : ""}`
+      form.company
+        ? fill(F.mailSubjectFrom, { company: form.company })
+        : F.mailSubject
     );
     window.location.href = `mailto:${c.contact.email}?subject=${subject}&body=${encodeURIComponent(
       body()
@@ -119,77 +123,67 @@ export default function Contact() {
 
   return (
     <>
-      <PageHero
-        eyebrow={cp.hero.eyebrow}
-        title={cp.hero.title}
-        sub={cp.hero.sub}
-        tint={cp.hero}
-      >
-        <div className="regions" role="group" aria-label="Where you are">
-          {cp.regions.map((r, i) => (
-            <button
-              type="button"
-              key={r.name}
-              className={`filter ${i === region ? "is-on" : ""}`}
-              onClick={() => setRegion(i)}
-            >
-              {r.flag ? <span aria-hidden>{r.flag}</span> : null}
-              {r.name}
-            </button>
-          ))}
-        </div>
-      </PageHero>
+      <main className="page">
+        <PageHero
+          eyebrow={cp.hero.eyebrow}
+          title={cp.hero.title}
+          accent={cp.hero.accent}
+          sub={cp.hero.sub}
+        >
+          <div className="filters" role="group" aria-label={F.regionsLabel}>
+            {cp.regions.map((r, i) => (
+              <button
+                type="button"
+                key={i}
+                className={`chip ${i === region ? "is-on" : ""}`}
+                onClick={() => setRegion(i)}
+              >
+                {r.flag ? <span aria-hidden="true">{r.flag}</span> : null}
+                {r.name}
+              </button>
+            ))}
+          </div>
+        </PageHero>
 
-      <section className="sect-tight">
-        <div className="wrap contact-info">
+        <section className="sect g contact-info">
           <Reveal className="contact-details">
-            <h3>{c.brand.name}</h3>
-            <span className="foot-line">Address</span>
-            <span className="foot-val">{c.contact.address}</span>
-            <span className="foot-line">Email</span>
-            <a className="foot-val" href={`mailto:${c.contact.email}`}>
-              {c.contact.email}
-            </a>
-            <span className="foot-line">Phone and WhatsApp</span>
-            <span className="foot-val">{c.contact.phone}</span>
+            <h3 className="h3">{c.brand.name}</h3>
+            <small>{F.addressLabel}</small>
+            <p>{c.contact.address}</p>
+            <small>{F.emailLabel}</small>
+            <a href={`mailto:${c.contact.email}`}>{c.contact.email}</a>
+            <small>{F.phoneLabel}</small>
+            <p>{c.contact.phone}</p>
           </Reveal>
-          <Reveal delay={0.08} className="contact-map notch">
+          <Reveal delay={0.08} className="contact-map">
             <iframe
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               src={mapSrc}
-              title={`Map of ${c.contact.location}`}
+              title={c.contact.location}
             />
           </Reveal>
-        </div>
-      </section>
+        </section>
 
-      <section className="sect">
-        <div className="wrap contact-grid">
+        <section className="sect g contact-grid">
           <Reveal>
-            <h2 className="contact-title">{cp.interestedTitle}</h2>
+            <h2 className="h3">{cp.interestedTitle}</h2>
             <p className="lede">{cp.getInTouch}</p>
           </Reveal>
 
-          <Reveal delay={0.06} className="form notch">
+          <Reveal delay={0.06} className="form">
             {sent ? (
               <div className="form-done" role="status">
-                <h3>Your message is on its way.</h3>
-                <p>
-                  {sent === "whatsapp"
-                    ? "We opened WhatsApp with everything filled in. Hit send there and we will reply within one business day."
-                    : "We opened your mail client with everything filled in. Send it and we will reply within one business day."}
-                </p>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
+                <h3>{F.doneTitle}</h3>
+                <p>{sent === "whatsapp" ? F.doneWhatsapp : F.doneEmail}</p>
+                <Pill
                   onClick={() => {
                     setSent(null);
                     setForm(EMPTY);
                   }}
                 >
-                  Write another
-                </button>
+                  {F.writeAnother}
+                </Pill>
               </div>
             ) : (
               <form
@@ -201,25 +195,23 @@ export default function Contact() {
               >
                 <div className="field">
                   <label htmlFor="f-service">{F.service}</label>
-                  <select
-                    id="f-service"
-                    value={form.service}
-                    onChange={set("service")}
-                  >
-                    <option value="">Choose one</option>
-                    {c.servicesPage.groups.map((g) => (
-                      <option key={g.title}>{g.title}</option>
+                  <select id="f-service" value={form.service} onChange={set("service")}>
+                    <option value="">{F.serviceNone}</option>
+                    {c.servicesPage.groups.map((g, i) => (
+                      <option key={i} value={String(i)}>
+                        {g.title}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div className="field-row">
                   {field("name", F.name)}
-                  {field("company", F.company, "text", "Optional")}
+                  {field("company", F.company, "text", F.optional)}
                 </div>
                 <div className="field-row">
                   {field("email", F.email, "email")}
-                  {field("phone", F.phone, "tel", "Optional")}
+                  {field("phone", F.phone, "tel", F.optional)}
                 </div>
 
                 <div className="field">
@@ -238,30 +230,26 @@ export default function Contact() {
                     </span>
                   ) : (
                     <span className="field-hint" id="h-message">
-                      What you want to build, and roughly when.
+                      {F.messageHint}
                     </span>
                   )}
                 </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="btn">
-                    <WhatsappLogo size={17} weight="fill" />
+                  <button type="submit" className="pill">
+                    <WhatsappLogo size={18} weight="fill" />
                     {F.sendWhatsapp}
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-ghost"
-                    onClick={sendEmail}
-                  >
+                  <button type="button" className="pill pill-ghost" onClick={sendEmail}>
                     {F.send}
-                    <ArrowRight size={16} weight="bold" />
+                    <i aria-hidden="true">→</i>
                   </button>
                 </div>
               </form>
             )}
           </Reveal>
-        </div>
-      </section>
+        </section>
+      </main>
       <Footer />
     </>
   );

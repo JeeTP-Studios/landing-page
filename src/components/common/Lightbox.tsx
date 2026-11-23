@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { X } from "@phosphor-icons/react";
+import { useSite } from "@/content/ContentContext";
 import type { GalleryMedia } from "@/types/content";
 import { isYouTube, youTubeEmbed } from "@/lib/media";
 
@@ -11,6 +12,7 @@ export default function Lightbox({
   media: GalleryMedia;
   onClose: () => void;
 }) {
+  const { ui } = useSite();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -26,7 +28,7 @@ export default function Lightbox({
 
   return (
     <div className="lightbox" onClick={onClose}>
-      <button className="lightbox-close" aria-label="Close" onClick={onClose}>
+      <button className="lightbox-close" aria-label={ui.caseStudy.close} onClick={onClose}>
         <X size={18} weight="bold" />
       </button>
       <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>

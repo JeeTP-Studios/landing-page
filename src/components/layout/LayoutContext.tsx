@@ -35,3 +35,6 @@ export const NAV_KEYS = [
   ["/case-studies", "cases"],
   ["/contact", "contact"],
 ] as const;
+
+/** The header shows the content pages; home is the logo and contact is the pill. */
+export const HEADER_KEYS = NAV_KEYS.filter(([to]) => to !== "/" && to !== "/contact");

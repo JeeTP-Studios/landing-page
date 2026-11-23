@@ -1,58 +1,106 @@
 import { useContent } from "@/content/ContentContext";
-import { getByPath, setByPath } from "./path";
+import { getOverlay, overlayAlignLines, setOverlay } from "@/content/i18n";
+import { getByPath, setByPath } from "@/lib/path";
 import { useEffect, useState, type ReactNode } from "react";
+import { useEditLang } from "./editLang";
 
-/* ---------- hooks de binding ---------- */
-function useField<T>(path: string): [T, (v: T) => void] {
+/* ============================================================
+   Field components, bound to the document by path ("hero.sub").
+
+   Text fields (TextField, ListField, StepsField) follow the editing language:
+   in Spanish they read and write the overlay and show the English text as a
+   hint. Every other field (images, colours, switches, selects, numbers, links)
+   edits the shared base and says so.
+   ============================================================ */
+
+/** Binding of a text path to either the base or the Spanish overlay. */
+function useText<T>(path: string, shared = false) {
   const { content, update } = useContent();
-  const value = getByPath(content, path) as T;
-  const setValue = (v: T) => update((d) => setByPath(d, path, v));
-  return [value, setValue];
+  const es = useEditLang() === "es" && !shared;
+  const base = getByPath(content, path) as T;
+  const value = (es ? getOverlay(content, path) : base) as T | undefined;
+  const set = (v: T) =>
+    update((d) => (es ? setOverlay(d, path, v) : setByPath(d, path, v)));
+  return { es, base, value, set };
 }
 
-/* ---------- texto ---------- */
+/** Binding for shared (non-text) fields. */
+function useShared<T>(path: string): [T, (v: T) => void, boolean] {
+  const { content, update } = useContent();
+  const es = useEditLang() === "es";
+  const value = getByPath(content, path) as T;
+  const set = (v: T) => update((d) => setByPath(d, path, v));
+  return [value, set, es];
+}
+
+function Label({ children, shared }: { children: ReactNode; shared?: boolean }) {
+  return (
+    <label>
+      {children}
+      {shared ? <span className="sharedtag">same in both languages</span> : null}
+    </label>
+  );
+}
+
+/* ---------- text ---------- */
 export function TextField({
   label,
   path,
   area,
   hint,
   number,
+  shared,
 }: {
   label: string;
   path: string;
   area?: boolean;
   hint?: string;
-  /** Guarda el valor como número (input type=number). */
+  /** Stores a number (input type=number). Numbers are never translated. */
   number?: boolean;
+  /** Not translatable (links, codes, names): always edits the base. */
+  shared?: boolean;
 }) {
-  const [v, set] = useField<string | number>(path);
+  const isShared = !!(shared || number);
+  const { es, base, value, set } = useText<string | number>(path, isShared);
+  const inEs = es && !isShared;
   return (
     <div className="fld">
-      <label>{label}</label>
+      <Label shared={useEditLang() === "es" && isShared}>{label}</Label>
       {area ? (
         <textarea
-          value={(v as string) ?? ""}
+          value={(value as string) ?? ""}
+          placeholder={inEs ? String(base ?? "") : undefined}
           onChange={(e) => set(e.target.value)}
         />
       ) : number ? (
         <input
           type="number"
-          value={v ?? 0}
+          value={(value as number) ?? 0}
           onChange={(e) => set(Number(e.target.value) || 0)}
         />
       ) : (
         <input
           type="text"
-          value={(v as string) ?? ""}
+          value={(value as string) ?? ""}
+          placeholder={inEs ? String(base ?? "") : undefined}
           onChange={(e) => set(e.target.value)}
         />
       )}
+      {inEs ? <div className="hint">English: {String(base ?? "")}</div> : null}
       {hint ? <div className="hint">{hint}</div> : null}
     </div>
   );
 }
 
-/* ---------- listas de strings ---------- */
+/* ---------- lists of strings ---------- */
+function parseLines(raw: string, sep: string, keepBlank: boolean): string[] {
+  const parts = raw.split(sep).map((s) => s.trim());
+  if (!keepBlank) return parts.filter(Boolean);
+  // A translation keeps blank lines so each line stays on its own item.
+  while (parts.length && parts[parts.length - 1] === "") parts.pop();
+  return parts;
+}
+
 export function ListField({
   label,
   path,
@@ -64,49 +112,65 @@ export function ListField({
   mode?: "lines" | "commas";
   hint?: string;
 }) {
-  const [v, set] = useField<string[]>(path);
+  const { update } = useContent();
+  const { es, base, value, set } = useText<string[]>(path);
   const sep = mode === "commas" ? ", " : "\n";
   const splitChar = mode === "commas" ? "," : "\n";
-  // Estado local "crudo": permite escribir comas, espacios y enters libremente
-  // sin que se borren en cada tecla. Se parsea hacia el array al teclear.
-  const [raw, setRaw] = useState<string>(() => (v || []).join(sep));
+  const current = (value as string[] | undefined) || [];
+  // Raw text state lets commas, spaces and Enter be typed freely.
+  const [raw, setRaw] = useState<string>(() => current.map((s) => s ?? "").join(sep));
 
-  // Re-sincroniza si el valor cambia desde fuera (import, reset, reorden).
+  // Re-sync when the value changes from outside (import, reset).
   useEffect(() => {
-    const parsed = raw
-      .split(splitChar)
-      .map((s) => s.trim())
-      .filter(Boolean);
-    if (JSON.stringify(parsed) !== JSON.stringify(v || [])) {
-      setRaw((v || []).join(sep));
+    const parsed = parseLines(raw, splitChar, es);
+    if (JSON.stringify(parsed) !== JSON.stringify(current.map((s) => s ?? ""))) {
+      setRaw(current.map((s) => s ?? "").join(sep));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [v]);
+  }, [value]);
 
-  const onChange = (value: string) => {
-    setRaw(value);
-    set(
-      value
-        .split(splitChar)
-        .map((s) => s.trim())
-        .filter(Boolean)
-    );
+  const onChange = (text: string) => {
+    setRaw(text);
+    const next = parseLines(text, splitChar, es);
+    if (es) {
+      set(next);
+      return;
+    }
+    // Adding or removing a line shifts the Spanish below it with it.
+    update((d) => {
+      overlayAlignLines(d, path, (getByPath(d, path) as string[]) || [], next);
+      setByPath(d, path, next);
+    });
   };
 
   return (
     <div className="fld">
-      <label>{label}</label>
+      <Label>{label}</Label>
       {mode === "commas" ? (
-        <input type="text" value={raw} onChange={(e) => onChange(e.target.value)} />
+        <input
+          type="text"
+          value={raw}
+          placeholder={es ? (base || []).join(sep) : undefined}
+          onChange={(e) => onChange(e.target.value)}
+        />
       ) : (
-        <textarea value={raw} onChange={(e) => onChange(e.target.value)} />
+        <textarea
+          value={raw}
+          placeholder={es ? (base || []).join(sep) : undefined}
+          onChange={(e) => onChange(e.target.value)}
+        />
       )}
+      {es ? (
+        <div className="hint">
+          English: {(base || []).join(" · ")}. Keep one line per item, in the same order.
+        </div>
+      ) : null}
       {hint ? <div className="hint">{hint}</div> : null}
     </div>
   );
 }
 
-/* ---------- pasos [num, texto] ---------- */
+/* ---------- steps [number, text] ---------- */
 export function StepsField({
   label,
   path,
@@ -116,176 +180,52 @@ export function StepsField({
   path: string;
   hint?: string;
 }) {
-  const [v, set] = useField<[string, string][]>(path);
-  const join = (arr: [string, string][]) =>
-    (arr || []).map((s) => (Array.isArray(s) ? s[1] : s)).join("\n");
-  const [raw, setRaw] = useState<string>(() => join(v));
+  const { update } = useContent();
+  const { es, base, value, set } = useText<[string, string][]>(path);
+  const texts = (v?: [string, string][]) =>
+    (v || []).map((s) => (Array.isArray(s) ? s[1] ?? "" : String(s ?? "")));
+  const [raw, setRaw] = useState<string>(() => texts(value).join("\n"));
 
   useEffect(() => {
-    const parsed = raw
-      .split("\n")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const current = (v || []).map((s) => (Array.isArray(s) ? s[1] : s));
-    if (JSON.stringify(parsed) !== JSON.stringify(current)) {
-      setRaw(join(v));
+    const parsed = parseLines(raw, "\n", es);
+    if (JSON.stringify(parsed) !== JSON.stringify(texts(value))) {
+      setRaw(texts(value).join("\n"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [v]);
+  }, [value]);
 
-  const onChange = (value: string) => {
-    setRaw(value);
-    set(
-      value
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean)
-        .map((t, i) => [String(i + 1).padStart(2, "0"), t] as [string, string])
-    );
+  const onChange = (text: string) => {
+    setRaw(text);
+    const lines = parseLines(text, "\n", es);
+    if (es) {
+      set(lines.map((t) => ["", t] as [string, string]));
+      return;
+    }
+    update((d) => {
+      overlayAlignLines(d, path, texts(getByPath(d, path) as [string, string][]), lines);
+      setByPath(
+        d,
+        path,
+        lines.map((t, i) => [String(i + 1).padStart(2, "0"), t] as [string, string])
+      );
+    });
   };
 
   return (
     <div className="fld">
-      <label>{label}</label>
-      <textarea value={raw} onChange={(e) => onChange(e.target.value)} />
+      <Label>{label}</Label>
+      <textarea
+        value={raw}
+        placeholder={es ? texts(base).join("\n") : undefined}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      {es ? <div className="hint">English: {texts(base).join(" · ")}</div> : null}
       {hint ? <div className="hint">{hint}</div> : null}
     </div>
   );
 }
 
-/* ---------- color ---------- */
-export function ColorField({
-  label,
-  path,
-  hint,
-}: {
-  label: string;
-  path: string;
-  hint?: string;
-}) {
-  const [v, set] = useField<string>(path);
-  return (
-    <div className="fld">
-      <label>{label}</label>
-      <div className="colorpick">
-        <input
-          type="color"
-          value={v || "#000000"}
-          onChange={(e) => set(e.target.value)}
-        />
-        <input type="text" value={v || ""} onChange={(e) => set(e.target.value)} />
-      </div>
-      {hint ? <div className="hint">{hint}</div> : null}
-    </div>
-  );
-}
-
-/* ---------- degradado (gradA/gradB/angle) ---------- */
-export function GradientField({ prefix }: { prefix: string }) {
-  const [a, setA] = useField<string>(`${prefix}.gradA`);
-  const [b, setB] = useField<string>(`${prefix}.gradB`);
-  const [angle, setAngle] = useField<number>(`${prefix}.angle`);
-  return (
-    <div className="fld">
-      <label>Background gradient</label>
-      <div className="row">
-        <div className="colorpick">
-          <input type="color" value={a || "#000000"} onChange={(e) => setA(e.target.value)} />
-          <input type="text" value={a || ""} onChange={(e) => setA(e.target.value)} />
-        </div>
-        <div className="colorpick">
-          <input type="color" value={b || "#000000"} onChange={(e) => setB(e.target.value)} />
-          <input type="text" value={b || ""} onChange={(e) => setB(e.target.value)} />
-        </div>
-        <div>
-          <label style={{ fontSize: 11 }}>Angle</label>
-          <div className="rangewrap">
-            <input
-              type="range"
-              min={0}
-              max={360}
-              value={angle ?? 140}
-              onChange={(e) => setAngle(Number(e.target.value))}
-            />
-            <span className="val">{angle ?? 140}°</span>
-          </div>
-        </div>
-        <div
-          className="gradprev"
-          style={{
-            background: `linear-gradient(${angle ?? 140}deg, ${a}, ${b})`,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-/* ---------- opacidad ---------- */
-export function OpacityField({ prefix }: { prefix: string }) {
-  const [v, set] = useField<number>(`${prefix}.opacity`);
-  return (
-    <div className="fld">
-      <label>
-        Color layer opacity{" "}
-        <span className="hint" style={{ display: "inline" }}>
-          (lower to see the global background)
-        </span>
-      </label>
-      <div className="rangewrap">
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={v ?? 1}
-          onChange={(e) => set(Number(e.target.value))}
-        />
-        <span className="val">{Math.round((v ?? 1) * 100)}%</span>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- rango numérico genérico ---------- */
-export function RangeField({
-  label,
-  path,
-  min = 0,
-  max = 1,
-  step = 0.05,
-  fallback = 0,
-  format,
-}: {
-  label: string;
-  path: string;
-  min?: number;
-  max?: number;
-  step?: number;
-  fallback?: number;
-  format?: (v: number) => string;
-}) {
-  const [v, set] = useField<number>(path);
-  const val = typeof v === "number" ? v : fallback;
-  return (
-    <div className="fld">
-      <label>{label}</label>
-      <div className="rangewrap">
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={val}
-          onChange={(e) => set(Number(e.target.value))}
-        />
-        <span className="val">{format ? format(val) : val}</span>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- imagen (url + subir archivo) ---------- */
+/* ---------- image (url + upload) ---------- */
 export function ImageField({
   label,
   path,
@@ -295,7 +235,7 @@ export function ImageField({
   path: string;
   hint?: string;
 }) {
-  const [v, set] = useField<string>(path);
+  const [v, set, es] = useShared<string>(path);
   const onFile = (file: File | undefined) => {
     if (!file) return;
     const r = new FileReader();
@@ -304,16 +244,14 @@ export function ImageField({
   };
   return (
     <div className="fld">
-      <label>{label}</label>
+      <Label shared={es}>{label}</Label>
       <div className="imgrow">
-        <div className="imgthumb">
-          {v ? <img src={v} alt="" /> : "no img"}
-        </div>
+        <div className="imgthumb">{v ? <img src={v} alt="" /> : "no img"}</div>
         <input
           type="text"
           value={v || ""}
           onChange={(e) => set(e.target.value)}
-          placeholder="Image URL (transparent PNG)"
+          placeholder="Image URL"
         />
         <label className="uploadbtn">
           Upload
@@ -340,10 +278,10 @@ export function SelectField({
   path: string;
   options: [string, string][];
 }) {
-  const [v, set] = useField<string>(path);
+  const [v, set, es] = useShared<string>(path);
   return (
     <div className="fld">
-      <label>{label}</label>
+      <Label shared={es}>{label}</Label>
       <select className="selfld" value={v} onChange={(e) => set(e.target.value)}>
         {options.map(([val, txt]) => (
           <option key={val} value={val}>
@@ -357,23 +295,22 @@ export function SelectField({
 
 /* ---------- switch ---------- */
 export function SwitchField({ label, path }: { label: string; path: string }) {
-  const [v, set] = useField<boolean>(path);
+  const [v, set, es] = useShared<boolean>(path);
   return (
     <div className="switch-row">
-      <label className="lbltxt">{label}</label>
+      <label className="lbltxt">
+        {label}
+        {es ? <span className="sharedtag">same in both languages</span> : null}
+      </label>
       <label className="switch">
-        <input
-          type="checkbox"
-          checked={!!v}
-          onChange={(e) => set(e.target.checked)}
-        />
+        <input type="checkbox" checked={!!v} onChange={(e) => set(e.target.checked)} />
         <span className="sl" />
       </label>
     </div>
   );
 }
 
-/* ---------- acordeón ---------- */
+/* ---------- accordion ---------- */
 export function Accordion({
   summary,
   children,

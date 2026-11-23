@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContent } from "@/content/ContentContext";
+import type { Lang } from "@/content/i18n";
 import {
   AboutTab,
   CasesPageTab,
   ClientsTab,
   ContactTab,
   GlobalTab,
-  HomeTab,
   ServicesTab,
   TextsTab,
 } from "./tabs";
+import HomeTab from "./HomeTab";
 import ProjectsTab from "./CasesTab";
+import { EditLangContext } from "./editLang";
 
 type TabDef = { key: string; label: string; Comp: () => JSX.Element };
 type Group = { label: string; tabs: TabDef[] };
@@ -58,6 +60,7 @@ export default function AdminPanel() {
   } = useContent();
   const navigate = useNavigate();
   const [tab, setTab] = useState("global");
+  const [editLang, setEditLang] = useState<Lang>("en");
   const [toast, setToast] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -105,6 +108,19 @@ export default function AdminPanel() {
           </div>
         </div>
         <div className="ad-actions">
+          <div className="ad-lang" role="group" aria-label="Editing language">
+            <span>Editing</span>
+            {(["en", "es"] as Lang[]).map((l) => (
+              <button
+                key={l}
+                className={`ad-btn ghost ${editLang === l ? "on" : ""}`}
+                aria-pressed={editLang === l}
+                onClick={() => setEditLang(l)}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
           <input
             ref={fileRef}
             type="file"
@@ -188,7 +204,17 @@ export default function AdminPanel() {
           ))}
         </nav>
         <div className="ad-main" ref={mainRef}>
-          <ActiveTab />
+          {editLang === "es" && (
+            <div className="ad-eslabel">
+              Editing the Spanish version. Text fields show the English as a guide and fall back to it
+              when left empty. Images, links, numbers, colours and switches are shared and keep
+              their English values.
+            </div>
+          )}
+          <EditLangContext.Provider value={editLang}>
+            {/* Remount on language change so text fields reload their raw text. */}
+            <ActiveTab key={editLang} />
+          </EditLangContext.Provider>
         </div>
       </div>
 
